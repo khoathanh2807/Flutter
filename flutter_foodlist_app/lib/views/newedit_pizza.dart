@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import './app.dart';
 import '../models/pizza.dart';
-import '../utils/httphelper.dart';
+import '../utils/http_helper.dart';
 
 class NewEditPizza extends StatefulWidget {
 
@@ -34,6 +35,7 @@ class NewEditPizzaState extends State<NewEditPizza>{
   }
 
   String saveResult = '';
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,26 +44,35 @@ class NewEditPizzaState extends State<NewEditPizza>{
     return Scaffold(
 
       appBar: AppBar(
+
         leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/');
-          },
           icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigator.of(context).pushReplacementNamed('/');
+            // Navigator.pushReplacementNamed(context, '/');
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
+          },
         ),
+
         title: Text(p.id == null ? 'New pizza' : 'Update pizza'),
+
       ),
 
       body: Container(
+        padding: EdgeInsets.all(20),
         child: Form(
           key: formKey,
           child: Column(
+
             children: [
               _message(),
               _fieldName(),
               _fieldDescription(),
-              _fieldPrize(),
+              _fieldPrice(),
+              Container(margin: EdgeInsets.only(top: 30.0),),
               _buttonSave(),
             ],
+
           ),
         ),
       ),
@@ -94,7 +105,7 @@ class NewEditPizzaState extends State<NewEditPizza>{
     );
   }
 
-  Widget _fieldPrize() {
+  Widget _fieldPrice() {
     return TextFormField(
       controller: priceController,
       keyboardType: TextInputType.number,
@@ -108,6 +119,9 @@ class NewEditPizzaState extends State<NewEditPizza>{
     return ElevatedButton(
         onPressed: () {
           _savePizza();
+          // Navigator.of(context).pushReplacementNamed('/');
+          // Navigator.pushReplacementNamed(context, '/');
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
         },
         child: Text('Save')
     );
@@ -127,33 +141,35 @@ class NewEditPizzaState extends State<NewEditPizza>{
 
     var response;
     if (pizza.id == null) {
+
       // New
       response = await httpHelper.postPizza(pizza);
 
       if (response.statusCode == 201) {
         print('Save the pizza successfully.');
-        print('Response message= ${response.body}');
+        print('Response message = ${response.body}');
       } else {
         print('Could not save the pizza.');
-        print('Response message= ${response.body}');
+        print('Response message = ${response.body}');
       }
 
     } else {
+
       // Update
       response = await httpHelper.putPizza(pizza);
 
       if (response.statusCode == 200) {
         print('Update the pizza successfully.');
-        print('Response message= ${response.body}');
+        print('Response message = ${response.body}');
       } else {
         print('Could not update the pizza.');
-        print('Response message= ${response.body}');
+        print('Response message = ${response.body}');
       }
 
     }
 
     setState(() {
-      saveResult= jsonDecode(response.body)['message'];
+      saveResult = jsonDecode(response.body)['response_message'];
     });
 
   }

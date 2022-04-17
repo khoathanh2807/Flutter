@@ -16,12 +16,6 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
   late AnimationController animationController;
   late List<Widget> _pages;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   void initState() {
 
@@ -56,13 +50,6 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
 
     ];
 
-  }
-
-  @override
-  void dispose() {
-    // ...
-    animationController.dispose();
-    super.dispose();
   }
 
   @override
@@ -111,6 +98,19 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
 
     );
 
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  void dispose() {
+    // ...
+    animationController.dispose();
+    super.dispose();
   }
 
 }

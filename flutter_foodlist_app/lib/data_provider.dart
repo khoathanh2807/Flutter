@@ -14,7 +14,6 @@ class DataProvider extends InheritedWidget {
   static PizzaController of(BuildContext context) {
 
     DataProvider provider = context.dependOnInheritedWidgetOfExactType<DataProvider>() as DataProvider;
-
     return provider._controller;
 
   }

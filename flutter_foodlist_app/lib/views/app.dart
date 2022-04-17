@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/pizza.dart';
+import './login_screen.dart';
 import './home_screen.dart';
-import './list_pizza.dart';
-import './newedit_pizza.dart';
 import './setting_screen.dart';
+import './newedit_pizza.dart';
 import './platform_alert.dart';
+import '../models/pizza.dart';
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +16,21 @@ class MyApp extends StatelessWidget {
     Pizza defaultPizza = Pizza.createDefault();
 
     return MaterialApp(
+
       title: 'Food App',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.orange,
         visualDensity:VisualDensity.adaptivePlatformDensity
       ),
-      // home: MyHomePage(),
+      // home: MainHome(),
 
       routes: {
-        '/': (context) => MyHomePage(),
+        '/': (context) => MainHome(),
+        '/login': (context) => LoginScreen(),
         '/add_pizza': (context) => NewEditPizza(pizza: defaultPizza),
-        '/list_pizza': (context) => ListPizzaScreen(),
+
       },
-      initialRoute: '/',
+      initialRoute: '/login',
 
     );
 
@@ -36,14 +38,14 @@ class MyApp extends StatelessWidget {
 
 }
 
-class MyHomePage extends StatefulWidget {
+class MainHome extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainHomeState createState() => _MainHomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainHomeState extends State<MainHome> {
 
-  int selectedIndexBottomMenu = 0;
+  int selectedIndexBottomNavBar = 0;
   final screens = [
     HomeScreen(),
     SettingScreen(),
@@ -52,15 +54,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Foodlist'),
-        actions: [
-          _addPizza()
-        ],
+
+      body: IndexedStack(
+        children: screens,
+        index: selectedIndexBottomNavBar,
       ),
+
+      bottomNavigationBar: _buildBottomMenu(),
+
       floatingActionButton: FloatingActionButton(
+
         child: Icon(Icons.notifications),
+
         onPressed: () async {
+
           // Get stored appCounter
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -68,21 +75,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
           final alert = PlatformAlert(
             title: 'Times of opened app',
-            message: 'Your have opened the app is $appCounter times.',
+            message: 'Your have opened this app $appCounter times.',
           );
+
           alert.show(context);
+
         },
+
       ),
-      body: IndexedStack(
-        children: screens,
-        index: selectedIndexBottomMenu,
-      ),
-      bottomNavigationBar: _buildBottomMenu(),
+
     );
   }
 
   BottomNavigationBar _buildBottomMenu() {
+
     return BottomNavigationBar(
+
+      currentIndex: selectedIndexBottomNavBar,
+      onTap: _onBottomMenuTap,
+
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
@@ -93,29 +104,15 @@ class _MyHomePageState extends State<MyHomePage> {
           label: 'Settings',
         ),
       ],
-      currentIndex: selectedIndexBottomMenu,
-      onTap: _onBottomMenuTap,
+
     );
+
   }
 
-  void _onBottomMenuTap(int value) {
+  void _onBottomMenuTap(int index) {
     setState(() {
-      selectedIndexBottomMenu = value;
+      selectedIndexBottomNavBar = index;
     });
-  }
-
-  Widget _addPizza() {
-    Pizza defaultPizza = Pizza.createDefault();
-    return IconButton(
-        onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/add_pizza');
-          // Navigator.push(context, MaterialPageRoute(
-          //     builder: (context) => NewEditPizza(pizza: defaultPizza)
-          // ));
-         },
-        icon: Icon(Icons.add),
-        tooltip: 'Add Pizza',
-    );
   }
 
 }

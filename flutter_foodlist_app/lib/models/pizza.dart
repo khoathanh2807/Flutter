@@ -30,7 +30,7 @@ class Pizza {
 
   Pizza.fromJson(Map<String, dynamic> json) {
     this.id = json['id'] ?? 0;
-    this.pizzaName = json[keyName] ?? '';
+    this.pizzaName = json['pizzaName'] ?? '';
     this.description = json[keyDescription] ?? '';
     this.price = json[keyPrice] ?? 0.0;
     this.imageUrl = json[keyImage] ?? '';

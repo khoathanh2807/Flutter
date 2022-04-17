@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import './stopwatch_screen.dart';
 import '../validators/login_validator.dart';
-import '../bloc/bloc_stream.dart';
+import '../BLoC/bloc_stream.dart';
 
 class LoginScreen extends StatefulWidget {
 
