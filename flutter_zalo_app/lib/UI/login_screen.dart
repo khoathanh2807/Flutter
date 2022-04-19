@@ -52,7 +52,7 @@ class LoginScreenState extends State<LoginScreen> {
       key: formKey,
       child: ListView(
 
-        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
 
         children: [
 

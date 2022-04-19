@@ -20,15 +20,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
       appBar: AppBar(
 
-        flexibleSpace: ListView(
+        flexibleSpace: SafeArea(
 
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+          child: Padding(
 
-          children: [
-            CupertinoSearchTextField(
-              backgroundColor: Colors.white,
-            ),
-          ],
+            padding: EdgeInsets.only(top: 6, left: 20, right: 20),
+
+            child: CupertinoSearchTextField(backgroundColor: Colors.white,),
+
+          ),
 
         ),
 

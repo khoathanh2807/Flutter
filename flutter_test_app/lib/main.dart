@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './view/app.dart';
 
-main(){
+main () {
+
   runApp(xLMS_client());
+
 }

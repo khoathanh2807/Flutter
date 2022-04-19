@@ -13,7 +13,7 @@ class Site{
     required this.id,
     required this.title,
     required this.Owner
-});
+  });
 
   Site.fromJson(Map<String, dynamic> json){
     this.id = json[keyId] ?? '';

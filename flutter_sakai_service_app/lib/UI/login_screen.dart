@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import './app.dart';
-import './home_screen.dart';
 import '../sakai_services.dart';
+import '../model/course.dart';
 
 class LoginScreen extends StatefulWidget {
 
   @override
-  State<LoginScreen> createState() {
-    return LoginScreenState();
-  }
+  State<LoginScreen> createState() => LoginScreenState();
 
 }
 
@@ -54,7 +53,7 @@ class LoginScreenState extends State<LoginScreen> {
       key: formKey,
       child: ListView(
 
-        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
 
         children: [
 
@@ -68,7 +67,7 @@ class LoginScreenState extends State<LoginScreen> {
           Container(margin: EdgeInsets.only(top: 40.0),),
 
           loginButton(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
+          Container(margin: EdgeInsets.only(top: 40.0),),
 
           Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
           Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
@@ -185,33 +184,69 @@ class LoginScreenState extends State<LoginScreen> {
       final password = passwordController.text;
       final serverAddress = serverController.text;
 
-      print('emailAddress: $emailAddress, password: $password, server: $serverAddress');
+      print('username/emailAddress: $emailAddress, password: $password, server: $serverAddress');
 
       var sakaiService = SakaiService(sakaiUrl: serverAddress);
 
       sakaiService.authenticate(emailAddress, password).then((response) {
 
-        print('authenticate_response_message: ${response.body}');
+        print('login_authenticate_response_message: response.body = ${response.body}');
 
         String? token = sakaiService.token;
-        print('authenticate_token: $token');
+        print('login_authenticate_token: token = $token');
 
         if (response.statusCode == 200 || response.statusCode == 201) {
 
-          Navigator.of(context).pushReplacementNamed('/');
-          // Navigator.pushReplacementNamed(context, '/');
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          sakaiService.getSites().then((result_value) {
 
-          print('Logged in successfully');
+            print('result_value = $result_value');
+            print('result_value.body = ${result_value.body}');
+
+            var jsonSite = json.decode(result_value.body);
+            print('jsonSite = $jsonSite');
+
+            List jsonSite_collection = jsonSite['site_collection'];
+            print('jsonSite_collection = $jsonSite_collection');
+
+            List<Course>? courseList;
+
+            jsonSite_collection.forEach((element) {
+              Course course = Course(id: element['entityId'],url: element['entityURL'], title: element['entityTitle'], owner: element['siteOwner']['userDisplayName']);
+              courseList!.add(course);
+            });
+
+            print('courseList = $courseList');
+            courseList!.forEach((element) {
+              print('element.id = ${element.id}');
+              print('element.url = ${element.url}');
+              print('element.title = ${element.title}');
+              print('element.owner = ${element.owner}');
+            });
+
+            setState(() {
+              Fluttertoast.showToast(msg: 'Logged in successfully.', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+            });
+
+            print('Logged in successfully.');
+
+            Navigator.of(context).pushReplacementNamed('/', arguments: courseList);
+            // Navigator.pushReplacementNamed(context, '/');
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+          });
 
         } else {
 
           setState(() {
+
             loginErrorMessage1 = 'Login Failed!';
             loginErrorMessage2 = 'Please check again and enter the valid Username / Email address and Password.';
+
+            Fluttertoast.showToast(msg: 'Login Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+
           });
 
-          print('Login Failed');
+          print('Login Failed!');
 
         }
 

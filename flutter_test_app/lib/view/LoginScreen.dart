@@ -1,11 +1,9 @@
-
-import 'dart:convert';
-
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:week8_lythuyet/sakai_services.dart';
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/src/response.dart';
 
+import 'package:week8_lythuyet/sakai_services.dart';
 import '../module/Site.dart';
 
 class LoginScreen extends StatefulWidget{
@@ -17,6 +15,7 @@ class LoginScreen extends StatefulWidget{
 }
 
 class LoginState extends State<StatefulWidget>{
+
   final username_controller = TextEditingController();
   final password_controller = TextEditingController();
 
@@ -31,16 +30,16 @@ class LoginState extends State<StatefulWidget>{
           titleSpacing: 160,
           title: Text('Login', style: TextStyle(color: Colors.yellow),),
           flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.indigo,
-                Colors.indigoAccent,
-                Colors.deepPurpleAccent,
-                Colors.deepPurple
-              ],
-            )
-          ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.indigo,
+                  Colors.indigoAccent,
+                  Colors.deepPurpleAccent,
+                  Colors.deepPurple
+                ],
+              )
+            ),
           ),
         ),
       body: FormLogin(),
@@ -89,7 +88,7 @@ class LoginState extends State<StatefulWidget>{
         String username = username_controller.text;
         String password = password_controller.text;
 
-        http.Response response = await sakaiServices.authenticate(username, password);
+        Response response = await sakaiServices.authenticate(username, password);
         if(response.statusCode == 200 || response.statusCode == 201){
 
             var result = await sakaiServices.getSites();

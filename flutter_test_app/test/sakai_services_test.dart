@@ -66,6 +66,7 @@ void main() {
     List jSite_collection = jSite['site_collection'];
 
     List<Site> sites = [];
+
     jSite_collection.forEach((site) {
       Site mySite = Site(id: site['entityId'],title: site['entityTitle'], Owner: site['siteOwner']['userDisplayName']);
       sites.add(mySite);

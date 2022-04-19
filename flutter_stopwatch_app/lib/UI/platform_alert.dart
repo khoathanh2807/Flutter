@@ -12,7 +12,7 @@ class PlatformAlert {
 
   void show(BuildContext context) {
 
-    final platform = Theme.of(context).platform;
+    TargetPlatform platform = Theme.of(context).platform;
 
     if (platform == TargetPlatform.iOS) {
       _buildCupertinoAlert(context);

@@ -13,10 +13,8 @@ class SiteScreenState extends State<SiteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Site> data = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as List<Site>;
+
+    List<Site> data = ModalRoute.of(context)!.settings.arguments as List<Site>;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,10 +35,13 @@ class SiteScreenState extends State<SiteScreen> {
           Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: IconButton(
+
+              icon: Icon(Icons.logout),
+
               onPressed: () {
                 Navigator.of(context).pushReplacementNamed('/', arguments: 123);
               },
-              icon: Icon(Icons.logout),
+
             ),),
 
         ],

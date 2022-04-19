@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -17,53 +19,78 @@ class _HomeScreenState extends State<HomeScreen> {
 
       appBar: AppBar(
 
-        toolbarHeight: 100,
+        toolbarHeight: 110,
 
-        flexibleSpace: ListView(
+        flexibleSpace: SafeArea(
 
-          padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+          child: Padding(
 
-          children: [
+            padding: EdgeInsets.only(top: 0, left: 15, right: 15),
 
-            Row(
+            child: Column(
 
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                Text("FREESHIP+", style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
-                SizedBox(width: 45,),
+                Row(
 
-                Text("TIKI", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),),
-                SizedBox(width: 45,),
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-                IconButton(
-                  onPressed: (){
-                  },
-                  icon: Icon(Icons.notifications_none_rounded),
-                  iconSize: 25,
-                  color: Colors.white,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: Text("   FREESHIP+", style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.start,),
+                    ),
+
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Center(
+                          child: Text("TIKI", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center,),
+                        )
+                    ),
+
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+
+                          IconButton(
+                            onPressed: (){
+                            },
+                            icon: Icon(Icons.notifications_none_rounded),
+                            iconSize: 20,
+                            color: Colors.white,
+                          ),
+
+                          IconButton(
+                            onPressed: (){
+                            },
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            iconSize: 20,
+                            color: Colors.white,
+                          ),
+
+                        ],
+                      ),
+                    ),
+
+                  ],
+
                 ),
 
-                IconButton(
-                  onPressed: (){
-                  },
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  iconSize: 25,
-                  color: Colors.white,
-                ),
+                SizedBox(height: 10.0,),
+                CupertinoSearchTextField(backgroundColor: Colors.white,),
 
               ],
-
             ),
 
-            Container(padding: EdgeInsets.only(top: 10.0),),
-            CupertinoSearchTextField(
-              backgroundColor: Colors.white,
-            ),
-
-          ],
+          ),
 
         ),
 

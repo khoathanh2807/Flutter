@@ -26,15 +26,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
       appBar: AppBar(
 
-        flexibleSpace: ListView(
+        flexibleSpace: SafeArea(
 
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+          child: Padding(
 
-          children: [
-            CupertinoSearchTextField(
-              backgroundColor: Colors.white,
+            padding: EdgeInsets.only(top: 6, left: 20, right: 20),
+
+            child: CupertinoTheme(
+              data: CupertinoThemeData(
+                brightness: Brightness.dark,
+              ),
+              child: CupertinoSearchTextField(),
+
             ),
-          ],
+
+          ),
 
         ),
 
@@ -43,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView.separated(
 
         padding: const EdgeInsets.all(8),
-        itemCount: userList.length,
 
+        itemCount: userList.length,
         itemBuilder: (BuildContext context, int index) {
 
           return GestureDetector(
