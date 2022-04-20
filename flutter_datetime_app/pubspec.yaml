@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -39,12 +38,12 @@ dependencies:
   http: any
   fluttertoast: any
 
-#  authentication:
-#    path: packages/authentication
-#  xlms_authentication:
-#    git: https://gitlab.com/flutter.tdt/common/xlms_authentication.git
-#  datetime_util:
-#    git: https://gitlab.com/flutter.tdt/common/datetime_util.git
+  common_components:
+    path: packages/common_components
+  sakai_services:
+    git: https://gitlab.com/flutter-common-components/sakai_services.git
+  datetime_utility:
+    git: https://gitlab.com/flutter-common-components/datetime_utility.git
 
 dev_dependencies:
   flutter_test:

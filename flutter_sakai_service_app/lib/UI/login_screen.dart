@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import './app.dart';
+import './home_screen.dart';
 import '../sakai_services.dart';
 import '../model/course.dart';
 
@@ -208,15 +210,15 @@ class LoginScreenState extends State<LoginScreen> {
             List jsonSite_collection = jsonSite['site_collection'];
             print('jsonSite_collection = $jsonSite_collection');
 
-            List<Course>? courseList;
+            List<Course> courseList = [];
 
             jsonSite_collection.forEach((element) {
               Course course = Course(id: element['entityId'],url: element['entityURL'], title: element['entityTitle'], owner: element['siteOwner']['userDisplayName']);
-              courseList!.add(course);
+              courseList.add(course);
             });
 
             print('courseList = $courseList');
-            courseList!.forEach((element) {
+            courseList.forEach((element) {
               print('element.id = ${element.id}');
               print('element.url = ${element.url}');
               print('element.title = ${element.title}');

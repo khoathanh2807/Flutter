@@ -18,7 +18,7 @@ class _HomeScreenState extends State<StatefulWidget> {
     List<Course> courseList = ModalRoute.of(context)!.settings.arguments as List<Course>;
     print('arguments: courseList = $courseList');
 
-    assert(courseList != null);
+    // assert(courseList != null);
 
     return Scaffold(
 
