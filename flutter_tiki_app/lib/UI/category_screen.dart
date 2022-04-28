@@ -20,6 +20,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
       appBar: AppBar(
 
+        elevation: 0,
+
         flexibleSpace: SafeArea(
 
           child: Padding(

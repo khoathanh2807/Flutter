@@ -1,107 +1,90 @@
 import 'package:flutter/material.dart';
 
-import './app.dart';
-import './home_screen.dart';
-import '../BLoC/bloc_stream.dart';
+import '../validators/mixin_login_validator.dart';
 
 class LoginScreen extends StatefulWidget {
 
   @override
-  State<LoginScreen> createState() {
-    return LoginScreenState();
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>  with LoginValidator {
 
   final formKey = GlobalKey<FormState>();
+
+  late String emailAddress;
+  late String password;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final bloc = Bloc();
+  String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
 
-      title: 'Login Screen',
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
 
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+            const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+            const SizedBox(height: 60,),
+
+            Form(
+              key: formKey,
+              child: Column(
+                children: [
+
+                  emailField(),       // Email Text Field
+                  const SizedBox(height: 30,),
+
+                  passwordField(),    // Password Text Field
+                  const SizedBox(height: 40,),
+
+                  loginButton(),      // Login Confirm Button
+                  const SizedBox(height: 60,),
+
+                ],
+              ),
+            )
+
+          ],
+        ),
       ),
 
-      home: Scaffold(
-
-        appBar: AppBar(title: Text('Login'),),
-
-        body: buildLoginForm(),
-
-      ),
-
-    );
-
-  }
-
-  Widget buildLoginForm() {
-
-    return Form(
-      key: formKey,
-      child: ListView(
-
-        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-
-        children: [
-
-          emailField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          loginButton()
-
-        ],
-
-      ),
     );
 
   }
 
   Widget emailField() {
 
-    return StreamBuilder(
+    return TextFormField(
 
-        stream: bloc.streamEmail,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      maxLines: 1,
 
-          return TextFormField(
+      decoration: InputDecoration(
+        // icon: Icon(Icons.person),
+        prefixIcon  : const Icon(Icons.email),
+        labelText: 'Email address',
+        hintText: 'Input your email address',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        errorText: errorMessage,
+      ),
 
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
+      validator: validateEmail,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.person),
-                labelText: 'Email address',
-                hintText: 'Input your email address',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
-            ),
-
-            onChanged: (value) {
-              bloc.changeEmail(value);
-            },
-
-            // onSaved: (value) {
-            //   emailAddress = value as String;
-            // },
-
-          );
-
-        }
+      // onSaved: (value) {
+      //   emailAddress = value as String;
+      // },
 
     );
 
@@ -109,33 +92,28 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget passwordField() {
 
-    return StreamBuilder(
-        stream: bloc.streamPassword,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return TextFormField(
+    return TextFormField(
 
-            controller: passwordController,
-            obscureText: true,
+      controller: passwordController,
+      obscureText: true,
+      maxLines: 1,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.security_rounded),
-                labelText: 'Password',
-                hintText: 'Input your password',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
-            ),
+      decoration: InputDecoration(
+        // icon: Icon(Icons.security_rounded),
+        prefixIcon: const Icon(Icons.lock),
+        labelText: 'Password',
+        hintText: 'Input your password',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        errorText: errorMessage,
+      ),
 
-            onChanged: (value) {
-              bloc.changePassword(value);
-            },
+      validator: validatePassword,
 
-            // onSaved: (value) {
-            //   password = value as String;
-            // },
+      // onSaved: (value) {
+      //   password = value as String;
+      // },
 
-          );
-        }
     );
 
   }
@@ -144,11 +122,11 @@ class LoginScreenState extends State<LoginScreen> {
 
     return ElevatedButton(
 
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-        ),
+        child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
 
-        child: Text('Login'),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+        ),
 
         onPressed: validate,
 
@@ -158,31 +136,25 @@ class LoginScreenState extends State<LoginScreen> {
 
   void validate() {
 
-    final form = formKey.currentState;
+    if(formKey.currentState!.validate()) {
 
-    if (!form!.validate()) {
+      // _formKey.currentState!.save();
 
-      return;
+      emailAddress = emailController.text;
+      password = passwordController.text;
 
-    } else {
-
-      final emailAddress = emailController.text;
-      final password = passwordController.text;
+      setState(() {
+      });
 
       print('emailAddress: $emailAddress, password: $password');
 
-      Navigator.of(context).pushReplacementNamed('/');
+      // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress);
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
       // Navigator.pushReplacementNamed(context, '/');
       // Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
 
     }
 
-  }
-
-  @override
-  void dispose() {
-    bloc.dispose();
-    super.dispose();
   }
 
 }

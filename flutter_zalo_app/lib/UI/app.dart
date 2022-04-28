@@ -5,6 +5,21 @@ import './home_screen.dart';
 import './contacts_screen.dart';
 import './info_screen.dart';
 
+ColorScheme defaultColorScheme = const ColorScheme(
+  primary: Colors.blue,
+  secondary: Color(0xff03DAC6),
+  surface: Color(0xff181818),
+  background: Color(0xff121212),
+  error: Color(0xffCF6679),
+  onPrimary: Color(0xff000000),
+  onSecondary: Color(0xff000000),
+  onSurface: Color(0xffffffff),
+  onBackground: Color(0xffffffff),
+  onError: Color(0xff000000),
+  brightness: Brightness.dark,
+  // brightness: Brightness.light
+);
+
 class App extends StatelessWidget {
 
   @override
@@ -14,22 +29,21 @@ class App extends StatelessWidget {
 
       title: "Zalo App",
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        // colorScheme: defaultColorScheme,
+        primarySwatch: Colors.blue,
         brightness: Brightness.dark,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: HomeScreen(),
 
       routes: {  // khai bao cac duong dan den cac trang man hinh
 
-          '/': (context) => LoginScreen(),
-          LoginScreen.route: (context) => LoginScreen(),
-          MainHome.route: (context) => MainHome(),
-          ContactsScreen.route: (context) => ContactsScreen(),
-          InfoScreen.route: (context) => InfoScreen(),
+          '/': (context) => const MainHome(),
+          '/login': (context) => const LoginScreen(),
 
       },
 
-      initialRoute: '/',
+      initialRoute: '/login',
 
     );
 
@@ -41,7 +55,7 @@ class App extends StatelessWidget {
 
 class MainHome extends StatefulWidget {
 
-  static const route = '/home';
+  const MainHome({Key? key}) : super(key: key);
 
   @override
   State<MainHome> createState() => _MainHomeState();
@@ -71,11 +85,14 @@ class _MainHomeState extends State<MainHome> {
                 ),
 
                 bottomNavigationBar: BottomNavigationBar(
+
+                  elevation: 0,
                   type: BottomNavigationBarType.fixed,
-                  iconSize: 25,
+                  // iconSize: 25,
                   // backgroundColor: Colors.white,
                   selectedItemColor: Colors.blue,
                   selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  // showUnselectedLabels: false,
 
                   currentIndex: selectedIndex,
 
@@ -85,22 +102,25 @@ class _MainHomeState extends State<MainHome> {
                     });
                   },
 
-                  items: [
+                  items: const [
 
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.message),
+                        icon: Icon(Icons.chat_outlined),
+                        activeIcon: Icon(Icons.chat),
                         label:  "Messages",
                         backgroundColor: Colors.blue
                     ),
 
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.contacts),
+                        icon: Icon(Icons.contacts_outlined),
+                        activeIcon: Icon(Icons.contacts),
                         label:  "Contacts",
                         backgroundColor: Colors.blue
                     ),
 
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.person),
+                        icon: Icon(Icons.person_outline),
+                        activeIcon: Icon(Icons.person),
                         label:  "Me",
                         backgroundColor: Colors.blue
                     ),
@@ -108,7 +128,46 @@ class _MainHomeState extends State<MainHome> {
                   ],
                 ),
 
-        // ),
+      // Material You Navigation Bar
+      // bottomNavigationBar: NavigationBarTheme(
+      //
+      //     data: NavigationBarThemeData(
+      //       indicatorColor: Colors.white.withOpacity(0.3),
+      //       labelTextStyle: MaterialStateProperty.all(
+      //         TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+      //       ),
+      //     ),
+      //     child: NavigationBar(
+      //       // backgroundColor: Colors.teal,
+      //       // animationDuration: Duration(seconds: 2),
+      //       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      //       height: 60,
+      //       selectedIndex: selectedIndex,
+      //       onDestinationSelected: (int newIndex) {
+      //         setState(() {
+      //           selectedIndex = newIndex;
+      //         });
+      //       },
+      //       destinations: [
+      //         NavigationDestination(
+      //             icon: Icon(Icons.chat_outlined),
+      //             selectedIcon: Icon(Icons.chat),
+      //             label: 'Messages'
+      //         ),
+      //         NavigationDestination(
+      //             icon: Icon(Icons.contacts_outlined),
+      //             selectedIcon: Icon(Icons.contacts),
+      //             label: 'Contacts'
+      //         ),
+      //         NavigationDestination(
+      //             icon: Icon(Icons.person_outline),
+      //             selectedIcon: Icon(Icons.person),
+      //             label: 'Me'
+      //         )
+      //       ],
+      //     ),
+      //
+      // ),
 
     );
 

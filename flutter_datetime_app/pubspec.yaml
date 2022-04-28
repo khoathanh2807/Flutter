@@ -39,11 +39,11 @@ dependencies:
   fluttertoast: any
 
   common_components:
-    path: packages/common_components
+    path: packages/common_components      # import package từ thư mục 'packages' nằm trong project này
   sakai_services:
-    git: https://gitlab.com/flutter-common-components/sakai_services.git
+    git: https://gitlab.com/flutter-common-components/sakai_services.git      # import package từ git
   datetime_utility:
-    git: https://gitlab.com/flutter-common-components/datetime_utility.git
+    git: https://gitlab.com/flutter-common-components/datetime_utility.git    # import package từ git
 
 dev_dependencies:
   flutter_test:

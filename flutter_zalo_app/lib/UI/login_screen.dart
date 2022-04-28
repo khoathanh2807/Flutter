@@ -1,71 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import './app.dart';
-import './home_screen.dart';
-import '../BLoC/bloc_login.dart';
+import '../validation/mixin_login_validation.dart';
+import './register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
 
-  static const route = '/login';
+  // const LoginScreen({Key? key, required this.title}) : super(key: key);
+  // final String title;
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  var rememberLogin = false;
+
+  late String emailAddress;
+  late String password;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final bloc = BlocLogin();
+  // String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
+      // backgroundColor: Theme.of(context).colorScheme.background,
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
 
-      title: 'Login Screen',
+            const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
 
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
-      ),
+            const SizedBox(height: 60,),
 
-      home: Scaffold(
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
 
-        appBar: AppBar(title: Text('Login'),),
+                  emailField(),       // Email Text Field
 
-        body: buildLoginForm(),
+                  const SizedBox(height: 20,),
 
-      ),
+                  passwordField(),    // Password Text Field
 
-    );
+                  rememberMeCheckbox(),
 
-  }
+                  const SizedBox(height: 20,),
 
-  Widget buildLoginForm() {
+                  loginButton(),      // Login Confirm Button
 
-    return Form(
-      key: formKey,
-      child: ListView(
+                  const SizedBox(height: 20,),
 
-        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
 
-        children: [
+                      const Text('Not registered yet?'),
 
-          emailField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
+                      TextButton(
+                        child: const Text('Create an account'),
+                        onPressed: () {
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterScreen(),),);
+                        },
+                      ),
 
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
+                    ],
+                  ),
 
-          loginButton()
+                ],
+              ),
+            )
 
-        ],
-
+          ],
+        ),
       ),
     );
 
@@ -73,68 +92,78 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget emailField() {
 
-    return StreamBuilder(
-        stream: bloc.streamEmail,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return TextFormField(
+    return TextFormField(
 
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      maxLines: 1,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.person),
-                labelText: 'Email address',
-                hintText: 'Input your email address',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
-            ),
-            // validator: validateEmail,
+      decoration: InputDecoration(
+        // icon: Icon(Icons.person),
+        prefixIcon  : const Icon(Icons.email),
+        // labelText: 'Email address',
+        hintText: 'Enter your email',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
 
-            onChanged: (value) {
-              bloc.changeEmail(value);
-            },
+      validator: validateEmail,
 
-            // onSaved: (value) {
-            //   emailAddress = value as String;
-            // },
+      // onSaved: (value) {
+      //   emailAddress = value as String;
+      // },
 
-          );
-        }
     );
 
   }
 
   Widget passwordField() {
 
-    return StreamBuilder(
-        stream: bloc.streamPassword,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return TextFormField(
+    return TextFormField(
 
-            controller: passwordController,
-            obscureText: true,
+      controller: passwordController,
+      obscureText: true,
+      maxLines: 1,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.security_rounded),
-                labelText: 'Password',
-                hintText: 'Input your password',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
-            ),
-            // validator: validatePassword,
+      decoration: InputDecoration(
+        // icon: Icon(Icons.security_rounded),
+        prefixIcon: const Icon(Icons.lock),
+        // labelText: 'Password',
+        hintText: 'Enter your password',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
 
-            onChanged: (value) {
-              bloc.changePassword(value);
-            },
+      validator: validatePassword,
 
-            // onSaved: (value) {
-            //   password = value as String;
-            // },
+      // onSaved: (value) {
+      //   password = value as String;
+      // },
 
-          );
-        }
+    );
+
+  }
+
+  Widget rememberMeCheckbox() {
+
+    return CheckboxListTile(
+
+      title: const Text("Remember me"),
+
+      contentPadding: EdgeInsets.zero,
+      activeColor: Theme.of(context).colorScheme.primary,
+      controlAffinity: ListTileControlAffinity.leading,
+
+      value: rememberLogin,
+
+      onChanged: (newValue) {
+        setState(() {
+          rememberLogin = newValue!;
+        });
+      },
+
     );
 
   }
@@ -143,44 +172,40 @@ class LoginScreenState extends State<LoginScreen> {
 
     return ElevatedButton(
 
+      child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
+
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
       ),
 
-      child: Text('Login'),
+      onPressed: () {
 
-      onPressed: validate,
+        if(_formKey.currentState!.validate()) {
+
+          // _formKey.currentState!.save();
+
+          emailAddress = emailController.text;
+          password = passwordController.text;
+
+          Fluttertoast.showToast(msg: 'Sign in successfully.', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+          setState(() {
+          });
+
+          print('emailAddress: $emailAddress, password: $password');
+
+          // Navigator.pushReplacementNamed(context, '/', arguments: emailAddress);
+          // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress);
+          // Navigator.of(context).popAndPushNamed('/', arguments: emailAddress);
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => const MainHome()));
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainHome(),),);
+
+        }
+
+      },
 
     );
 
-  }
-
-  void validate() {
-
-    final form = formKey.currentState;
-
-    if (!form!.validate()) {
-
-      return;
-
-    } else {
-
-      final emailAddress = emailController.text;
-      final password = passwordController.text;
-
-      print('emailAddress: $emailAddress, password: $password');
-
-      // Navigator.of(context).pushReplacementNamed('/stopwatch', arguments: emailAddress);
-      Navigator.of(context).pushReplacementNamed(MainHome.route, arguments: emailAddress);
-
-    }
-
-  }
-
-  @override
-  void dispose() {
-    bloc.dispose();
-    super.dispose();
   }
 
 }

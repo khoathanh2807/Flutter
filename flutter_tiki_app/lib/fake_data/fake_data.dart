@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-
 import '../module/category.dart';
-import '../module/product.dart';
 
 const FAKE_CATEGORIES = const [
 

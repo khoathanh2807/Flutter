@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 // import '../sakai_services.dart';
-// import 'package:common_components/sakai_services.dart';
-import 'package:sakai_services/sakai_services.dart';
+// import 'package:common_components/sakai_services.dart';    // import package từ thư mục 'packages' nằm trong project này
+import 'package:sakai_services/sakai_services.dart';          // import package từ git đã import link ở file pubspec.yaml
 
 class LoginScreen extends StatefulWidget {
 
@@ -20,137 +20,149 @@ class LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final serverController = TextEditingController();
 
+  // String? errorMessage;
+
   String loginErrorMessage1 = '';
   String loginErrorMessage2 = '';
 
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+              const SizedBox(height: 60,),
 
-      title: 'Login Screen',
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
 
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
-      ),
+                    emailField(),
+                    const SizedBox(height: 30,),
 
-      home: Scaffold(
+                    passwordField(),
+                    const SizedBox(height: 30,),
 
-        appBar: AppBar(title: Text('Login'),),
+                    serverField(),
+                    const SizedBox(height: 40,),
 
-        body: buildLoginForm(),
+                    loginButton(),
+                    const SizedBox(height: 40,),
 
-      ),
+                    Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                    Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
 
-    );
-
-  }
-
-  Widget buildLoginForm() {
-
-    return Form(
-      key: formKey,
-      child: ListView(
-
-        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
-
-        children: [
-
-          emailField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          serverField(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          loginButton(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-          Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
-
-        ],
-
+                  ],
+                ),
+              )
+            ]
+        ),
       ),
     );
 
   }
+
+
 
   Widget emailField() {
 
-          return TextFormField(
+    return TextFormField(
 
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
+      maxLines: 1,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.person),
-                labelText: 'Username / Email address',
-                hintText: 'Input your Username / Email address',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-            ),
+      decoration: InputDecoration(
+        icon: Icon(Icons.person),
+        // prefixIcon  : const Icon(Icons.email),
+        labelText: 'Username / Email address',
+        hintText: 'Input your Username / Email address',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
 
-            // onChanged: (value) {
-            //   bloc.changeEmail(value);
-            // },
+      validator: (value) {
+        if (value!.isEmpty || value == '' || value == null) {
+          return 'Username / Email address cannot be empty.';
+        }
+        return null;
+      },
 
-            // onSaved: (value) {
-            //   emailAddress = value as String;
-            // },
+      // onSaved: (value) {
+      //   emailAddress = value as String;
+      // },
 
-          );
+    );
 
   }
 
   Widget passwordField() {
 
-          return TextFormField(
+    return TextFormField(
 
-            controller: passwordController,
-            obscureText: true,
+      controller: passwordController,
+      obscureText: true,
+      maxLines: 1,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.security_rounded),
-                labelText: 'Password',
-                hintText: 'Input your Password',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-            ),
+      decoration: InputDecoration(
+        icon: Icon(Icons.security_rounded),
+        // prefixIcon: const Icon(Icons.lock),
+        labelText: 'Password',
+        hintText: 'Input your Password',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
 
-            // onChanged: (value) {
-            //   bloc.changePassword(value);
-            // },
+      validator: (value) {
+        if (value!.isEmpty || value == '' || value == null) {
+          return 'Password cannot be empty.';
+        }
+        return null;
+      },
 
-            // onSaved: (value) {
-            //   password = value as String;
-            // },
+      // onSaved: (value) {
+      //   password = value as String;
+      // },
 
-          );
+    );
 
   }
 
   Widget serverField() {
 
-          serverController.text = 'https://xlms.myworkspace.vn';
+    serverController.text = 'https://xlms.myworkspace.vn';
 
-          return TextFormField(
+    return TextFormField(
 
-            controller: serverController,
-            keyboardType: TextInputType.url,
+      controller: serverController,
+      keyboardType: TextInputType.url,
 
-            decoration: InputDecoration(
-                icon: Icon(Icons.dns),
-                labelText: 'Login Server address',
-                hintText: 'Input your Login Server address',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-            ),
+      decoration: InputDecoration(
+        icon: Icon(Icons.dns),
+        labelText: 'Login Server address',
+        hintText: 'Input your Login Server address',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
 
-          );
+      validator: (value) {
+        if (value!.isEmpty || value == '' || value == null) {
+          return 'Server address cannot be empty.';
+        }
+        return null;
+      },
+
+    );
 
   }
 
@@ -158,13 +170,13 @@ class LoginScreenState extends State<LoginScreen> {
 
     return ElevatedButton(
 
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-        ),
+      child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
 
-        child: Text('Login'),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+      ),
 
-        onPressed: validate,
+      onPressed: validate,
 
     );
 
@@ -172,13 +184,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   void validate() {
 
-    final formState = formKey.currentState;
-
-    if (!formState!.validate()) {
-
-      return;
-
-    } else {
+    if (formKey.currentState!.validate()) {
 
       final emailAddress = emailController.text;
       final password = passwordController.text;
@@ -203,7 +209,8 @@ class LoginScreenState extends State<LoginScreen> {
 
             print('Logged in successfully.');
 
-            Navigator.of(context).pushReplacementNamed('/');
+            // Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
             // Navigator.pushReplacementNamed(context, '/');
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 

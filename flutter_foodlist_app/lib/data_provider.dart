@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './controller/pizza_controller.dart';
+import './controllers/pizza_controller.dart';
 
 class DataProvider extends InheritedWidget {
 

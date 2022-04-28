@@ -40,18 +40,20 @@ class _HomeScreenState extends State<StatefulWidget> {
 
       appBar: AppBar(
         title: Text('Pizza List'),
+        elevation: 0,
         actions: [
           _addPizza()
         ],
       ),
 
       body: Container(
+        padding: EdgeInsets.all(30),
         child: FutureBuilder(
 
           future: pizzaController.callPizzas(),  //readJsonFile(context),
           builder: (BuildContext context, AsyncSnapshot<List<Pizza>> pizzas) {
 
-            return ListView.builder(
+            return ListView.separated(
 
                 itemCount: pizzas.data?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
@@ -93,6 +95,8 @@ class _HomeScreenState extends State<StatefulWidget> {
                   );
 
                 },
+
+                separatorBuilder: (BuildContext context, int index) => const Divider(),
 
             );
 

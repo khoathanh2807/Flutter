@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './plan_creator_screen.dart';
+import './home_screen.dart';
 
 class MyPlanApp extends StatelessWidget {
 
@@ -9,7 +9,7 @@ class MyPlanApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Plan',
       home: Scaffold(
-        body: PlanCreatorScreen(),
+        body: HomeScreen(),
       ),
     );
 

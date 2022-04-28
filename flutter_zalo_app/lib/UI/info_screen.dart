@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './login_screen.dart';
-
 class InfoScreen extends StatefulWidget {
-
-  static const route = '/info';
 
   @override
   State<InfoScreen> createState() => _InfoScreenState();
@@ -20,6 +16,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
       appBar: AppBar(
         title: const Text("Me"),
+        elevation: 0,
         actions: [
           _logOut()
         ],
@@ -40,8 +37,7 @@ class _InfoScreenState extends State<InfoScreen> {
       icon: Icon(Icons.logout),
       tooltip: 'Log Out',
       onPressed: () {
-        // Navigator.of(context).pushReplacementNamed(LoginScreen.route);
-        Navigator.pushReplacementNamed(context, LoginScreen.route);
+        Navigator.pushReplacementNamed(context, '/login');
         // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
       },
 

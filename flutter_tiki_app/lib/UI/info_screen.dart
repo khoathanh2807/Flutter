@@ -16,6 +16,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
       appBar: AppBar(
         title: const Text("Cá Nhân"),
+        elevation: 0,
       ),
 
       body: Center(

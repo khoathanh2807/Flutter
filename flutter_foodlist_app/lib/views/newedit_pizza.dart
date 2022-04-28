@@ -50,7 +50,8 @@ class NewEditPizzaState extends State<NewEditPizza>{
           onPressed: () {
             // Navigator.of(context).pushReplacementNamed('/');
             // Navigator.pushReplacementNamed(context, '/');
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
+            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
           },
         ),
 
@@ -59,7 +60,7 @@ class NewEditPizzaState extends State<NewEditPizza>{
       ),
 
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(30),
         child: Form(
           key: formKey,
           child: Column(

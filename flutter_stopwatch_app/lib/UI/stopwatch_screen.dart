@@ -34,17 +34,15 @@ class StopwatchScreenState extends State<StopwatchScreen> {
     final String email = ModalRoute.of(context)!.settings.arguments as String;
     // print('arguments: emailAddress = $email');
 
-    return MaterialApp(
+    return Scaffold(
 
-      title: 'Stopwatch App - Main Screen',
-
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-
-      home: Scaffold(
-
-        appBar: AppBar(title: Text(email),),
+        appBar: AppBar(
+          title: Text(email),
+          elevation: 0,
+          actions: [
+            _logOut()
+          ],
+        ),
         // backgroundColor: Colors.blueGrey,
 
         // body: Container(
@@ -61,16 +59,14 @@ class StopwatchScreenState extends State<StopwatchScreen> {
           ],
         ),
 
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.home),
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed(LoginScreen.route);
-          },
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.logout),
+        //   onPressed: () {
+        //     Navigator.of(context).pushReplacementNamed(LoginScreen.route);
+        //   },
+        // ),
 
-      ),
-
-    );
+      );
 
   }
 
@@ -267,6 +263,22 @@ class StopwatchScreenState extends State<StopwatchScreen> {
           ),
         )
     );
+  }
+
+  Widget _logOut() {
+
+    return IconButton(
+
+      icon: Icon(Icons.logout),
+      tooltip: 'Log Out',
+      onPressed: () {
+        // Navigator.of(context).pushReplacementNamed(LoginScreen.route);
+        Navigator.pushReplacementNamed(context, LoginScreen.route);
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      },
+
+    );
+
   }
 
   @override

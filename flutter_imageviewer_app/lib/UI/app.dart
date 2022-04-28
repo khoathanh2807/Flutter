@@ -7,9 +7,7 @@ class App extends StatefulWidget {
 
   @override
   State<App> createState() {
-
     return AppState();
-
   }
 
 }

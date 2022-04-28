@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import './login_screen.dart';
-
 class HomeScreen extends StatefulWidget {
 
   // static const route = '/home';
@@ -14,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final List<String> userList = <String>['User 1', 'User 2', 'User 3'];
+  final List<String> userList = <String>['User 1', 'User 2', 'User 3', 'User 4', 'User 5', 'User 6', 'User 7', 'User 8', 'User 9', 'User 10',];
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
 
       appBar: AppBar(
-
-        flexibleSpace: SafeArea(
+        elevation: 0,
+        flexibleSpace: const SafeArea(
 
           child: Padding(
 
@@ -43,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
         ),
-
       ),
 
       body: ListView.separated(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class ContactsScreen extends StatefulWidget {
 
-  static const route = '/contacts';
-
   @override
   State<ContactsScreen> createState() => _ContactsScreenState();
 
@@ -18,6 +16,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
       appBar: AppBar(
         title: const Text("Contacts"),
+        elevation: 0,
       ),
 
       body: Center(

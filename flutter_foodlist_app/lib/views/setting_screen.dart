@@ -42,10 +42,16 @@ class _SettingScreenState extends State<StatefulWidget> {
 
     return Scaffold(
 
-      appBar: AppBar(title: Text('Setting'),),
+      appBar: AppBar(
+        title: Text('Setting'),
+        elevation: 0,
+        actions: [
+          _logOut()
+        ],
+      ),
 
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(30),
         child: Column (
 
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,6 +132,22 @@ class _SettingScreenState extends State<StatefulWidget> {
       // On error, return false.
       return false;
     }
+
+  }
+
+  Widget _logOut() {
+
+    return IconButton(
+
+      icon: Icon(Icons.logout),
+      tooltip: 'Log Out',
+      onPressed: () {
+        Navigator.of(context).pushReplacementNamed('/login');
+        // Navigator.pushReplacementNamed(context, '/login');
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      },
+
+    );
 
   }
 

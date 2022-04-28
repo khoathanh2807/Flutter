@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -19,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       appBar: AppBar(
 
+        elevation: 0,
         toolbarHeight: 110,
 
         flexibleSpace: SafeArea(

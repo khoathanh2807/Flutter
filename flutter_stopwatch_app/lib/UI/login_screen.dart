@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './stopwatch_screen.dart';
-import '../validators/login_validator.dart';
+import '../validation/mixin_validation.dart';
 import '../BLoC/bloc_stream.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 }
 
-class LoginScreenState extends State<LoginScreen> with LoginValidator {
+class LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   final formKey = GlobalKey<FormState>();
 
@@ -27,57 +27,40 @@ class LoginScreenState extends State<LoginScreen> with LoginValidator {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
 
-      title: 'Stopwatch App - Login Screen',
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
 
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+            const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+            const SizedBox(height: 60,),
+
+            Form(
+              key: formKey,
+              child: Column(
+                children: [
+
+                  emailField(),       // Email Text Field
+                  const SizedBox(height: 30,),
+
+                  passwordField(),    // Password Text Field
+                  const SizedBox(height: 40,),
+
+                  loginButton(),      // Login Confirm Button
+                  const SizedBox(height: 60,),
+
+                ],
+              ),
+            )
+
+          ],
+        ),
       ),
 
-      home: Scaffold(
-
-        appBar: AppBar(title: Text('Login'),),
-        // backgroundColor: Colors.blueGrey,
-
-        // body: Container(
-        //   margin: EdgeInsets.only(left: 20.0, right: 20.0),
-        //   child: Form(
-        //     key: formKey,
-        //     child: ListView.builder(
-        //     ),
-        //   ),
-        // ),
-
-        body: buildLoginForm(),
-
-      ),
-
-    );
-
-  }
-
-  Widget buildLoginForm() {
-
-    return Form(
-      key: formKey,
-      child: ListView(
-
-        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
-
-        children: [
-
-          emailField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          loginButton()
-
-        ],
-
-      ),
     );
 
   }
@@ -93,14 +76,16 @@ class LoginScreenState extends State<LoginScreen> with LoginValidator {
 
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
+            maxLines: 1,
 
             decoration: InputDecoration(
                 icon: Icon(Icons.person),
+                // prefixIcon  : const Icon(Icons.email),
                 labelText: 'Email address',
                 hintText: 'Input your email address',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                 errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
+                errorText: snapshot.hasError ? snapshot.error as String : null,
             ),
             // validator: validateEmail,
 
@@ -129,14 +114,16 @@ class LoginScreenState extends State<LoginScreen> with LoginValidator {
 
             controller: passwordController,
             obscureText: true,
+            maxLines: 1,
 
             decoration: InputDecoration(
                 icon: Icon(Icons.security_rounded),
+                // prefixIcon  : const Icon(Icons.lock),
                 labelText: 'Password',
                 hintText: 'Input your password',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
                 errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-                errorText: snapshot.hasError ? snapshot.error as String : null
+                errorText: snapshot.hasError ? snapshot.error as String : null,
             ),
             // validator: validatePassword,
 
@@ -158,11 +145,11 @@ class LoginScreenState extends State<LoginScreen> with LoginValidator {
 
     return ElevatedButton(
 
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-        ),
+        child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
 
-        child: Text('Login'),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+        ),
 
         onPressed: validate,
 
@@ -186,7 +173,9 @@ class LoginScreenState extends State<LoginScreen> with LoginValidator {
       print('emailAddress: $emailAddress, password: $password');
 
       // Navigator.of(context).pushReplacementNamed('/stopwatch', arguments: emailAddress);
-      Navigator.of(context).pushReplacementNamed(StopwatchScreen.route, arguments: emailAddress);
+      // Navigator.of(context).pushReplacementNamed(StopwatchScreen.route, arguments: emailAddress);
+      Navigator.of(context).pushNamedAndRemoveUntil(StopwatchScreen.route, (_) => false, arguments: emailAddress);
+      // Navigator.pushReplacementNamed(context, '/stopwatch');
 
     }
 

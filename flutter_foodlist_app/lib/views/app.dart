@@ -17,9 +17,9 @@ class App extends StatelessWidget {
 
     return MaterialApp(
 
-      title: 'Food App',
       theme: ThemeData(
         primarySwatch: Colors.orange,
+        // brightness: Brightness.dark,
         visualDensity:VisualDensity.adaptivePlatformDensity
       ),
       // home: MainHome(),
@@ -91,6 +91,7 @@ class _MainHomeState extends State<MainHome> {
 
     return BottomNavigationBar(
 
+      elevation: 0,
       currentIndex: selectedIndexBottomNavBar,
       onTap: _onBottomMenuTap,
 

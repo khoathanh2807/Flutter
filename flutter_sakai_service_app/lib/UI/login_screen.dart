@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import './app.dart';
-import './home_screen.dart';
 import '../sakai_services.dart';
 import '../model/course.dart';
 
@@ -22,60 +20,50 @@ class LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final serverController = TextEditingController();
 
+  // String? errorMessage;
+
   String loginErrorMessage1 = '';
   String loginErrorMessage2 = '';
 
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+              const SizedBox(height: 60,),
 
-      title: 'Login Screen',
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
 
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
-      ),
+                    emailField(),
+                    const SizedBox(height: 30,),
 
-      home: Scaffold(
+                    passwordField(),
+                    const SizedBox(height: 30,),
 
-        appBar: AppBar(title: Text('Login'),),
+                    serverField(),
+                    const SizedBox(height: 40,),
 
-        body: buildLoginForm(),
+                    loginButton(),
+                    const SizedBox(height: 40,),
 
-      ),
+                    Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                    Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
 
-    );
-
-  }
-
-  Widget buildLoginForm() {
-
-    return Form(
-      key: formKey,
-      child: ListView(
-
-        padding: EdgeInsets.only(left: 20, right: 20, top: 100),
-
-        children: [
-
-          emailField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          passwordField(),
-          Container(margin: EdgeInsets.only(top: 30.0),),
-
-          serverField(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          loginButton(),
-          Container(margin: EdgeInsets.only(top: 40.0),),
-
-          Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-          Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
-
-        ],
-
+                  ],
+                ),
+              )
+            ]
+        ),
       ),
     );
 
@@ -87,18 +75,24 @@ class LoginScreenState extends State<LoginScreen> {
 
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
+            maxLines: 1,
 
             decoration: InputDecoration(
                 icon: Icon(Icons.person),
+                // prefixIcon  : const Icon(Icons.email),
                 labelText: 'Username / Email address',
                 hintText: 'Input your Username / Email address',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorText: errorMessage,
             ),
 
-            // onChanged: (value) {
-            //   bloc.changeEmail(value);
-            // },
+            validator: (value) {
+                if (value!.isEmpty || value == '' || value == null) {
+                  return 'Username / Email address cannot be empty.';
+                }
+                return null;
+            },
 
             // onSaved: (value) {
             //   emailAddress = value as String;
@@ -114,18 +108,24 @@ class LoginScreenState extends State<LoginScreen> {
 
             controller: passwordController,
             obscureText: true,
+            maxLines: 1,
 
             decoration: InputDecoration(
                 icon: Icon(Icons.security_rounded),
+                // prefixIcon: const Icon(Icons.lock),
                 labelText: 'Password',
                 hintText: 'Input your Password',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorText: errorMessage,
             ),
 
-            // onChanged: (value) {
-            //   bloc.changePassword(value);
-            // },
+            validator: (value) {
+                if (value!.isEmpty || value == '' || value == null) {
+                  return 'Password cannot be empty.';
+                }
+                return null;
+            },
 
             // onSaved: (value) {
             //   password = value as String;
@@ -149,8 +149,16 @@ class LoginScreenState extends State<LoginScreen> {
                 labelText: 'Login Server address',
                 hintText: 'Input your Login Server address',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-                errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+                // errorText: errorMessage,
             ),
+
+            validator: (value) {
+                if (value!.isEmpty || value == '' || value == null) {
+                  return 'Server address cannot be empty.';
+                }
+                return null;
+            },
 
           );
 
@@ -160,11 +168,11 @@ class LoginScreenState extends State<LoginScreen> {
 
     return ElevatedButton(
 
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-        ),
+        child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
 
-        child: Text('Login'),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+        ),
 
         onPressed: validate,
 
@@ -174,13 +182,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   void validate() {
 
-    final formState = formKey.currentState;
-
-    if (!formState!.validate()) {
-
-      return;
-
-    } else {
+    if (formKey.currentState!.validate()) {
 
       final emailAddress = emailController.text;
       final password = passwordController.text;
@@ -213,8 +215,22 @@ class LoginScreenState extends State<LoginScreen> {
             List<Course> courseList = [];
 
             jsonSite_collection.forEach((element) {
-              Course course = Course(id: element['entityId'],url: element['entityURL'], title: element['entityTitle'], owner: element['siteOwner']['userDisplayName']);
+
+              Course course = Course(
+                  id: element['entityId'],
+                  url: element['entityURL'],
+                  title: element['entityTitle'],
+                  owner: element['siteOwner']['userDisplayName'],
+              );
               courseList.add(course);
+
+              // courseList.add(Course(
+              //   id: element['entityId'],
+              //   url: element['entityURL'],
+              //   title: element['entityTitle'],
+              //   owner: element['siteOwner']['userDisplayName'],
+              // ));
+
             });
 
             print('courseList = $courseList');
@@ -231,7 +247,8 @@ class LoginScreenState extends State<LoginScreen> {
 
             print('Logged in successfully.');
 
-            Navigator.of(context).pushReplacementNamed('/', arguments: courseList);
+            // Navigator.of(context).pushReplacementNamed('/', arguments: courseList);
+            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: courseList);
             // Navigator.pushReplacementNamed(context, '/');
             // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 

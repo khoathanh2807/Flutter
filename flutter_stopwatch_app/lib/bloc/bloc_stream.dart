@@ -1,13 +1,17 @@
 import 'dart:async';
 
 class Bloc {
+
   final _emailStreamController = StreamController<String>();
   final _passwordStreamController = StreamController<String>();
 
   final emailTransformer = StreamTransformer<String, String>.fromHandlers(
 
       handleData: (String email, sink) {
-        if (email.contains('@') && email.contains('.')) {
+        if (email.isEmpty || email == '') {
+          // sink.add(email);
+          sink.addError('Email cannot be empty.');
+        } else if (email.contains('@') && email.contains('.')) {
           // sink.add(email);
           sink.addError('');
         } else {

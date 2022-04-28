@@ -16,6 +16,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       appBar: AppBar(
         title: const Text("Chat"),
+        elevation: 0,
       ),
 
       body: Center(

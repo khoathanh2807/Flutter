@@ -16,6 +16,7 @@ class _FlashScreenState extends State<FlashScreen> {
 
       appBar: AppBar(
         title: const Text("Lướt"),
+        elevation: 0,
       ),
 
       body: Center(

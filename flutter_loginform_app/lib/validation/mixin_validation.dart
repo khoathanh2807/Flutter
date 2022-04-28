@@ -1,12 +1,13 @@
-mixin ComonValidation {
+mixin LoginValidation {
 
   String? validateEmail (String? value) {
 
     if (value!.isEmpty || value == '') {
       return 'Email address cannot be empty.';
     } else if(!value.contains('@') || !value.contains('.')) {
-      return 'Please input valid email!';
+      return 'Please input a valid email!';
     }
+
     return null;
 
   }

@@ -21,9 +21,10 @@ class _HomeScreenState extends State<StatefulWidget> {
     // assert(courseList != null);
 
     return Scaffold(
-
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text('Sakai Service App'),
+        elevation: 0,
         actions: [
           _logOut()
         ],

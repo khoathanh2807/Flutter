@@ -9,6 +9,12 @@ class App extends StatelessWidget {
 
     return MaterialApp(
 
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        // brightness: Brightness.dark,
+        visualDensity:VisualDensity.adaptivePlatformDensity,
+      ),
+
       routes: {   // khai bao cac duong dan den cac trang man hinh
           '/': (context) => LoginScreen(),
           LoginScreen.route: (context) => LoginScreen(),

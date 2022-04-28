@@ -6,8 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import './login_screen.dart';
 
 // import '../datetime_util.dart';
-// import 'package:common_components/datetime_utility.dart';
-import 'package:datetime_utility/datetime_utility.dart';
+// import 'package:common_components/datetime_utility.dart';    // import package từ thư mục 'packages' nằm trong project này
+import 'package:datetime_utility/datetime_utility.dart';        // import package từ git đã import link ở file pubspec.yaml
 
 class HomeScreen extends StatefulWidget {
 
@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<StatefulWidget> {
 
-  final formKey = GlobalKey<FormState>();
+  // final formKey = GlobalKey<FormState>();
 
   DateTime selectedDate = DateTime.now();
   TextEditingController dayAddController = TextEditingController();
@@ -29,93 +29,73 @@ class _HomeScreenState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return Scaffold(
 
-      title: 'Home Screen',
-
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
-      ),
-
-      home: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
 
         appBar: AppBar(
-          title: Text('Datetime App'),
+          title: Text('Datetime Calculate'),
+          elevation: 0,
           actions: [
             _logOut()
           ],
         ),
 
         body: Container(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 100),
-          child: datetimeForm(),
-        ),
-
-      ),
-
-    );
-
-  }
-
-  Widget datetimeForm() {
-
-    return Form(
-      key: formKey,
-      child: ListView(
-
+          padding: EdgeInsets.all(30),
+          // child: datetimeForm(),
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-
-                  Text(
-                    '${selectedDate.toLocal()}'.split(' ')[0],
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 40.0,),
-
-                  datePickerButton(),
-                  Container(margin: EdgeInsets.only(top: 40.0),),
-
-                ],
+              Text(
+                '${selectedDate.toLocal()}'.split(' ')[0],
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: 40.0,),
+
+              datePickerButton(),
+              SizedBox(height: 40.0,),
 
               dayAddField(),
               SizedBox(height: 40.0,),
 
               confirmButton(),
-              Container(margin: EdgeInsets.only(top: 50.0),),
+              SizedBox(height: 50.0,),
 
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+              Text(resultTitle, style: TextStyle(color: Colors.pink, fontSize: 25, fontWeight: FontWeight.bold)),
+              SizedBox(height: 20.0,),
 
-                  Text(resultTitle, style: TextStyle(color: Colors.pink, fontSize: 25, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 20.0,),
-
-                  Text(finalDateResult, style: TextStyle(color: Colors.pink, fontSize: 40, fontWeight: FontWeight.bold)),
-
-                ],
-              ),
+              Text(finalDateResult, style: TextStyle(color: Colors.pink, fontSize: 40, fontWeight: FontWeight.bold)),
 
             ],
+          ),
+        ),
 
-      ),
-    );
+      );
 
   }
+
+  // Widget datetimeForm() {
+  //
+  //   return Form(
+  //     key: formKey,
+  //
+  //   );
+  //
+  // }
 
   Widget datePickerButton() {
 
     return ElevatedButton(
 
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-      ),
-
       child: Text('Select date'),
+
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+      ),
 
       onPressed: () => _selectDate(context),
 
@@ -229,11 +209,11 @@ class _HomeScreenState extends State<StatefulWidget> {
 
     return ElevatedButton(
 
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 15.0, bottom: 15.0),
-      ),
-
       child: Text('Add day to selected date'),
+
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+      ),
 
       onPressed: calculateDate,
 
