@@ -50,6 +50,7 @@ class NewEditPizzaState extends State<NewEditPizza>{
           onPressed: () {
             // Navigator.of(context).pushReplacementNamed('/');
             // Navigator.pushReplacementNamed(context, '/');
+            // Navigator.popAndPushNamed(context, '/');
             Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
             // Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
           },

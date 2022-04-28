@@ -150,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidator {
 
       // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress);
       Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
+      // Navigator.of(context).popAndPushNamed('/', arguments: emailAddress);
       // Navigator.pushReplacementNamed(context, '/');
       // Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
 

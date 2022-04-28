@@ -132,6 +132,7 @@ class _HomeScreenState extends State<StatefulWidget> {
     // Navigator.of(context).pushReplacementNamed('/add_pizza');
     // Navigator.pushReplacementNamed(context, '/add_pizza');
     Navigator.push(context, MaterialPageRoute(builder: (context) => NewEditPizza(pizza: pizza)));
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewEditPizza(pizza: pizza)));
   }
 
   // void _changeModeDelete(BuildContext context) {
@@ -150,6 +151,7 @@ class _HomeScreenState extends State<StatefulWidget> {
         // Navigator.of(context).pushReplacementNamed('/add_pizza');
         // Navigator.pushReplacementNamed(context, '/add_pizza');
         Navigator.push(context, MaterialPageRoute(builder: (context) => NewEditPizza(pizza: defaultPizza)));
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewEditPizza(pizza: defaultPizza)));
       },
 
     );
