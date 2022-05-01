@@ -60,7 +60,7 @@ class _MainHomeState extends State<MainHome> {
 
         elevation: 0,
         type: BottomNavigationBarType.fixed,
-        // iconSize: 30,
+        iconSize: 22,
         // backgroundColor: Colors.white,
         selectedItemColor: Colors.teal,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),

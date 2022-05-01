@@ -95,7 +95,7 @@ class _MainHomeState extends State<MainHome> {
       currentIndex: selectedIndexBottomNavBar,
       onTap: _onBottomMenuTap,
 
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',

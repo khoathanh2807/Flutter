@@ -38,13 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
 
                   children: [
-                    Flexible(
+                    const Flexible(
                       fit: FlexFit.tight,
                       flex: 1,
                       child: Text("   FREESHIP+", style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.start,),
                     ),
 
-                    Flexible(
+                    const Flexible(
                         fit: FlexFit.tight,
                         flex: 1,
                         child: Center(
@@ -83,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 ),
 
-                SizedBox(height: 10.0,),
-                CupertinoSearchTextField(backgroundColor: Colors.white,),
+                const SizedBox(height: 10.0,),
+                const CupertinoSearchTextField(backgroundColor: Colors.white,),
 
               ],
             ),

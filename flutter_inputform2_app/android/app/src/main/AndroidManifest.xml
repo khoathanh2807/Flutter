@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_inputform2_app">
+    package="com.khoathanh2807.flutter_inputform2_app">
    <application
         android:label="flutter_inputform2_app"
         android:name="${applicationName}"

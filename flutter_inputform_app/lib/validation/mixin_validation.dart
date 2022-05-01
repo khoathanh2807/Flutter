@@ -2,7 +2,9 @@ mixin ComonValidation {
 
   String? validateEmail (String? value) {
 
-    if(!value!.contains('@') || !value.contains('.')) {
+    if (value!.isEmpty) {
+      return 'This field cannot be empty.';
+    } else if(!value.contains('@') || !value.contains('.')) {
       return 'Please input valid email!';
     }
     return null;

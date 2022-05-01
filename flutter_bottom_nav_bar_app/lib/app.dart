@@ -20,26 +20,24 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
   void initState() {
 
     super.initState();
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
 
     _pages = <Widget>[
 
       CallsPage(
         isHideBottomNavBar: (isHideBottomNavBar) {
-          isHideBottomNavBar
-              ? animationController.forward()
-              : animationController.reverse();
+          isHideBottomNavBar ? animationController.forward() : animationController.reverse();
         },
       ),
 
-      Center(
+      const Center(
         child: Icon(
           Icons.camera,
           size: 150,
         ),
       ),
 
-      Padding(
+      const Padding(
         padding: EdgeInsets.all(16.0),
         child: TextField(
           decoration: InputDecoration(
@@ -132,7 +130,7 @@ class CallsPage extends StatelessWidget {
         appBar: AppBar(
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: const [
               TabBar(
                 tabs: [
                   Tab(

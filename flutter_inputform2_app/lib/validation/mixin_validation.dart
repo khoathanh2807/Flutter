@@ -2,7 +2,9 @@ mixin ComonValidation {
 
   String? validateEmail (String? value) {
 
-    if(!value!.contains('@') || !value.contains('.')) {
+    if (value!.isEmpty || value == '') {
+      return 'This field cannot be empty!';
+    } else if(!value.contains('@') || !value.contains('.')) {
       return 'Please input a valid email!';
     }
     return null;
@@ -31,7 +33,9 @@ mixin ComonValidation {
 
   String? validateBirthday (String? value) {
 
-    if (value!.contains('/')) {
+    if (value!.isEmpty || value == '') {
+      return 'This field cannot be empty!';
+    } else if (value.contains('/')) {
       return null;
     } else if (value.contains('-')) {
       return null;

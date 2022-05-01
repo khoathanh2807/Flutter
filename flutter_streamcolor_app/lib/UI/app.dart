@@ -31,7 +31,10 @@ class HomePageState extends State<StatefulWidget> {
       home: Scaffold(
         appBar: AppBar(title: Text('App Bar'),),
         backgroundColor: bgTextColor,
-        body: Text('Press Run button to make background color change'),
+        body: Container(
+          padding: EdgeInsets.all(30),
+          child: Text('Press Run button to make background color change'),
+        ),
         floatingActionButton: FloatingActionButton(
           child: Text('Run'),
           onPressed: () {

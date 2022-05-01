@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../bloc/bloc_stream_countdown.dart';
+import '../BLoC/bloc_stream_countdown.dart';
 
 class App extends StatelessWidget {
 

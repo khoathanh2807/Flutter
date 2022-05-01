@@ -1,6 +1,6 @@
 import '../module/category.dart';
 
-const FAKE_CATEGORIES = const [
+const FAKE_CATEGORIES = [
 
   Category(1, "Thời Trang Nam", "https://cdn.tgdd.vn/Files/2021/01/29/1323895/top-11-thuong-hieu-thoi-trang-nam-noi-tieng-tai-viet-nam-ma-nam-gioi-can-biet-202101291507373398.jpg"),
   Category(2, "Thời Trang Nữ", "https://stylecaster.com/wp-content/uploads/2021/08/dresss.jpg"),

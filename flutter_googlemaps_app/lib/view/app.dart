@@ -39,7 +39,7 @@ class App extends StatelessWidget {
 
       },
 
-      initialRoute: '/login',
+      initialRoute: '/',
 
     );
 

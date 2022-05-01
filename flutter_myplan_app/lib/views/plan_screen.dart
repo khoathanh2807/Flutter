@@ -31,10 +31,15 @@ class _PlanScreenState extends State<PlanScreen> {
     // final plan = PlanProvider.of(context);
     return Scaffold(
         appBar: AppBar(title: Text('Task of Plan')),
-        body: Column(children: <Widget>[
-          Expanded(child: _buildList()),
-          SafeArea(child: Text(plan.completenessMessage))
-        ]),
+        body: Column(
+            children: <Widget>[
+                Expanded(child: _buildList()),
+                Container(
+                    padding: EdgeInsets.only(top: 15, bottom: 30),
+                    child: Text(plan.completenessMessage),
+                ),
+            ],
+        ),
         floatingActionButton: _buildAddTaskButton()
     );
   }
@@ -72,7 +77,7 @@ class _PlanScreenState extends State<PlanScreen> {
     return Dismissible(
 
       key: ValueKey(task),
-      background: Container(color: Colors.red),
+      background: Container(color: Colors.red, child: Center(child: Text('Delete', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),))),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
         final controller = PlanProvider.of(context);

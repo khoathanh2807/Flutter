@@ -40,10 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 10,
           child: TextField(
               controller: textController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Add a plan', contentPadding: EdgeInsets.all(20)
               ),
-              onEditingComplete: addPlan),
+              onEditingComplete: addPlan
+          ),
         )
     );
   }
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final plan = plans[index];
           return Dismissible(
             key: ValueKey(plan),
-            background: Container(color: Colors.red),
+            background: Container(color: Colors.red, child: Center(child: Text('Delete', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),))),
             direction: DismissDirection.endToStart,
             onDismissed: (_) {
               final controller = PlanProvider.of(context);

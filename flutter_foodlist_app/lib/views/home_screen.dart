@@ -77,7 +77,7 @@ class _HomeScreenState extends State<StatefulWidget> {
                     child: ListTile(
 
                       title: Text(itemData.pizzaName),
-                      subtitle: Text("${itemData.description } \$ ${itemData.price}"),
+                      subtitle: Text("${itemData.description } - \$${itemData.price}"),
 
                         onTap: () {
                             _editPizza(context, itemData);

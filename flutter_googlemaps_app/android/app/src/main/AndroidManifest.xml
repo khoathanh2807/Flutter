@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_googlemaps_app">
+    package="com.khoathanh2807.flutter_googlemaps_app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -8,14 +8,14 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
-    <application
+   <application
         android:label="flutter_googlemaps_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
-        <!--Get Key at "https://console.cloud.google.com/google/maps-apis/credentials"-->
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBF3yTwKe6Zsh2acq4EJO6G25USC_cDeaI"/>
+       <!--Get Key at "https://console.cloud.google.com/google/maps-apis/credentials"-->
+       <meta-data android:name="com.google.android.geo.API_KEY"
+                  android:value="AIzaSyBF3yTwKe6Zsh2acq4EJO6G25USC_cDeaI"/>
 
         <activity
             android:name=".MainActivity"
