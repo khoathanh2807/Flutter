@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "824568815691",
+    "project_id": "flutter-plane-ticket-app",
+    "storage_bucket": "flutter-plane-ticket-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824568815691:android:a2c7eb5e1ce38738b42dce",
+        "android_client_info": {
+          "package_name": "com.khoathanh2807.flutter_planeticket_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824568815691-v97hj644grov021na7s3rg0rdjgsgdoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khoathanh2807.flutter_planeticket_app",
+            "certificate_hash": "f514be172c5469acec3c971074f6886f66d11265"
+          }
+        },
+        {
+          "client_id": "824568815691-t2grd8dvetf66rt3gli1qkgh1hssnao9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7injOecdhchmpc_oFc8eDiyrZaTmOAGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824568815691-t2grd8dvetf66rt3gli1qkgh1hssnao9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
