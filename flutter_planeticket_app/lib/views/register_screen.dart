@@ -46,47 +46,47 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
               child: Column(
                 children: [
 
-                  Row(
-                    children: [
-
-                      Expanded(
-                        child: TextFormField(
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: 'First name',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty || value == '' || value == null) {
-                              return 'This cannot be empty.';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-
-                      const SizedBox(width: 20,),
-
-                      Expanded(
-                        child: TextFormField(
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: 'Last name',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty || value == '' || value == null) {
-                              return 'This cannot be empty.';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //
+                  //     Expanded(
+                  //       child: TextFormField(
+                  //         maxLines: 1,
+                  //         decoration: InputDecoration(
+                  //           prefixIcon: const Icon(Icons.person),
+                  //           hintText: 'First name',
+                  //           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
+                  //         ),
+                  //         validator: (value) {
+                  //           if (value!.isEmpty || value == '' || value == null) {
+                  //             return 'This cannot be empty.';
+                  //           }
+                  //           return null;
+                  //         },
+                  //       ),
+                  //     ),
+                  //
+                  //     const SizedBox(width: 20,),
+                  //
+                  //     Expanded(
+                  //       child: TextFormField(
+                  //         maxLines: 1,
+                  //         decoration: InputDecoration(
+                  //           prefixIcon: const Icon(Icons.person),
+                  //           hintText: 'Last name',
+                  //           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10),),
+                  //         ),
+                  //         validator: (value) {
+                  //           if (value!.isEmpty || value == '' || value == null) {
+                  //             return 'This cannot be empty.';
+                  //           }
+                  //           return null;
+                  //         },
+                  //       ),
+                  //     ),
+                  //
+                  //   ],
+                  // ),
 
                   const SizedBox(height: 20,),
 

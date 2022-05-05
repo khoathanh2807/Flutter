@@ -1,5 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import '../shared/firebase_authentication.dart';
 import './poll.dart';
@@ -13,10 +13,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<StatefulWidget> {
-  String _message = '';
-  bool _isLogin = true;
+
   final TextEditingController txtUserName = TextEditingController();
   final TextEditingController txtPassword = TextEditingController();
+
+  bool _isLogin = true;
+  String _message = '';
 
   late FirebaseAuthentication auth;
 
@@ -24,7 +26,8 @@ class _LoginScreenState extends State<StatefulWidget> {
   void initState() {
     Firebase.initializeApp().whenComplete(() {
       auth = FirebaseAuthentication();
-      setState(() {});
+      setState(() {
+      });
     });
     super.initState();
   }
@@ -33,7 +36,7 @@ class _LoginScreenState extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login Screen'),
+          title: Text('Sign in'),
           actions: [
             IconButton(
               icon: Icon(Icons.logout),
@@ -41,11 +44,11 @@ class _LoginScreenState extends State<StatefulWidget> {
                 auth.logout().then((value) {
                   if (value) {
                     setState(() {
-                      _message = 'User Logged Out';
+                      _message = 'User Signed out';
                     });
                   } else {
                     setState(() {
-                      _message = 'Unable to Log Out';
+                      _message = 'Unable to Sign out';
                     });
                   }
                 });
@@ -60,105 +63,149 @@ class _LoginScreenState extends State<StatefulWidget> {
               userInput(),
               passwordInput(),
               btnMain(),
+              SizedBox(height: 10,),
               btnSecondary(),
               btnGoogle(),
               txtMessage(),
             ],
           ),
-        ));
+        ),
+    );
   }
 
   Widget userInput() {
     return Padding(
-        padding: EdgeInsets.only(top: 24),
+        padding: const EdgeInsets.only(top: 50),
         child: TextFormField(
           controller: txtUserName,
           keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-              hintText: 'User Name', icon: Icon(Icons.verified_user)),
-          validator: (text) => text!.isEmpty ? 'User Name is required' : '',
-        ));
+          decoration: const InputDecoration(
+              icon: Icon(Icons.verified_user),
+              hintText: 'Username',
+          ),
+          validator: (text) => text!.isEmpty ? 'Username is required' : '',
+        )
+    );
   }
 
   Widget passwordInput() {
     return Padding(
-        padding: EdgeInsets.only(top: 24),
+        padding: const EdgeInsets.only(top: 25),
         child: TextFormField(
           controller: txtPassword,
-          keyboardType: TextInputType.emailAddress,
+          // keyboardType: TextInputType.emailAddress,
           obscureText: true,
-          decoration: InputDecoration(
-              hintText: 'password', icon: Icon(Icons.enhanced_encryption)),
+          decoration: const InputDecoration(
+              icon: Icon(Icons.enhanced_encryption),
+              hintText: 'Password',
+          ),
           validator: (text) => text!.isEmpty ? 'Password is required' : '',
-        ));
+        )
+    );
   }
 
   Widget btnMain() {
-    String btnText = _isLogin ? 'Log in' : 'Sign up';
+    String btnText = _isLogin ? 'Sign in' : 'Sign up';
     return Padding(
-        padding: EdgeInsets.only(top: 128),
+        padding: EdgeInsets.only(top: 60),
         child: Container(
             height: 60,
             child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColorLight),
+                  backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
-                        side: BorderSide(color: Colors.red)),
+                        borderRadius: BorderRadius.circular(15.0),
+                        // side: BorderSide(color: Colors.red),
+                    ),
                   ),
                 ),
-                child: Text(
-                  btnText,
-                  style: TextStyle(
-                      fontSize: 18, color: Theme.of(context).primaryColorDark),
-                ),
+                child: Text(btnText, style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColorDark,),),
                 onPressed: () {
                   String userId = '';
                   if (_isLogin) {
-                    auth.login(txtUserName.text, txtPassword.text).then((value) {
-                      if (value == null) {
-                        setState(() {
-                          _message = 'Login Error';
-                        });
-                      } else {
-                        userId = value;
-                        setState(() {
-                          _message = 'User $userId successfully logged in';
-                        });
-                        changeScreen();
-                      }
-                    });
+                      auth.login(txtUserName.text, txtPassword.text).then((value) {
+                          if (value == null) {
+                              setState(() {
+                                _message = 'Sign in Error!';
+                              });
+                          } else {
+                              userId = value;
+                              setState(() {
+                                _message = 'User successfully Signed in \n\n $userId';
+                              });
+                              changeScreen();
+                          }
+                      });
                   } else {
                     auth.createUser(txtUserName.text, txtPassword.text).then((value) {
                       if (value == null) {
                         setState(() {
-                          _message = 'Registration Error';
+                          _message = 'Registration Error!';
                         });
-
                       } else {
                         userId = value;
                         setState(() {
-                          _message = 'User $userId successfully signed in';
+                          _message = 'User successfully Signed in \n\n $userId';
                         });
-
                         changeScreen();
                       }
                     });
                   }
-                })));
+                }
+            ),
+        ),
+    );
   }
 
   Widget btnSecondary() {
-    String buttonText = _isLogin ? 'Sign up' : 'Log In';
+    String buttonText = _isLogin ? 'Sign up' : 'Sign in';
     return TextButton(
-      child: Text(buttonText),
+      child: Text(buttonText, style: const TextStyle(fontSize: 15,),),
       onPressed: () {
         setState(() {
           _isLogin = !_isLogin;
         });
       },
+    );
+  }
+
+  Widget btnGoogle() {
+    return Padding(
+        padding: EdgeInsets.only(top: 120),
+        child: Container(
+            height: 60,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                // padding: MaterialStateProperty.all(EdgeInsets.all(50)),
+                // textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30, color: Colors.black),)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      side: BorderSide(color: Colors.black38),
+                  ),
+                ),
+              ),
+              // child: Text('Log in with Google', style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColorDark),),
+              child: const Text('Sign in with Google', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black87),),
+              onPressed: () {
+                auth.loginWithGoogle().then((value) {
+                  if (value == null) {
+                    setState(() {
+                      _message = 'Google Sign in Error!';
+                    });
+                  } else {
+                    setState(() {
+                      _message = 'User successfully Signed in with Google \n\n $value';
+                    });
+                    changeScreen();
+                  }
+                });
+              },
+            ),
+        ),
     );
   }
 
@@ -168,56 +215,14 @@ class _LoginScreenState extends State<StatefulWidget> {
       style: TextStyle(
           fontSize: 16,
           color: Theme.of(context).primaryColorDark,
-          fontWeight: FontWeight.bold),
+          // fontWeight: FontWeight.bold,
+      ),
     );
   }
 
-  Widget btnGoogle() {
-    return Padding(
-        padding: EdgeInsets.only(top: 128),
-        child: Container(
-          height: 60,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).primaryColorLight),
-              shape: MaterialStateProperty.all
-              <RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                    side: BorderSide(color: Colors.red)),
-              ),
-            ),
-            onPressed: () {
-              auth.loginWithGoogle().then((value) {
-                if (value == null) {
-                  setState(() {
-                    _message = 'Google Login Error';
-                  });
-
-                } else {
-                  setState(() {
-                    _message = 'User $value successfully logged in with Google';
-                  });
-                  changeScreen();
-                }
-
-              });
-            },
-            child: Text(
-              'Log in with Google',
-              style: TextStyle(
-                  fontSize: 18, color:
-              Theme.of(context).primaryColorDark),
-            ),
-          ),
-        ));
-  }
-
   void changeScreen() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PollScreen()));
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => HappyScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PollScreen()));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => HappyScreen()));
   }
+
 }

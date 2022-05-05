@@ -7,7 +7,7 @@ void main() {
 }
 
 ColorScheme defaultColorScheme = const ColorScheme(
-  primary: Colors.teal,
+  primary: Color(0xffBB86FC),
   secondary: Color(0xff03DAC6),
   surface: Color(0xff181818),
   background: Color(0xff121212),

@@ -7,38 +7,54 @@ class PollScreen extends StatefulWidget {
 }
 
 class _PollScreenState extends State<PollScreen> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Poll'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(96.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [Icon(Icons.icecream), Text('Ice-cream')]),
-                  onPressed: () {
-                    vote(false);
-                  },
+          appBar: AppBar(
+            title: const Text('Poll Screen'),
+          ),
+          body: Padding(
+                padding: const EdgeInsets.all(96.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.icecream),
+                                SizedBox(width: 15,),
+                                Text('Ice-cream'),
+                              ]
+                          ),
+                          onPressed: () {
+                            vote(false);
+                          },
+                      ),
+                      ElevatedButton(
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.local_pizza),
+                                SizedBox(width: 15,),
+                                Text('Pizza'),
+                              ]
+                          ),
+                          onPressed: () {
+                            vote(true);
+                          },
+                      ),
+                    ]
                 ),
-                ElevatedButton(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [Icon(Icons.local_pizza), Text('Pizza')]),
-                  onPressed: () {
-                    vote(true);
-                  },
-                ),
-              ]),
-        ));
+          )
+    );
+
   }
 
   Future vote(bool voteForPizza) async {
+
     FirebaseFirestore db = FirebaseFirestore.instance;
     CollectionReference collection = db.collection('poll');
     QuerySnapshot snapshot = await collection.get();
@@ -55,5 +71,7 @@ class _PollScreenState extends State<PollScreen> {
       int icecreamVotes = document.get('icecream');
       collection.doc(id).update({'icecream': ++icecreamVotes});
     }
+
   }
+
 }

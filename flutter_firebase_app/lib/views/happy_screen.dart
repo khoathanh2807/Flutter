@@ -7,12 +7,16 @@ class HappyScreen extends StatefulWidget {
 }
 
 class _HappyScreenState extends State<HappyScreen> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
-        title: Text('Happy Happy!'),
+        title: Text('Happy Screen!'),
       ),
+
       body: Center(
         child: ElevatedButton(
           child: Text('I\'m happy!'),
@@ -21,6 +25,9 @@ class _HappyScreenState extends State<HappyScreen> {
           },
         ),
       ),
+
     );
+
   }
+
 }

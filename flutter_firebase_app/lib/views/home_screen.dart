@@ -5,15 +5,23 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _HomeScreenState();
   }
-
 }
 
 class _HomeScreenState extends State<StatefulWidget> {    // test upload git - 02.05.22
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: Text('Home screen'),),
+
+      appBar: AppBar(
+        title: Text('Home Screen'),
+      ),
+
       body: Text('Welcome to Flutter App.'),
+
     );
+
   }
+
 }
