@@ -37,6 +37,13 @@
             {
               "client_id": "824568815691-t2grd8dvetf66rt3gli1qkgh1hssnao9.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "824568815691-bcmrafvmr1ac5vijn2nar6m2j15sabvl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.khoathanh2807.flutterPlaneticketApp"
+              }
             }
           ]
         }

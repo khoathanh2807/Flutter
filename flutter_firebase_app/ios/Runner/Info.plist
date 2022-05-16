@@ -44,7 +44,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 
-
+    <!-- Google Sign-in Integration -->
 	<key>CFBundleURLTypes</key>
     <array>
         <dict>
@@ -65,5 +65,15 @@
         </dict>
     </array>
 
+    <!-- Request Photo Library, Camera, Microphone Permissions -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs permission to access your photos.</string>
+    <key>NSCameraUsageDescription</key>
+    string>This app needs permission to access your camera.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    string>This app needs permission to access your microphone.</string>
+
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

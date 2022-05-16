@@ -27,11 +27,10 @@ class App extends StatelessWidget {
 
     return MaterialApp(
 
-      title: "Zalo App",
       theme: ThemeData(
-        // colorScheme: defaultColorScheme,
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
+        colorScheme: defaultColorScheme,
+        // primarySwatch: Colors.blue,
+        // brightness: Brightness.dark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: HomeScreen(),
@@ -77,8 +76,6 @@ class _MainHomeState extends State<MainHome> {
 
     return Scaffold(
 
-        // home: Scaffold(
-
                 body: IndexedStack(
                   index: selectedIndex,
                   children: screens,
@@ -88,10 +85,14 @@ class _MainHomeState extends State<MainHome> {
 
                   elevation: 0,
                   type: BottomNavigationBarType.fixed,
-                  // iconSize: 25,
+                  iconSize: 22,
                   // backgroundColor: Colors.white,
+                  // backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   selectedItemColor: Colors.blue,
-                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  selectedFontSize: 12,
+                  unselectedFontSize: 11,
                   // showUnselectedLabels: false,
 
                   currentIndex: selectedIndex,
@@ -126,6 +127,7 @@ class _MainHomeState extends State<MainHome> {
                     ),
 
                   ],
+
                 ),
 
       // Material You Navigation Bar

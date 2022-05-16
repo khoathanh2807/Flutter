@@ -36,7 +36,17 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   email_validator: ^2.0.1
-  fluttertoast: any
+  fluttertoast: ^8.0.9
+
+  firebase_core: ^1.15.0
+  firebase_auth: ^3.3.15
+  google_sign_in: ^5.3.0
+  cloud_firestore: ^3.1.13      # Firestore database
+  firebase_storage: ^10.2.15      #  Cloud Storage
+  firebase_messaging: ^11.2.14
+  firebase_analytics: ^9.1.6
+
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +74,10 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  assets:
+    - assets/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

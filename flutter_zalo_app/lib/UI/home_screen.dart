@@ -17,29 +17,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final String email = ModalRoute.of(context)!.settings.arguments as String;
-    print('Arguments from login screen: emailAddress = $email');
-
     return Scaffold(
+
+      // backgroundColor: Theme.of(context).colorScheme.surface,
 
       appBar: AppBar(
         elevation: 0,
+        // backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         flexibleSpace: const SafeArea(
-
-          child: Padding(
-
-            padding: EdgeInsets.only(top: 6, left: 20, right: 20),
-
-            child: CupertinoTheme(
-              data: CupertinoThemeData(
-                brightness: Brightness.dark,
+          child: Center(
+            child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+              child: CupertinoTheme(
+                data: CupertinoThemeData(
+                  brightness: Brightness.dark,
+                ),
+                child: CupertinoSearchTextField(),
               ),
-              child: CupertinoSearchTextField(),
-
             ),
-
           ),
-
         ),
       ),
 
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(userList[index], style: const TextStyle(fontWeight: FontWeight.bold),),
-                    const Text("Time", style: TextStyle(color: Colors.grey, fontSize: 14.0),),
+                    const Text("Time", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
                   ],
                 ),
 
@@ -74,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: const Text(
                     "Received Messages",
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                    style: TextStyle(color: Colors.grey, fontSize: 13.0),
                   ),
                 ),
 
@@ -89,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
     );
-
 
   }
 

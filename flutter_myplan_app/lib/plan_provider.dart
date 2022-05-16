@@ -3,9 +3,9 @@ import './controllers/plan_controller.dart';
 
 class PlanProvider extends InheritedWidget {
 
-  final _controller = PlanController();
-
   PlanProvider({Key? key, required Widget child}) : super(key: key, child: child);
+
+  final _controller = PlanController();
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => false;

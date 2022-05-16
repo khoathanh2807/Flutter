@@ -4,9 +4,9 @@ import './controllers/pizza_controller.dart';
 
 class DataProvider extends InheritedWidget {
 
-  final _controller = PizzaController();
-
   DataProvider({Key? key, required Widget child}) : super(key: key, child: child);
+
+  final _controller = PizzaController();
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;

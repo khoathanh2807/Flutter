@@ -29,11 +29,11 @@ class Pizza {
   });
 
   Pizza.fromJson(Map<String, dynamic> json) {
-    this.id = json['id'] ?? 0;
-    this.pizzaName = json['pizzaName'] ?? '';
-    this.description = json[keyDescription] ?? '';
-    this.price = json[keyPrice] ?? 0.0;
-    this.imageUrl = json[keyImage] ?? '';
+    id = json['id'] ?? 0;
+    pizzaName = json['pizzaName'] ?? '';
+    description = json[keyDescription] ?? '';
+    price = json[keyPrice] ?? 0.0;
+    imageUrl = json[keyImage] ?? '';
   }
 
   Map<String, dynamic> toJson() {

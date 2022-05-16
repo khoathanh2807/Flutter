@@ -25,6 +25,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+apply plugin: 'com.google.gms.google-services'      // Google Services plugin
+
 android {
     compileSdkVersion flutter.compileSdkVersion
 
@@ -44,10 +46,13 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.khoathanh2807.flutter_zalo_app"
-        minSdkVersion flutter.minSdkVersion
+//        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -65,4 +70,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation platform('com.google.firebase:firebase-bom:30.0.0')      // Import the Firebase BoM
+    implementation 'com.android.support:multidex:1.0.3'
 }

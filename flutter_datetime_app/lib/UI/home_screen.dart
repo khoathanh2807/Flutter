@@ -31,46 +31,48 @@ class _HomeScreenState extends State<StatefulWidget> {
 
     return Scaffold(
 
+        resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
 
         appBar: AppBar(
-          title: Text('Datetime Calculate'),
+          title: const Text('Datetime Calculate'),
           elevation: 0,
           actions: [
             _logOut()
           ],
         ),
 
-        body: Container(
-          padding: EdgeInsets.all(30),
-          // child: datetimeForm(),
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-              Text(
-                '${selectedDate.toLocal()}'.split(' ')[0],
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 40.0,),
+                Text(
+                  '${selectedDate.toLocal()}'.split(' ')[0],
+                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 40.0,),
 
-              datePickerButton(),
-              SizedBox(height: 40.0,),
+                datePickerButton(),
+                const SizedBox(height: 40.0,),
 
-              dayAddField(),
-              SizedBox(height: 40.0,),
+                dayAddField(),
+                const SizedBox(height: 40.0,),
 
-              confirmButton(),
-              SizedBox(height: 50.0,),
+                confirmButton(),
+                const SizedBox(height: 50.0,),
 
-              Text(resultTitle, style: TextStyle(color: Colors.pink, fontSize: 25, fontWeight: FontWeight.bold)),
-              SizedBox(height: 20.0,),
+                Text(resultTitle, style: const TextStyle(color: Colors.pink, fontSize: 25, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20.0,),
 
-              Text(finalDateResult, style: TextStyle(color: Colors.pink, fontSize: 40, fontWeight: FontWeight.bold)),
+                Text(finalDateResult, style: const TextStyle(color: Colors.pink, fontSize: 40, fontWeight: FontWeight.bold)),
 
-            ],
+              ],
+            ),
           ),
         ),
 
@@ -78,23 +80,14 @@ class _HomeScreenState extends State<StatefulWidget> {
 
   }
 
-  // Widget datetimeForm() {
-  //
-  //   return Form(
-  //     key: formKey,
-  //
-  //   );
-  //
-  // }
-
   Widget datePickerButton() {
 
     return ElevatedButton(
 
-      child: Text('Select date'),
+      child: const Text('Select date'),
 
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
       ),
 
       onPressed: () => _selectDate(context),
@@ -156,7 +149,7 @@ class _HomeScreenState extends State<StatefulWidget> {
 
             child: CupertinoTheme(
 
-              data: CupertinoThemeData(
+              data: const CupertinoThemeData(
                 brightness: Brightness.dark,
               ),
 
@@ -198,7 +191,7 @@ class _HomeScreenState extends State<StatefulWidget> {
         labelText: 'Amount of day to add',
         hintText: 'Input amount of day you want to add',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-        errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 14.0),
       ),
 
     );
@@ -209,10 +202,10 @@ class _HomeScreenState extends State<StatefulWidget> {
 
     return ElevatedButton(
 
-      child: Text('Add day to selected date'),
+      child: const Text('Add day to selected date'),
 
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+        padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
       ),
 
       onPressed: calculateDate,
@@ -250,7 +243,7 @@ class _HomeScreenState extends State<StatefulWidget> {
 
     return IconButton(
 
-      icon: Icon(Icons.logout),
+      icon: const Icon(Icons.logout),
       tooltip: 'Log Out',
       onPressed: () {
         // Navigator.of(context).pushReplacementNamed('/login');

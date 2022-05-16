@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:string_util/string_util.dart';
+import 'package:convertstring_util/convertstring_util.dart';
 
 void main() {
   test('adds one to input values', () {

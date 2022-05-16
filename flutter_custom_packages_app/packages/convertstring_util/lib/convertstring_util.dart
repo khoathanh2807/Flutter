@@ -1,42 +1,51 @@
-library string_util;
+library convertstring_util;
 
-class convertString {
+class ConvertString {
 
-  late String n;
+  /// Count the amount of words in [stringInput].
+  int countWord(String? stringInput){
 
-  convertString.countWord(String n){
-    this.n = n;
-    print(n.split(" ").length);
+    if (stringInput == '' || stringInput == ' ' || stringInput == null || stringInput.isEmpty) {
+      return 0;
+    }
+
+    int countResultOutput = stringInput.split(" ").length;
+    return countResultOutput;
+
   }
 
-  convertString.removeAccents(String n) {
-    this.n =n;
+  String? removeAccents(String? stringInput) {
+
     final accentsMap = [
       "aàảãáạăằẳẵắặâầẩẫấậ",
       "AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬ",
-      "dđ",
-      "DĐ",
       "eèẻẽéẹêềểễếệ",
       "EÈẺẼÉẸÊỀỂỄẾỆ",
       "iìỉĩíị",
       "IÌỈĨÍỊ",
+      "yỳỷỹýỵ",
+      "YỲỶỸÝỴ",
       "oòỏõóọôồổỗốộơờởỡớợ",
       "OÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢ",
       "uùủũúụưừửữứự",
       "UÙỦŨÚỤƯỪỬỮỨỰ",
-      "yỳỷỹýỵ",
-      "YỲỶỸÝỴ"
+      "dđ",
+      "DĐ",
     ];
 
     for (var i = 0; i < accentsMap.length; i++) {
+
       RegExp regex = RegExp('[' + accentsMap[i].substring(1) + ']');
+
       var char = accentsMap[i][0]; // non-accent letter
-      n = n.replaceAllMapped(regex, (match) {
+
+      stringInput = stringInput!.replaceAllMapped(regex, (match) {
         return char;
       });
+
     }
 
-    print(n);
+    return stringInput;
 
   }
 

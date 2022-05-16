@@ -35,10 +35,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  string_util:
-    path: packages/string_util
-  bignumber_util:
-    path: packages/bignumber_util
+  convertstring_util:
+    path: packages/convertstring_util
+  customsum_util:
+    path: packages/customsum_util
 
 dev_dependencies:
   flutter_test:

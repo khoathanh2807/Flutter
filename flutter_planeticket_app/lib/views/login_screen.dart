@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../shared/firebase_authentication.dart';
 import '../validation/mixin_login_validation.dart';
 import './register_screen.dart';
 
@@ -15,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 }
 
-class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
+class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   final _formKey = GlobalKey<FormState>();
   var rememberLogin = false;
@@ -28,62 +31,85 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
 
   // String? errorMessage;
 
+  late FirebaseAuthentication auth;
+
+  @override
+  void initState() {
+    Firebase.initializeApp().whenComplete(() {
+      auth = FirebaseAuthentication();
+      setState(() {
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
 
-            const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+              const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
 
-            const SizedBox(height: 60,),
+              const SizedBox(height: 60,),
 
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
 
-                  emailField(),       // Email Text Field
+                    emailField(),       // Email Text Field
 
-                  const SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
-                  passwordField(),    // Password Text Field
+                    passwordField(),    // Password Text Field
 
-                  rememberMeCheckbox(),
+                    rememberMeCheckbox(),
 
-                  const SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
-                  loginButton(),      // Login Confirm Button
+                    loginButton(),      // Login Confirm Button
 
-                  const SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
 
-                      const Text('Not registered yet?'),
+                        const Text('Not registered yet?'),
 
-                      TextButton(
-                        child: const Text('Create an account'),
-                        onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterScreen(),),);
-                        },
-                      ),
+                        TextButton(
+                          child: const Text('Create an account', style: TextStyle(fontWeight: FontWeight.bold,),),
+                          onPressed: () {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterScreen(),),);
+                          },
+                        ),
 
-                    ],
-                  ),
+                      ],
+                    ),
 
-                ],
+                    const SizedBox(height: 50,),
+
+                    loginGoogleButton(),
+
+                    const SizedBox(height: 20,),
+
+                    loginAppleButton(),
+
+                  ],
+                ),
               ),
-            )
 
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -100,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
 
             decoration: InputDecoration(
                 // icon: Icon(Icons.person),
-                prefixIcon  : const Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 // labelText: 'Email address',
                 hintText: 'Enter your email',
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -175,6 +201,7 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
         child: const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold,),),
 
         style: ElevatedButton.styleFrom(
+          // elevation: 0,
           padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
         ),
 
@@ -187,8 +214,21 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
                   emailAddress = emailController.text;
                   password = passwordController.text;
 
-                  Fluttertoast.showToast(msg: 'Sign in successfully.', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
-                  setState(() {
+                  auth.login(emailAddress, password).then((value) {   // đăng nhập Firebase bằng email và password
+                    if (value == null) {
+                      setState(() {
+                        Fluttertoast.showToast(msg: 'Sign in Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+                      });
+                    } else {
+                      setState(() {
+                        Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                      });
+                      Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+                      print(value.uid);
+                      print(value.displayName);
+                      print(value.email);
+                      print(value.photoURL);
+                    }
                   });
 
                   print('emailAddress: $emailAddress, password: $password');
@@ -196,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
                   // Navigator.pushReplacementNamed(context, '/', arguments: emailAddress);
                   // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress);
                   // Navigator.of(context).popAndPushNamed('/', arguments: emailAddress);
-                  Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
+                  // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => const MainHome()));
                   // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainHome(),),);
 
@@ -206,6 +246,95 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
 
     );
 
+  }
+
+  Widget loginGoogleButton() {
+    return ElevatedButton(
+
+      // child: Text('Log in with Google', style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColorDark),),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(FontAwesomeIcons.google, color: Colors.black87, size: 22),
+          SizedBox(width: 10,),
+          Text('Sign in with Google', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),),
+        ],
+      ),
+
+      style: ButtonStyle(
+        // elevation: MaterialStateProperty.all(0),
+        // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
+        backgroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 16, bottom: 16,)),
+        // textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30, color: Colors.black),)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            side: const BorderSide(color: Colors.black26),
+          ),
+        ),
+      ),
+
+      onPressed: () {   // đăng nhập Firebase bằng account Google
+        auth.loginWithGoogle().then((value) {
+          if (value == null) {
+            setState(() {
+              Fluttertoast.showToast(msg: 'Sign in with Google Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+            });
+          } else {
+            setState(() {
+              Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+            });
+            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+            print(value.uid);
+            print(value.displayName);
+            print(value.email);
+            print(value.photoURL);
+          }
+        });
+      },
+
+    );
+  }
+
+  Widget loginAppleButton() {
+    return ElevatedButton(
+
+      // child: Text('Log in with Google', style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColorDark),),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(FontAwesomeIcons.apple, color: Colors.black87, size: 29),
+          SizedBox(width: 10,),
+          Text('Sign in with Apple', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),),
+        ],
+      ),
+
+      style: ButtonStyle(
+        // elevation: MaterialStateProperty.all(0),
+        // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
+        backgroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 14, bottom: 14,)),
+        // textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30, color: Colors.black),)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+            side: const BorderSide(color: Colors.black26),
+          ),
+        ),
+      ),
+
+      onPressed: () {
+
+        Fluttertoast.showToast(msg: 'Coming Soon!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+
+      },
+
+    );
   }
 
 }

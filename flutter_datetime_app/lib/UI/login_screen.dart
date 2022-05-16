@@ -29,40 +29,43 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
-              const SizedBox(height: 60,),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
+                const SizedBox(height: 60,),
 
-              Form(
-                key: formKey,
-                child: Column(
-                  children: [
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
 
-                    emailField(),
-                    const SizedBox(height: 30,),
+                      emailField(),
+                      const SizedBox(height: 30,),
 
-                    passwordField(),
-                    const SizedBox(height: 30,),
+                      passwordField(),
+                      const SizedBox(height: 30,),
 
-                    serverField(),
-                    const SizedBox(height: 40,),
+                      serverField(),
+                      const SizedBox(height: 40,),
 
-                    loginButton(),
-                    const SizedBox(height: 40,),
+                      loginButton(),
+                      const SizedBox(height: 40,),
 
-                    Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                    Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
+                      Text(loginErrorMessage1, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                      Text(loginErrorMessage2, style: TextStyle(color: Colors.red))
 
-                  ],
-                ),
-              )
-            ]
+                    ],
+                  ),
+                )
+              ]
+          ),
         ),
       ),
     );

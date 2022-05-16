@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class ContactsScreen extends StatefulWidget {
 
@@ -14,9 +15,25 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
     return  Scaffold(
 
+      // backgroundColor: Theme.of(context).colorScheme.surface,
+
       appBar: AppBar(
-        title: const Text("Contacts"),
         elevation: 0,
+        // backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        flexibleSpace: const SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: CupertinoTheme(
+                data: CupertinoThemeData(
+                  brightness: Brightness.dark,
+                ),
+                child: CupertinoSearchTextField(),
+              ),
+            ),
+          ),
+        ),
       ),
 
       body: Center(

@@ -19,10 +19,10 @@ class Course{
   });
 
   Course.fromJson(Map<String, dynamic> json){
-    this.id = json['entityId'] ?? '';
-    this.url = json['entityURL'] ?? '';
-    this.title = json['entityTitle'] ?? '';
-    this.owner = json['siteOwner']['userDisplayName'] ?? '';
+    id = json['entityId'] ?? '';
+    url = json['entityURL'] ?? '';
+    title = json['entityTitle'] ?? '';
+    owner = json['siteOwner']['userDisplayName'] ?? '';
   }
 
 }

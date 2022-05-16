@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 }
 
-class HomeScreenState extends State<StatefulWidget> {   // test upload git - 02.05.22
+class HomeScreenState extends State<StatefulWidget> {
 
   // final formKey = GlobalKey<FormState>();
 
@@ -47,12 +47,12 @@ class HomeScreenState extends State<StatefulWidget> {   // test upload git - 02.
           ),
         ),
 
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.logout),
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/login');
-          },
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.logout),
+        //   onPressed: () {
+        //     Navigator.of(context).pushReplacementNamed('/login');
+        //   },
+        // ),
 
     );
 

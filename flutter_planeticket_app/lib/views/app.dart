@@ -27,8 +27,6 @@ class App extends StatelessWidget {
 
     return MaterialApp(
 
-      title: "Plane Ticket App",
-
       theme: ThemeData(
           // colorScheme: defaultColorScheme,
           primarySwatch: Colors.teal,
@@ -37,6 +35,7 @@ class App extends StatelessWidget {
       ),
 
       routes: {  // khai bao cac duong dan den cac trang man hinh
+
         '/': (context) => const MainHome(),
         '/login': (context) => const LoginScreen(),
 
@@ -81,12 +80,12 @@ class _MainHomeState extends State<MainHome> {
 
       bottomNavigationBar: BottomNavigationBar(
 
-        elevation: 0,
+        // elevation: 0,
         type: BottomNavigationBarType.fixed,
         // iconSize: 25,
         // backgroundColor: Colors.white,
         selectedItemColor: Colors.teal,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
 
         currentIndex: selectedIndex,
@@ -103,24 +102,25 @@ class _MainHomeState extends State<MainHome> {
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home),
               label:  "Trang chủ",
-              backgroundColor: Colors.teal
+              backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.airplane_ticket_outlined),
               activeIcon: Icon(Icons.airplane_ticket),
               label:  "Đặt vé",
-              backgroundColor: Colors.teal
+              backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
               label:  "Tài khoản",
-              backgroundColor: Colors.teal
+              backgroundColor: Colors.teal,
           ),
 
         ],
+
       ),
 
     );
