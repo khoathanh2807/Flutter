@@ -72,21 +72,16 @@ class _HomeScreenState extends State<StatefulWidget> {
 
                     key: Key(itemData.id.toString()),
                     child: ListTile(
-
                         title: Text(itemData.pizzaName),
                         subtitle: Text("${itemData.description } - \$${itemData.price}"),
-
                         onTap: () {
                             _editPizza(context, itemData);
                         },
-
                     ),
 
                     onDismissed: (item) {
-
-                      HttpHelper httpHelper = HttpHelper();
-                      httpHelper.deletePizza(item.index);
-
+                        HttpHelper httpHelper = HttpHelper();
+                        httpHelper.deletePizza(item.index);
                     },
 
                   );

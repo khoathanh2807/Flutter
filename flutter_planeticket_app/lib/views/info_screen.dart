@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/user.dart';
+import './login_screen.dart';
 
 class InfoScreen extends StatefulWidget {
 
@@ -12,16 +14,39 @@ class InfoScreen extends StatefulWidget {
 
 class _InfoScreenState extends State<InfoScreen> {
 
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+  String userId = '';
+  String displayName = '';
+  String email = '';
+  String photoURL = '';
+
+  @override
+  void initState() {
+    if (currentUser!.displayName == null) {
+      getUserName().then((value) => displayName = value).whenComplete(() {
+        setState(() {
+        });
+      });
+      print('displayName = $displayName');
+    } else {
+      displayName = currentUser!.displayName!;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    UserCredentialData userCredentialData = ModalRoute.of(context)!.settings.arguments as UserCredentialData;
-    // print('arguments: userCredentialData = $userCredentialData');
+    userId = currentUser!.uid;
 
-    String uid = userCredentialData.uid ?? '';
-    String displayName = userCredentialData.displayName ?? 'unknown';
-    String email = userCredentialData.email ?? '';
-    String photoURL = userCredentialData.photoURL ?? '';
+    if (currentUser!.email != null) {
+      email = currentUser!.email!;
+    }
+
+    if (currentUser!.photoURL != null) {
+      photoURL = currentUser!.photoURL!;
+    }
 
     return  Scaffold(
 
@@ -47,13 +72,13 @@ class _InfoScreenState extends State<InfoScreen> {
               profilePicture(photoURL),
               const SizedBox(height: 20,),
 
-              Text('Account Name: $displayName'),
+              Text('Họ tên: $displayName'),
               const SizedBox(height: 20,),
 
               Text('Email: $email'),
               const SizedBox(height: 20,),
 
-              Text('User ID: $uid'),
+              Text('User ID: $userId'),
 
             ],
           ),
@@ -62,6 +87,14 @@ class _InfoScreenState extends State<InfoScreen> {
 
     );
 
+  }
+
+  Future<String> getUserName() async {
+    late String _displayName;
+    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
+      _displayName = value.get('username').toString();
+    });
+    return _displayName;
   }
 
   Widget profilePicture(String photoURL) {
@@ -83,13 +116,10 @@ class _InfoScreenState extends State<InfoScreen> {
       icon: const Icon(Icons.logout),
       tooltip: 'Log Out',
       onPressed: () {
-
-        // Navigator.of(context).pushReplacementNamed(LoginScreen.route);
-        Navigator.of(context).pushReplacementNamed('/login');
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-
-        Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
-
+        FirebaseAuth.instance.signOut().then((value) {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
+          Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+        });
       },
 
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import './chat_screen.dart';
 
@@ -14,82 +13,119 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final List<String> userList = <String>['User 1', 'User 2', 'User 3', 'User 4', 'User 5', 'User 6', 'User 7', 'User 8', 'User 9', 'User 10',];
-
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
 
-      // backgroundColor: Theme.of(context).colorScheme.surface,
+      resizeToAvoidBottomInset: false,
+      // backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.black,
 
       appBar: AppBar(
         elevation: 0,
-        // backgroundColor: Theme.of(context).colorScheme.background,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        flexibleSpace: const SafeArea(
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: CupertinoTheme(
-                data: CupertinoThemeData(
-                  brightness: Brightness.dark,
-                ),
-                child: CupertinoSearchTextField(),
-              ),
-            ),
+        backgroundColor: const Color(0xff252525),
+        // flexibleSpace: const SafeArea(
+        //   child: Center(
+        //     child: Padding(
+        //       padding: EdgeInsets.only(left: 20, right: 20),
+        //       child: CupertinoTheme(
+        //         data: CupertinoThemeData(
+        //           brightness: Brightness.dark,
+        //         ),
+        //         child: CupertinoSearchTextField(),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        leading: Row(
+          children: const [
+            SizedBox(width: 25,),
+            Icon(Icons.search, size: 26),
+          ],
+        ),
+        title: const TextField(
+          decoration: InputDecoration(
+            hintText: "Search",
+            hintStyle: TextStyle(fontSize: 19),
+            border: InputBorder.none,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            onPressed: () {
+
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add, size: 26),
+            onPressed: () {
+
+            },
+          ),
+        ],
       ),
 
-      body: ListView.separated(
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xff181818),
+          padding: const EdgeInsets.all(8),
+          child: ListView.separated(
 
-        padding: const EdgeInsets.all(8),
+            physics: NeverScrollableScrollPhysics(),
+            primary: true,
+            shrinkWrap: true,
 
-        itemCount: userList.length,
-        itemBuilder: (BuildContext context, int index) {
+            itemCount: 30,
+            itemBuilder: (BuildContext context, int index) {
 
-          return GestureDetector(
+              var recipientName = 'Zalo User ${index + 1}';
 
-              onTap: () {
-                print("Item $index clicked");
-              },
+              return ListTile(
 
-              child: ListTile(
+                    leading: const CircleAvatar(
+                      radius: 22.0,
+                      backgroundImage: NetworkImage('http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'),
+                    ),
 
-                leading: const CircleAvatar(
-                  backgroundImage: NetworkImage('http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'),
-                ),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          recipientName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text("22/05", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
+                      ],
+                    ),
 
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(userList[index], style: const TextStyle(fontWeight: FontWeight.bold),),
-                    const Text("Time", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
-                  ],
-                ),
+                    subtitle: Container(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: const Text(
+                        "Received Messages",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Colors.grey, fontSize: 13.0),
+                      ),
+                    ),
 
-                subtitle: Container(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: const Text(
-                    "Received Messages",
-                    style: TextStyle(color: Colors.grey, fontSize: 13.0),
-                  ),
-                ),
+                    onTap: () {
+                      print(recipientName);
+                      // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChatScreen(receiver: receiver)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen(recipient: recipientName)));
+                    },
 
-                onTap: () {
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChatScreen(receiver: receiver)));
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
-                },
+              );
 
-              )
+            },
 
-          );
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
 
-        },
-
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-
+          ),
+        ),
       ),
 
     );

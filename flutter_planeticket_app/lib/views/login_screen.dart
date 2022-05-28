@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../shared/firebase_authentication.dart';
 import '../validation/mixin_login_validation.dart';
+import './app.dart';
 import './register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,11 +35,11 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   @override
   void initState() {
-    Firebase.initializeApp().whenComplete(() {
+    // Firebase.initializeApp().whenComplete(() {
       auth = FirebaseAuthentication();
       setState(() {
       });
-    });
+    // });
     super.initState();
   }
 
@@ -57,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
 
+              const SizedBox(height: 50,),
+
               const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40,),),
 
               const SizedBox(height: 60,),
@@ -72,9 +74,9 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
                     passwordField(),    // Password Text Field
 
-                    rememberMeCheckbox(),
+                    // rememberMeCheckbox(),
 
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 35,),
 
                     loginButton(),      // Login Confirm Button
 
@@ -207,6 +209,8 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
         onPressed: () {
 
+            FocusScope.of(context).unfocus();
+
             if(_formKey.currentState!.validate()) {
 
                   // _formKey.currentState!.save();
@@ -214,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                   emailAddress = emailController.text;
                   password = passwordController.text;
 
-                  auth.login(emailAddress, password).then((value) {   // đăng nhập Firebase bằng email và password
+                  auth.login(emailAddress.trim(), password.trim()).then((value) {   // đăng nhập Firebase bằng email và password
                     if (value == null) {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Sign in Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
@@ -223,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
                       });
-                      Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false);
                       print(value.uid);
                       print(value.displayName);
                       print(value.email);
@@ -287,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
             setState(() {
               Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
             });
-            Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false);
             print(value.uid);
             print(value.displayName);
             print(value.email);

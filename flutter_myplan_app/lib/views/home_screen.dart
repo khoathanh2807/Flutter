@@ -20,7 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: <Widget>[
           _buildListCreator(),
-          Expanded(child: _buildMasterPlans())
+          Expanded(
+              child: _buildMasterPlans(),
+          ),
         ]
       ),
     );
@@ -41,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: TextField(
               controller: textController,
               decoration: const InputDecoration(
-                  labelText: 'Add a plan', contentPadding: EdgeInsets.all(20)
+                  labelText: 'Add a plan',
+                  contentPadding: EdgeInsets.all(20)
               ),
               onEditingComplete: addPlan
           ),
@@ -82,14 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
           final plan = plans[index];
           return Dismissible(
             key: ValueKey(plan),
-            background: Container(color: Colors.red, child: const Center(child: Text('Delete', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),))),
+            background: Container(
+                color: Colors.red,
+                child: const Center(
+                    child: Text('Delete', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                ),
+            ),
             direction: DismissDirection.endToStart,
-            onDismissed: (_) {
-              final controller = PlanProvider.of(context);
-              controller.deletePlan(plan);
-              setState(() {
-              });
-            },
+
             child: ListTile(
                 title: Text(plan.name),
                 subtitle: Text(plan.completenessMessage),
@@ -97,6 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => PlanScreen(plan: plan)));
                 }
             ),
+
+            onDismissed: (_) {
+              final controller = PlanProvider.of(context);
+              controller.deletePlan(plan);
+              setState(() {
+              });
+            },
+
           );
         }
     );

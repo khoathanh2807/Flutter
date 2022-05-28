@@ -37,16 +37,22 @@ dependencies:
 
   email_validator: ^2.0.1
   fluttertoast: ^8.0.9
-
-  firebase_core: ^1.15.0
-  firebase_auth: ^3.3.15
-  google_sign_in: ^5.3.0
-  cloud_firestore: ^3.1.13      # Firestore database
-  firebase_storage: ^10.2.15      #  Cloud Storage
-  firebase_messaging: ^11.2.14
-  firebase_analytics: ^9.1.6
-
   font_awesome_flutter: ^10.1.0
+
+  firebase_core: ^1.17.0
+
+  firebase_auth: ^3.3.18
+  google_sign_in: ^5.3.1
+
+  cloud_firestore: ^3.1.15      # Firestore database
+
+  firebase_storage: ^10.2.16      #  Cloud Storage
+
+  firebase_messaging: ^11.4.0
+  firebase_analytics: ^9.1.8
+
+  keyboard_detection: ^0.4.2
+
 
 dev_dependencies:
   flutter_test:

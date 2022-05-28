@@ -1,40 +1,96 @@
 import 'package:flutter/material.dart';
 
-import './login_screen.dart';
+import './inherited_widget.dart';
 
 void main() {
-  runApp(App());
+  runApp(const MyApp());
 }
 
-ColorScheme defaultColorScheme = const ColorScheme(
-  primary: Color(0xffBB86FC),
-  secondary: Color(0xff03DAC6),
-  surface: Color(0xff181818),
-  background: Color(0xff121212),
-  error: Color(0xffCF6679),
-  onPrimary: Color(0xff000000),
-  onSecondary: Color(0xff000000),
-  onSurface: Color(0xffffffff),
-  onBackground: Color(0xffffffff),
-  onError: Color(0xff000000),
-  brightness: Brightness.dark,
-);
+class MyApp extends StatelessWidget {
 
-class App extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: MyHomePage(myChild: MyCenterWidget()),
+    );
+  }
 
-      theme: ThemeData(
-        colorScheme: defaultColorScheme,
-        primarySwatch: Colors.red,
+}
+
+class MyHomePage extends StatefulWidget {
+
+  MyHomePage({required this.myChild}); // thêm dòng này
+
+  final Widget myChild; // thêm dòng này
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    print('1. hàm build được gọi do hàm setState được gọi');
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: Text('Test'),
       ),
 
-      home: const LoginPage(title: 'Login UI'),
+      body: MyInheritedWidget(
+        child: widget.myChild, // child là sub tree từ MyCenterWidget xuống
+        // child: MyCenterWidget(),
+        myData: _counter, // data cần chia sẻ cho mấy widget child chính là counter
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
 
     );
+
+  }
+
+}
+
+class MyCenterWidget extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    print('2. log build MyCenterWidget');
+    return Center(
+      // tiếp tục truyền data từ widget MyCenterWidget xuống MyText
+      child: MyText(),
+    );
+  }
+
+}
+
+class MyText extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final counter = MyInheritedWidget.of(context)?.myData;
+
+    print('3. log build MyText với counter = $counter');
+    return Text('Tui là widget Text. Data của tui hiện tại là: $counter');
   }
 
 }

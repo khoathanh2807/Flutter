@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './login_screen.dart';
 import './home_screen.dart';
 import './contacts_screen.dart';
+import './discovery_screen.dart';
+import './timeline_screen.dart';
 import './info_screen.dart';
 
-ColorScheme defaultColorScheme = const ColorScheme(
+ColorScheme customColorScheme = const ColorScheme(
   primary: Colors.blue,
   secondary: Color(0xff03DAC6),
   surface: Color(0xff181818),
@@ -27,22 +31,31 @@ class App extends StatelessWidget {
 
     return MaterialApp(
 
+      debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
-        colorScheme: defaultColorScheme,
+        colorScheme: customColorScheme,
+        // colorScheme: ColorScheme.dark(),
         // primarySwatch: Colors.blue,
-        // brightness: Brightness.dark,
+        // brightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // home: HomeScreen(),
 
-      routes: {  // khai bao cac duong dan den cac trang man hinh
+      // routes: {  // khai bao cac duong dan den cac trang man hinh
+      //     '/': (context) => const MainHome(),
+      //     '/login': (context) => const LoginScreen(),
+      // },
+      // initialRoute: '/login',
 
-          '/': (context) => const MainHome(),
-          '/login': (context) => const LoginScreen(),
-
-      },
-
-      initialRoute: '/login',
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> userSnapshot) {
+              if (userSnapshot.hasData) {
+                return MainHome();
+              }
+              return LoginScreen();
+          },
+      ),
 
     );
 
@@ -68,6 +81,8 @@ class _MainHomeState extends State<MainHome> {
   final screens = [
     HomeScreen(),
     ContactsScreen(),
+    DiscoveryScreen(),
+    TimelineScreen(),
     InfoScreen(),
   ];
 
@@ -86,10 +101,10 @@ class _MainHomeState extends State<MainHome> {
                   elevation: 0,
                   type: BottomNavigationBarType.fixed,
                   iconSize: 22,
-                  // backgroundColor: Colors.white,
                   // backgroundColor: Theme.of(context).colorScheme.background,
-                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  backgroundColor: const Color(0xff252525),
                   selectedItemColor: Colors.blue,
+                  unselectedItemColor: Colors.grey,
                   selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
                   selectedFontSize: 12,
                   unselectedFontSize: 11,
@@ -106,24 +121,40 @@ class _MainHomeState extends State<MainHome> {
                   items: const [
 
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.chat_outlined),
-                        activeIcon: Icon(Icons.chat),
+                        // icon: Icon(Icons.chat_outlined),
+                        // activeIcon: Icon(Icons.chat),
+                        icon: FaIcon(FontAwesomeIcons.commentDots),
+                        activeIcon: FaIcon(FontAwesomeIcons.solidCommentDots),
                         label:  "Messages",
-                        backgroundColor: Colors.blue
+                        // backgroundColor: Colors.blue
                     ),
 
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.contacts_outlined),
-                        activeIcon: Icon(Icons.contacts),
+                        icon: Icon(Icons.contact_page_outlined),
+                        activeIcon: Icon(Icons.contact_page),
                         label:  "Contacts",
-                        backgroundColor: Colors.blue
+                        // backgroundColor: Colors.blue
+                    ),
+
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.widgets_outlined),
+                        activeIcon: Icon(Icons.widgets),
+                        label:  "Discovery",
+                        // backgroundColor: Colors.blue
+                    ),
+
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.access_time_outlined),
+                        activeIcon: Icon(Icons.watch_later),
+                        label:  "Timeline",
+                        // backgroundColor: Colors.blue
                     ),
 
                     BottomNavigationBarItem(
                         icon: Icon(Icons.person_outline),
                         activeIcon: Icon(Icons.person),
                         label:  "Me",
-                        backgroundColor: Colors.blue
+                        // backgroundColor: Colors.blue
                     ),
 
                   ],

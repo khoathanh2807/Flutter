@@ -21,12 +21,13 @@ mixin LoginValidation {
 
     if (value!.isEmpty || value == '' || value == null) {
       return 'Password cannot be empty.';
+    } else if (value.length < 6) {
+      // return 'The amount of characters must be greater than or equal to 6.';
+      return 'Password must be at least 6 characters long.';
     }
 
     // if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){
-    //
     //   return 'Valid password must have at least 8 characters which include minimum 1 Uppercase, 1 Lowercase, 1 Number and 1 Special character.';
-    //
     // }
 
     return null;

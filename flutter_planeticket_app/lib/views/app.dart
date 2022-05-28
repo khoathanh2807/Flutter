@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './login_screen.dart';
 import './home_screen.dart';
@@ -34,14 +35,15 @@ class App extends StatelessWidget {
           visualDensity:VisualDensity.adaptivePlatformDensity,
       ),
 
-      routes: {  // khai bao cac duong dan den cac trang man hinh
-
-        '/': (context) => const MainHome(),
-        '/login': (context) => const LoginScreen(),
-
-      },
-
-      initialRoute: '/login',
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> userSnapshot) {
+          if (userSnapshot.hasData) {
+            return MainHome();
+          }
+          return LoginScreen();
+        },
+      ),
 
     );
 
@@ -85,6 +87,7 @@ class _MainHomeState extends State<MainHome> {
         // iconSize: 25,
         // backgroundColor: Colors.white,
         selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
 
@@ -102,21 +105,21 @@ class _MainHomeState extends State<MainHome> {
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home),
               label:  "Trang chủ",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.airplane_ticket_outlined),
               activeIcon: Icon(Icons.airplane_ticket),
               label:  "Đặt vé",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
               label:  "Tài khoản",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
         ],

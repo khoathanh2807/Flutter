@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';    // use to saving username when register new account
 
 import '../models/user.dart';
 
@@ -9,19 +10,25 @@ class FirebaseAuthentication {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  late UserCredentialData? userCredentialData;
+  late UserCredentialData userCredentialData;
 
-  Future<UserCredentialData?> createUser(String email, String password) async {   // đăng ký
+  Future<UserCredentialData?> createUser(String email, String username, String password) async {   // đăng ký
     try {
+
       UserCredential credential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       // return credential.user!.uid;
       // return '${credential.user!}';
 
+      await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({
+        'username': username,
+        'email': email,
+      });
+
       userCredentialData = UserCredentialData(
-          uid: credential.user!.uid,
-          email: credential.user!.email,
-          displayName: credential.user!.displayName,
-          photoURL: credential.user!.photoURL,
+        uid: credential.user!.uid,
+        email: credential.user!.email,
+        displayName: username,
+        photoURL: credential.user!.photoURL,
       );
       return userCredentialData;
 

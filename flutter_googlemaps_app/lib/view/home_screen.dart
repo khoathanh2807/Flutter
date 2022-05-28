@@ -367,14 +367,9 @@ class _HomeScreenState extends State<StatefulWidget> {
 
     return Scaffold(
       // body: _setContentLoading(),
-      body: Align(
-
-        alignment: Alignment.center,
-
+      body: Center(
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: const <Widget>[
 
             Text('Please Wait...', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500, color: Colors.teal),),
@@ -383,9 +378,7 @@ class _HomeScreenState extends State<StatefulWidget> {
             CircularProgressIndicator(),
 
           ],
-
         ),
-
       ),
     );
 

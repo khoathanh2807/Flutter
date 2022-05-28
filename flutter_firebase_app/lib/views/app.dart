@@ -87,6 +87,7 @@ class _MainHomeState extends State<MainHome> {
         // iconSize: 25,
         // backgroundColor: Colors.white,
         selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         showUnselectedLabels: false,
 
@@ -104,14 +105,14 @@ class _MainHomeState extends State<MainHome> {
               icon: Icon(Icons.tag_faces_outlined),
               activeIcon: Icon(Icons.tag_faces),
               label:  "Happy",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.poll_outlined),
               activeIcon: Icon(Icons.poll),
               label:  "Poll",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
           BottomNavigationBarItem(
@@ -125,7 +126,7 @@ class _MainHomeState extends State<MainHome> {
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
               label:  "Account",
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
           ),
 
         ],

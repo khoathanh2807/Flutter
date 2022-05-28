@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../shared/firebase_authentication.dart';
@@ -22,20 +21,22 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
   final _formKey = GlobalKey<FormState>();
 
   late String emailAddress;
+  late String username;
   late String password;
 
   final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   late FirebaseAuthentication auth;
 
   @override
   void initState() {
-    Firebase.initializeApp().whenComplete(() {
+    // Firebase.initializeApp().whenComplete(() {
       auth = FirebaseAuthentication();
       setState(() {
       });
-    });
+    // });
     super.initState();
   }
 
@@ -110,6 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
 
                     const SizedBox(height: 20,),
 
+                    usernameField(),       // Username Text Field
+
+                    const SizedBox(height: 20,),
+
                     passwordField(),    // Password Text Field
 
                     const SizedBox(height: 20,),
@@ -169,6 +174,38 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
       ),
 
       validator: validateEmail,
+
+      // onSaved: (value) {
+      //   emailAddress = value as String;
+      // },
+
+    );
+
+  }
+
+  Widget usernameField() {
+
+    return TextFormField(
+
+      controller: usernameController,
+      maxLines: 1,
+
+      decoration: InputDecoration(
+        // icon: Icon(Icons.person),
+        prefixIcon  : const Icon(Icons.person),
+        // labelText: 'Email address',
+        hintText: 'Enter your full name',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        // errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
+        // errorText: errorMessage,
+      ),
+
+      validator: (value) {
+        if (value!.isEmpty || value == '' || value == null) {
+          return 'Full name cannot be empty.';
+        }
+        return null;
+      },
 
       // onSaved: (value) {
       //   emailAddress = value as String;
@@ -254,25 +291,27 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
 
       onPressed: () {
 
+        FocusScope.of(context).unfocus();
+
         if(_formKey.currentState!.validate()) {
 
           // _formKey.currentState!.save();
 
           emailAddress = emailController.text;
+          username = usernameController.text;
           password = passwordController.text;
 
-          auth.createUser(emailAddress, password).then((value) {
+          auth.createUser(emailAddress.trim(), username.trim(), password.trim()).then((value) {
             if (value == null) {
               setState(() {
                 Fluttertoast.showToast(msg: 'Sign up Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
               });
             } else {
               setState(() {
-                Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                Fluttertoast.showToast(msg: 'Signed up Successfully, you can Sign in now', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
               });
-              // changeScreen();
-              // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
-              Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+              // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen(),),);
               print(value.uid);
               print(value.displayName);
               print(value.email);
@@ -280,11 +319,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
             }
           });
 
-          // Fluttertoast.showToast(msg: 'Sign up successfully, you can Sign in now.', fontSize: 15, timeInSecForIosWeb: 3, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
-
           print('emailAddress: $emailAddress, password: $password');
-
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen(),),);
 
         }
 
