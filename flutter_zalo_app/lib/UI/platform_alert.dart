@@ -41,9 +41,9 @@ class PlatformAlert {
                 TextButton(
                   child: Text('OK'),
                   onPressed: () {
-                    FirebaseAuth.instance.signOut().then((value) {
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
-                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                    FirebaseAuth.instance.signOut().whenComplete(() {
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
+                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
                   },   // Open Location setting
                 ),
@@ -68,9 +68,9 @@ class PlatformAlert {
                 CupertinoButton(
                   child: Text('OK', style: TextStyle(color: CupertinoColors.activeBlue),),
                   onPressed: () {
-                    FirebaseAuth.instance.signOut().then((value) {
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (Route<dynamic> route) => false);
-                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                    FirebaseAuth.instance.signOut().whenComplete(() {
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
+                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
                   },   // Open Location setting
                 ),

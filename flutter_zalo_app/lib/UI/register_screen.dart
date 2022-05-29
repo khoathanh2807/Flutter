@@ -49,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
       // backgroundColor: Color(0xff181818),
       body: Center(
         child: SingleChildScrollView(
-          reverse: true,
+          // reverse: true,
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
 
                     // Row(
                     //   children: [
-                    //
+
                     //     Expanded(
                     //       child: TextFormField(
                     //         maxLines: 1,
@@ -84,9 +84,9 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
                     //         },
                     //       ),
                     //     ),
-                    //
+
                     //     const SizedBox(width: 20,),
-                    //
+
                     //     Expanded(
                     //       child: TextFormField(
                     //         maxLines: 1,
@@ -103,11 +103,11 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
                     //         },
                     //       ),
                     //     ),
-                    //
+
                     //   ],
                     // ),
 
-                    const SizedBox(height: 20,),
+                    // const SizedBox(height: 20,),
 
                     emailField(),       // Email Text Field
 
@@ -291,6 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
       child: const Text('Sign up', style: TextStyle(fontWeight: FontWeight.bold,),),
 
       style: ElevatedButton.styleFrom(
+        // elevation: 0,
         padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
       ),
 
@@ -315,8 +316,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
               setState(() {
                 Fluttertoast.showToast(msg: 'Signed up Successfully, you can Sign in now', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
               });
-              // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen(),),);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen(),),);
               print(value.uid);
               print(value.displayName);
               print(value.email);

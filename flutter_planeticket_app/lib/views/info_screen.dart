@@ -116,9 +116,9 @@ class _InfoScreenState extends State<InfoScreen> {
       icon: const Icon(Icons.logout),
       tooltip: 'Log Out',
       onPressed: () {
-        FirebaseAuth.instance.signOut().then((value) {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (_) => false);
-          Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+        FirebaseAuth.instance.signOut().whenComplete(() {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
+          Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
         });
       },
 

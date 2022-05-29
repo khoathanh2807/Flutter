@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
       // backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(30),
+          padding: EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -227,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
                       });
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false);
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
                       print(value.uid);
                       print(value.displayName);
                       print(value.email);
@@ -237,12 +237,12 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
                   print('emailAddress: $emailAddress, password: $password');
 
-                  // Navigator.pushReplacementNamed(context, '/', arguments: emailAddress);
-                  // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress);
-                  // Navigator.of(context).popAndPushNamed('/', arguments: emailAddress);
-                  // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress);
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const MainHome()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const MainHome(),),);
                   // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainHome(),),);
+                  // Navigator.pushReplacementNamed(context, '/', arguments: emailAddress,);
+                  // Navigator.of(context).pushReplacementNamed('/', arguments: emailAddress,);
+                  // Navigator.of(context).popAndPushNamed('/', arguments: emailAddress,);
+                  // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: emailAddress,);
 
             }
 
@@ -271,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
         // elevation: MaterialStateProperty.all(0),
         // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
         backgroundColor: MaterialStateProperty.all(Colors.white),
-        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 16, bottom: 16,)),
+        padding: MaterialStateProperty.all(const EdgeInsets.only(top: 16, bottom: 16,),),
         // textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30, color: Colors.black),)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -291,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
             setState(() {
               Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
             });
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
             print(value.uid);
             print(value.displayName);
             print(value.email);
@@ -321,20 +321,20 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
       style: ButtonStyle(
         // elevation: MaterialStateProperty.all(0),
         // backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColorLight),
-        backgroundColor: MaterialStateProperty.all(Colors.white),
+        backgroundColor: MaterialStateProperty.all(Colors.white,),
         padding: MaterialStateProperty.all(const EdgeInsets.only(top: 14, bottom: 14,)),
         // textStyle: MaterialStateProperty.all(TextStyle(fontSize: 30, color: Colors.black),)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0),
-            side: const BorderSide(color: Colors.black26),
+            borderRadius: BorderRadius.circular(50.0,),
+            side: const BorderSide(color: Colors.black26,),
           ),
         ),
       ),
 
       onPressed: () {
 
-        Fluttertoast.showToast(msg: 'Coming Soon!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey);
+        Fluttertoast.showToast(msg: 'Coming Soon!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey,);
 
       },
 

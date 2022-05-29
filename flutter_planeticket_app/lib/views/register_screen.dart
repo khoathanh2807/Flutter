@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
 
                     // Row(
                     //   children: [
-                    //
+
                     //     Expanded(
                     //       child: TextFormField(
                     //         maxLines: 1,
@@ -82,9 +82,9 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
                     //         },
                     //       ),
                     //     ),
-                    //
+
                     //     const SizedBox(width: 20,),
-                    //
+
                     //     Expanded(
                     //       child: TextFormField(
                     //         maxLines: 1,
@@ -101,11 +101,11 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
                     //         },
                     //       ),
                     //     ),
-                    //
+
                     //   ],
                     // ),
 
-                    const SizedBox(height: 20,),
+                    // const SizedBox(height: 20,),
 
                     emailField(),       // Email Text Field
 
@@ -310,8 +310,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
               setState(() {
                 Fluttertoast.showToast(msg: 'Signed up Successfully, you can Sign in now', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
               });
-              // Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false, arguments: value);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen(),),);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen(),),);
               print(value.uid);
               print(value.displayName);
               print(value.email);
