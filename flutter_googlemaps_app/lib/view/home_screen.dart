@@ -370,7 +370,7 @@ class _HomeScreenState extends State<StatefulWidget> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: const [
 
             Text('Please Wait...', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500, color: Colors.teal),),
             SizedBox(height: 45),

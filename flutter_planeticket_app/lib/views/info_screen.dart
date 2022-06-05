@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-import './login_screen.dart';
+import './platform_alert.dart';
+import './info_tabs/profile_tab.dart';
+import './info_tabs/booking_history_tab.dart';
 
 class InfoScreen extends StatefulWidget {
 
@@ -12,75 +11,77 @@ class InfoScreen extends StatefulWidget {
 
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
-  final currentUser = FirebaseAuth.instance.currentUser;
-
-  String userId = '';
-  String displayName = '';
-  String email = '';
-  String photoURL = '';
+  late TabController _tabController;
+  int selectedIndex = 0;
 
   @override
   void initState() {
-    if (currentUser!.displayName == null) {
-      getUserName().then((value) => displayName = value).whenComplete(() {
-        setState(() {
-        });
-      });
-      print('displayName = $displayName');
-    } else {
-      displayName = currentUser!.displayName!;
-    }
+
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: selectedIndex,
+    );
+
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
 
-    userId = currentUser!.uid;
-
-    if (currentUser!.email != null) {
-      email = currentUser!.email!;
-    }
-
-    if (currentUser!.photoURL != null) {
-      photoURL = currentUser!.photoURL!;
-    }
-
     return  Scaffold(
 
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.grey[200],
 
       appBar: AppBar(
-        title: const Text('Tài khoản'),
-        elevation: 0,
+        // elevation: 0,
+        centerTitle: true,
+        title: Text('Tài khoản', style: TextStyle(fontWeight: FontWeight.w600,),),
         actions: [
-          _logOut()
+          _logOut(),
+          // SizedBox(width: 5,),
         ],
+        bottom: TabBar(
+
+          controller: _tabController,
+
+          tabs: const [
+            Text('Thông tin cá nhân'),
+            Text('Lịch sử đặt vé'),
+          ],
+
+          indicatorColor: Colors.white,
+          indicatorWeight: 2,
+
+          labelPadding: EdgeInsets.only(top: 10, bottom: 10),
+          labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
+
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+
+        ),
       ),
 
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            children: [
+          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 15,),
+          child: IndexedStack(
 
-              // Text('Account Info', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),),
-              // SizedBox(height: 40,),
+              index: selectedIndex,
 
-              profilePicture(photoURL),
-              const SizedBox(height: 20,),
+              children: [
+                ProfileTab(),
+                BookingHistoryTab(),
+              ],
 
-              Text('Họ tên: $displayName'),
-              const SizedBox(height: 20,),
-
-              Text('Email: $email'),
-              const SizedBox(height: 20,),
-
-              Text('User ID: $userId'),
-
-            ],
           ),
         ),
       ),
@@ -89,41 +90,25 @@ class _InfoScreenState extends State<InfoScreen> {
 
   }
 
-  Future<String> getUserName() async {
-    late String _displayName;
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
-      _displayName = value.get('username').toString();
-    });
-    return _displayName;
-  }
-
-  Widget profilePicture(String photoURL) {
-
-    if (photoURL != '') {
-       return Image.network(photoURL, width: 100, height: 100,);
-    } else {
-       // return Image.asset('assets/images/default-avatar.jpg', width: 100, height: 100,);
-       // return Image.network('https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg');
-       return const Image(image: AssetImage('assets/images/default-avatar.jpg'), width: 100, height: 100,);
-    }
-
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Widget _logOut() {
-
     return IconButton(
-
-      icon: const Icon(Icons.logout),
       tooltip: 'Log Out',
+      icon: const Icon(Icons.logout,),
       onPressed: () {
-        FirebaseAuth.instance.signOut().whenComplete(() {
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
-          Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
-        });
+        FocusScope.of(context).unfocus();
+        const logoutAlert = PlatformAlert(
+          title: 'Đăng Xuất',
+          message: 'Bạn xác nhận muốn đăng xuất tài khoản?',
+        );
+        logoutAlert.showLogoutAlert(context);
       },
-
     );
-
   }
 
 }

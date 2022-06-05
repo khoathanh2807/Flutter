@@ -272,7 +272,7 @@ class _LoginScreenState extends State<StatefulWidget> with LoginValidation {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 // mainAxisSize: MainAxisSize.min,
                 children: const [
-                  Icon(FontAwesomeIcons.google, color: Colors.black87, size: 22),
+                  Icon(FontAwesomeIcons.google, color: Colors.black87, size: 22,),
                   SizedBox(width: 10,),
                   Text('Sign in with Google', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),),
                 ],

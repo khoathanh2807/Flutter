@@ -253,8 +253,8 @@ class LoginState extends State<LoginScreen> with ComonValidation {
           icon: Icon(Icons.location_pin),
           labelText: 'Country',
           hintText: 'Selecty your country',
-          errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0))
+          errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0,),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         ),
         value: "Vietnam",
         items: countries.map((String value) {
@@ -294,7 +294,7 @@ class LoginState extends State<LoginScreen> with ComonValidation {
         labelText: 'City',
         hintText: 'Selecty your city',
         errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
       ),
       // value: selectedValue,
       items: cities.map((value) {

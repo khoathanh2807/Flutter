@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(myChild: MyCenterWidget()),
+      home: MyHomePage(myChild: MyCenterWidget(),),
     );
   }
 
@@ -48,13 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text('Test'),
+        title: Text('Test InheritedWidget'),
       ),
 
       body: MyInheritedWidget(
+        myData: _counter, // data cần chia sẻ cho mấy widget child chính là counter
         child: widget.myChild, // child là sub tree từ MyCenterWidget xuống
         // child: MyCenterWidget(),
-        myData: _counter, // data cần chia sẻ cho mấy widget child chính là counter
       ),
 
       floatingActionButton: FloatingActionButton(

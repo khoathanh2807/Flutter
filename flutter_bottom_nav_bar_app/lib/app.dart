@@ -12,14 +12,14 @@ class HideOnScroll extends StatefulWidget {
 
 class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderStateMixin {
 
-  int _selectedIndex = 0;
   late AnimationController animationController;
+
+  int _selectedIndex = 0;
   late List<Widget> _pages;
 
   @override
   void initState() {
 
-    super.initState();
     animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
 
     _pages = <Widget>[
@@ -42,11 +42,14 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
         child: TextField(
           decoration: InputDecoration(
               labelText: 'Find contact',
-              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
 
     ];
+
+    super.initState();
 
   }
 
@@ -56,7 +59,7 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
     return Scaffold(
 
       appBar: AppBar(
-        title: const Text('With TabBar Demo'),
+        title: const Text('Auto Hide TabBar Demo App'),
         elevation: 0,
       ),
 
@@ -71,6 +74,13 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
         axisAlignment: -1.0,
 
         child: BottomNavigationBar(
+
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
 
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -87,21 +97,12 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
             ),
           ],
 
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-
         ),
 
       ),
 
     );
 
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
@@ -116,6 +117,7 @@ class _HideOnScrollState extends State<HideOnScroll> with SingleTickerProviderSt
 class CallsPage extends StatelessWidget {
 
   CallsPage({required this.isHideBottomNavBar});
+
   final Function(bool) isHideBottomNavBar;
 
   @override
@@ -133,17 +135,11 @@ class CallsPage extends StatelessWidget {
             children: const [
               TabBar(
                 tabs: [
-                  Tab(
-                    text: 'Incoming',
-                  ),
-                  Tab(
-                    text: 'Outgoing',
-                  ),
-                  Tab(
-                    text: 'Missed',
-                  ),
+                  Tab(text: 'Incoming',),
+                  Tab(text: 'Outgoing',),
+                  Tab(text: 'Missed',),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -161,6 +157,7 @@ class CallsPage extends StatelessWidget {
         ),
 
       ),
+
     );
 
   }
@@ -176,13 +173,7 @@ class IncomingPage extends StatefulWidget {
 
 class _IncomingPageState extends State<IncomingPage> with AutomaticKeepAliveClientMixin<IncomingPage> {
 
-  int count = 10;
-
-  void clear() {
-    setState(() {
-      count = 0;
-    });
-  }
+  int count = 999;
 
   @override
   Widget build(BuildContext context) {
@@ -194,8 +185,7 @@ class _IncomingPageState extends State<IncomingPage> with AutomaticKeepAliveClie
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.call_received, size: 350),
-              Text('Total incoming calls: $count',
-                  style: TextStyle(fontSize: 30)),
+              Text('Total incoming calls: $count', style: TextStyle(fontSize: 30)),
             ],
           ),
         ),
@@ -209,6 +199,12 @@ class _IncomingPageState extends State<IncomingPage> with AutomaticKeepAliveClie
 
   }
 
+  void clear() {
+    setState(() {
+      count = 0;
+    });
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -216,9 +212,9 @@ class _IncomingPageState extends State<IncomingPage> with AutomaticKeepAliveClie
 
 class OutgoingPage extends StatefulWidget {
 
-  final Function(bool) isHideBottomNavBar;
-
   OutgoingPage({required this.isHideBottomNavBar});
+
+  final Function(bool) isHideBottomNavBar;
 
   @override
   _OutgoingPageState createState() => _OutgoingPageState();
@@ -227,7 +223,7 @@ class OutgoingPage extends StatefulWidget {
 
 class _OutgoingPageState extends State<OutgoingPage> with AutomaticKeepAliveClientMixin<OutgoingPage> {
 
-  final items = List<String>.generate(10000, (i) => "Call $i");
+  final items = List<String>.generate(1000, (i) => "Call ${i+1}");
 
   bool _handleScrollNotification(ScrollNotification notification) {
 
@@ -260,12 +256,13 @@ class _OutgoingPageState extends State<OutgoingPage> with AutomaticKeepAliveClie
 
       child: Scaffold(
 
-        body: Center(
+        body: Container(
+          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30,),
           child: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text('${items[index]}'),
+                title: Text('${items[index]}',),
               );
             },
           ),

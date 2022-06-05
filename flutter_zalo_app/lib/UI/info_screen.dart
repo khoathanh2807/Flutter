@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/user.dart';
 import './settings_screen.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -291,7 +290,6 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   // Widget profilePicture(String photoURL) {
-  //
   //   if (photoURL != '') {
   //     return Image.network(photoURL, width: 100, height: 100,);
   //     // return NetworkImage(photoURL);
@@ -301,7 +299,6 @@ class _InfoScreenState extends State<InfoScreen> {
   //     return const Image(image: AssetImage('assets/images/default-avatar.jpg'), width: 100, height: 100,);
   //     // return AssetImage('assets/images/default-avatar.jpg');
   //   }
-  //
   // }
 
 }

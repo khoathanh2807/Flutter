@@ -125,7 +125,7 @@ class _HomeScreenState extends State<StatefulWidget> {
       confirmText: 'Okay',
       errorFormatText: 'You enter invalid format date',
       errorInvalidText: 'You enter out of range date value',
-      fieldLabelText: 'Enter Start Date',   // Title ò iput text field
+      fieldLabelText: 'Enter Start Date',   // Title of iput text field
       fieldHintText: 'Month/Day/Year',
     );
 

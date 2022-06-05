@@ -20,6 +20,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: Colors.black,
 
           appBar: AppBar(
+            elevation: 0,
+            backgroundColor: const Color(0xff252525),
             title: Text('Settings'),
             actions: [
               IconButton(
@@ -338,11 +340,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                           print('Log out');
 
-                          const logoutlert = PlatformAlert(
+                          const logoutAlert = PlatformAlert(
                             title: 'Log Out',
                             message: 'Do you want to log out of this account?',
                           );
-                          logoutlert.showLogoutAlert(context);
+                          logoutAlert.showLogoutAlert(context);
 
                         },
                       ),

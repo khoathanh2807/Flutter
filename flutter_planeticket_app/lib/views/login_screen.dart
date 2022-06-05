@@ -218,20 +218,16 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                   emailAddress = emailController.text;
                   password = passwordController.text;
 
-                  auth.login(emailAddress.trim(), password.trim()).then((value) {   // đăng nhập Firebase bằng email và password
+                  auth.login(emailAddress.trim(), password.trim()).whenComplete(() {}).then((value) {   // đăng nhập Firebase bằng email và password
                     if (value == null) {
-                      setState(() {
-                        Fluttertoast.showToast(msg: 'Sign in Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
-                      });
-                    } else {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
                       });
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
-                      print(value.uid);
-                      print(value.displayName);
-                      print(value.email);
-                      print(value.photoURL);
+                    } else {
+                      setState(() {
+                        Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+                      });
                     }
                   });
 
@@ -282,20 +278,16 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
       ),
 
       onPressed: () {   // đăng nhập Firebase bằng account Google
-        auth.loginWithGoogle().then((value) {
+        auth.loginWithGoogle().whenComplete(() {}).then((value) {
           if (value == null) {
-            setState(() {
-              Fluttertoast.showToast(msg: 'Sign in with Google Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
-            });
-          } else {
             setState(() {
               Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
             });
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
-            print(value.uid);
-            print(value.displayName);
-            print(value.email);
-            print(value.photoURL);
+          } else {
+            setState(() {
+              Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+            });
           }
         });
       },

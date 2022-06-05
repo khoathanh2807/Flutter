@@ -17,8 +17,24 @@ class MyInheritedWidget extends InheritedWidget {
 
   // 4
   static MyInheritedWidget? of(BuildContext context){
-    // 5
     return context.dependOnInheritedWidgetOfExactType<MyInheritedWidget>();
+  }
+
+}
+
+class InheritedBottomNavBar extends InheritedWidget {
+
+  InheritedBottomNavBar({Key? key, Widget? widgetChild, required this.bottomNavBar}) : super(key: key, child: widgetChild!);
+
+  BottomNavigationBar bottomNavBar;
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+    return false;
+  }
+
+  static InheritedBottomNavBar? of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType<InheritedBottomNavBar>();
   }
 
 }

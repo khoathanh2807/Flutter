@@ -12,10 +12,8 @@ class DataProvider extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 
   static PizzaController of(BuildContext context) {
-
     DataProvider provider = context.dependOnInheritedWidgetOfExactType<DataProvider>() as DataProvider;
     return provider._controller;
-
   }
 
 }

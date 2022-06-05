@@ -17,14 +17,13 @@ class _ContactsScreenState extends State<ContactsScreen> with SingleTickerProvid
 
   final screens = [
     FriendsPage(),
-    FriendsPage(),
-    FriendsPage(),
+    GroupsPage(),
   ];
 
   @override
   void initState() {
     tabController = TabController(
-      length: 3,
+      length: 2,
       vsync: this,
       initialIndex: selectedIndex,
     );
@@ -82,18 +81,22 @@ class _ContactsScreenState extends State<ContactsScreen> with SingleTickerProvid
             ),
           ],
           bottom: TabBar(
+
+                controller: tabController,
+
                 tabs: const [
                     Center(child: Text('FRIENDS'),),
                     Center(child: Text('GROUPS'),),
-                    Center(child: Text('OAS'),),
                 ],
+
                 // padding: EdgeInsets.only(top: 10, bottom: 10),
                 enableFeedback: false,
                 isScrollable: false,
+
                 // indicator: BoxDecoration(
                 //   border: Border(
-                //     top: BorderSide(style: BorderStyle.solid, color: Colors.grey, width: 1,),
-                //     bottom: BorderSide(style: BorderStyle.solid, color: Colors.grey, width: 1,),
+                //     top: BorderSide(color: Colors.grey, width: 1, style: BorderStyle.solid,),
+                //     bottom: BorderSide(color: Colors.grey, width: 1, style: BorderStyle.solid,),
                 //   ),
                 // ),
                 // indicator: ShapeDecoration (
@@ -105,18 +108,20 @@ class _ContactsScreenState extends State<ContactsScreen> with SingleTickerProvid
                 indicatorColor: Colors.white,
                 indicatorWeight: 1,
                 // indicatorSize: TabBarIndicatorSize.label,
-                labelPadding: EdgeInsets.only(top:10, bottom: 10),
+
+                labelPadding: EdgeInsets.only(top: 10, bottom: 10),
                 labelStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 // labelColor: Colors.blue,
                 unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
                 unselectedLabelColor: Colors.grey,
-                controller: tabController,
+
                 onTap: (int index) {
                   setState(() {
                     selectedIndex = index;
                     tabController.animateTo(index);
                   });
                 },
+
           ),
         ),
 
@@ -157,7 +162,7 @@ class FriendsPage extends StatelessWidget {
           Container(
 
                 color: Color(0xff181818),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(left: 20, top: 20, bottom: 28,),
 
                 child: Column(
                   children: [
@@ -204,7 +209,6 @@ class FriendsPage extends StatelessWidget {
                           print('Phonebook');
                         },
                     ),
-                    const SizedBox(height: 8,),
 
                   ],
                 ),
@@ -219,10 +223,9 @@ class FriendsPage extends StatelessWidget {
 
           Container(
             color: Color(0xff181818),
+            padding: EdgeInsets.only(top: 8, bottom: 16, left: 20, right: 20,),
             child: Column(
               children:[
-
-                SizedBox(height: 8,),
 
                 Row(
                     children: [
@@ -240,7 +243,7 @@ class FriendsPage extends StatelessWidget {
 
                       // Container(
                       //   decoration: BoxDecoration(
-                      //     border: Border.all(color: Colors.grey),
+                      //     border: Border.all(width: 1, color: Colors.grey, style: BorderStyle.solid,),
                       //     borderRadius: const BorderRadius.all(Radius.circular(50)),
                       //   ),
                       //   child: const Padding(
@@ -248,8 +251,6 @@ class FriendsPage extends StatelessWidget {
                       //     child: Text('Recently online', style: TextStyle(color: Colors.grey, fontSize: 13,),),
                       //   ),
                       // ),
-
-                      SizedBox(width: 20,),
 
                       ElevatedButton(
                         style: ButtonStyle(
@@ -261,7 +262,7 @@ class FriendsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: const Text('All 99', style: TextStyle(color: Colors.black, fontSize: 13,),),
+                        child: const Text('All (99)', style: TextStyle(color: Colors.black, fontSize: 13,),),
                         onPressed: () {
                         },
                       ),
@@ -270,19 +271,19 @@ class FriendsPage extends StatelessWidget {
                       OutlinedButton(
                         style: ButtonStyle(
                           padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 0, horizontal: 15)),
-                          side: MaterialStateProperty.all(
-                            const BorderSide(color: Colors.grey, width: 1.0, style: BorderStyle.solid,),
-                          ),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                           ),
+                          side: MaterialStateProperty.all(
+                            const BorderSide(color: Colors.grey, width: 1.0, style: BorderStyle.solid,),
+                          ),
                         ),
                         // style: OutlinedButton.styleFrom(
                         //   padding: const EdgeInsets.only(top: 9, bottom: 9, left: 15, right: 15,),
-                        //   side: const BorderSide(color: Colors.grey, width: 1.0, style: BorderStyle.solid,),
                         //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50),),
+                        //   side: const BorderSide(color: Colors.grey, width: 1.0, style: BorderStyle.solid,),
                         // ),
                         child: const Text('Recently online', style: TextStyle(color: Colors.grey, fontSize: 13,),),
                         onPressed: () {
@@ -340,7 +341,6 @@ class FriendsPage extends StatelessWidget {
                 // ),
 
                 contactList(context),
-                SizedBox(height: 16),
 
               ],
             ),
@@ -361,10 +361,11 @@ class FriendsPage extends StatelessWidget {
 
     return ListView.separated(
 
-      padding: const EdgeInsets.only(left: 25, right: 25),
+      padding: const EdgeInsets.only(left: 8, right: 8),
       physics: const NeverScrollableScrollPhysics(),
       primary: false,
       shrinkWrap: true,   // make ListView to use a little space as possible
+
       itemCount: 30,
       itemBuilder: (BuildContext context, int index) {
 
@@ -414,8 +415,7 @@ class FriendsPage extends StatelessWidget {
           ),
 
           onTap: () {
-            print(recipientName);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen(recipient: recipientName)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen(recipientName: recipientName)));
           },
 
         );
@@ -434,19 +434,123 @@ class GroupsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("GROUPS", style: TextStyle(fontSize: 30),),
-    );
-  }
+    return SingleChildScrollView(
+      child: Column(
+        children: [
 
-}
+          Container(
 
-class OasPage extends StatelessWidget {
+              color: Color(0xff181818),
+              padding: const EdgeInsets.only(left: 20, top: 20, bottom: 25,),
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("OAS", style: TextStyle(fontSize: 30),),
+              child: GestureDetector(
+                  child: Row(
+                    children: const [
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.white12,
+                        child: Icon(Icons.groups_outlined, color: Colors.blue, size: 26,),
+                      ),
+                      SizedBox(width: 20,),
+                      Text('Create New Group', style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w500,),),
+                    ],
+                  ),
+                  onTap: () {
+                    print('Create New Group');
+                  },
+              ),
+
+          ),
+
+          const Divider(
+            height: 0,
+            color: Colors.black,
+            thickness: 8,
+          ),
+
+          Container(
+            color: Color(0xff181818),
+            padding: EdgeInsets.only(top: 14, bottom: 16, left: 20, right: 20,),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Text('Joined Groups (15)', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold,),),
+                SizedBox(height: 10,),
+
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 0.1,
+                ),
+
+                ListView.separated(
+
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  physics: const NeverScrollableScrollPhysics(),
+                  primary: false,
+                  shrinkWrap: true,
+
+                  itemCount: 15,
+                  itemBuilder: (BuildContext context, int index) {
+
+                    var recipientName = 'Zalo Chat Group ${index + 1}';
+
+                    return ListTile(
+
+                      contentPadding: EdgeInsets.all(0),
+
+                      leading: const CircleAvatar(
+                        radius: 22.0,
+                        backgroundImage: NetworkImage('https://thumbs.dreamstime.com/b/people-talking-icon-group-message-black-isolated-white-background-eps-vector-181421234.jpg'),
+                      ),
+
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            recipientName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontWeight: FontWeight.bold,),
+                          ),
+                          Text("22/05", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
+                        ],
+                      ),
+
+                      subtitle: Container(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: const Text(
+                          "Received Messages",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.grey, fontSize: 13.0),
+                        ),
+                      ),
+
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen(recipientName: recipientName)));
+                      },
+
+                    );
+
+                  },
+
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+
+                ),
+
+              ],
+            ),
+          ),
+
+          const Divider(
+            height: 0,
+            color: Colors.black,
+            thickness: 8,
+          ),
+
+        ],
+      ),
     );
   }
 

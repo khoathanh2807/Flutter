@@ -1,90 +1,172 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';    // use to saving username when register new account
-
-import '../models/user.dart';
 
 class FirebaseAuthentication {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  late UserCredentialData userCredentialData;
+  String? errorMessage;
 
-  Future<UserCredentialData?> createUser(String email, String username, String password) async {   // đăng ký
+  Future<String?> createUser(String email, String username, String password) async {   // đăng ký
+
     try {
 
-      UserCredential credential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      // return credential.user!.uid;
-      // return '${credential.user!}';
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
-      await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'username': username,
         'email': email,
       });
 
-      userCredentialData = UserCredentialData(
-        uid: credential.user!.uid,
-        email: credential.user!.email,
-        displayName: username,
-        photoURL: credential.user!.photoURL,
-      );
-      return userCredentialData;
-
-    } on FirebaseAuthException {
+      print('Signed up Successfully');
       return null;
+
+    } on FirebaseAuthException catch (err) {
+
+      print('FirebaseAuthException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } on PlatformException catch (err) {
+
+      print('PlatformException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } catch (err) {
+
+      print('error: $err');
+
+      errorMessage = err.toString();
+
+      return errorMessage;
+
     }
+
   }
 
-  Future<UserCredentialData?> login(String email, String password) async {    // đăng nhập
+  Future<String?> login(String email, String password) async {    // đăng nhập
+
     try {
-      UserCredential credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      // return credential.user!.uid;
-      // return '${credential.user!}';
 
-      userCredentialData = UserCredentialData(
-        uid: credential.user!.uid,
-        email: credential.user!.email,
-        displayName: credential.user!.displayName,
-        photoURL: credential.user!.photoURL,
-      );
-      return userCredentialData;
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).whenComplete(() {
+        print('Signed in Successfully');
+        return null;    // Signed in Successfully
+      });
 
-    } on FirebaseAuthException {
-      return null;
+    } on FirebaseAuthException catch (err) {
+
+      print('FirebaseAuthException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } on PlatformException catch (err) {
+
+      print('PlatformException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } catch (err) {
+
+      print('error: $err');
+
+      errorMessage = err.toString();
+
+      return errorMessage;
+
     }
+
   }
 
   Future<bool> logout() async {   // đăng xuất
+
     try {
-      _firebaseAuth.signOut();
-      return true;
+      _firebaseAuth.signOut().whenComplete(() => true);
+      return false;
     } on FirebaseAuthException {
       return false;
     }
+
   }
 
-  Future<UserCredentialData?> loginWithGoogle() async {   // đăng nhập bằng account Google
+  Future<String?> loginWithGoogle() async {   // đăng nhập bằng account Google
+
     final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
-    final AuthCredential authCredential = GoogleAuthProvider.credential(
+    final AuthCredential googleAuthCredential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    final UserCredential authResult = await _firebaseAuth.signInWithCredential(authCredential);   // authResult = credential
-    final User? user = authResult.user;
-    if (user != null) {
-      // return '$user';
-      userCredentialData = UserCredentialData(
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      );
-      return userCredentialData;
+
+    try {
+
+      await _firebaseAuth.signInWithCredential(googleAuthCredential).whenComplete(() {
+        print('Signed in with Google Successfully');
+        return null;    // Signed in with Google Successfully
+      });
+
+    } on FirebaseAuthException catch (err) {
+
+      print('FirebaseAuthException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } on PlatformException catch (err) {
+
+      print('PlatformException error: $err');
+
+      errorMessage = 'Sign in Failed! An error occurred, please check your credentials again';
+
+      if (err.message != null) {
+        errorMessage = err.message!;
+      }
+
+      return errorMessage;
+
+    } catch (err) {
+
+      print('error: $err');
+
+      errorMessage = err.toString();
+
+      return errorMessage;
+
     }
-    return null;
+
   }
 
 }

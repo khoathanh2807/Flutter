@@ -18,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 }
 
-class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
+class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   final _formKey = GlobalKey<FormState>();
   var rememberLogin = false;
@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen>  with LoginValidation {
 
     return CheckboxListTile(
 
-      title: const Text("Remember me"),
+      title: const Text('Remember me'),
 
       contentPadding: EdgeInsets.zero,
       activeColor: Theme.of(context).colorScheme.primary,

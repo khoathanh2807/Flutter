@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../inherited_widget.dart';
 import './login_screen.dart';
 import './home_screen.dart';
 import './booking_screen.dart';
@@ -27,6 +28,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
+
+      debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
           // colorScheme: defaultColorScheme,
@@ -62,13 +65,15 @@ class MainHome extends StatefulWidget {
 
 class _MainHomeState extends State<MainHome> {
 
+  // final _bottomNavigationBarKey = GlobalKey<State<BottomNavigationBar>>();
+
   int selectedIndex = 0;
 
-  final screens = [
-    HomeScreen(),
-    BookingScreen(),
-    InfoScreen(),
-  ];
+  // final screens = [
+  //   HomeScreen(),
+  //   BookingScreen(),
+  //   InfoScreen(),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -77,57 +82,76 @@ class _MainHomeState extends State<MainHome> {
 
       body: IndexedStack(
         index: selectedIndex,
-        children: screens,
-      ),
-
-      bottomNavigationBar: BottomNavigationBar(
-
-        // elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        // iconSize: 25,
-        // backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        showUnselectedLabels: false,
-
-        currentIndex: selectedIndex,
-
-        onTap: (index){
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-
-        items: const [
-
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label:  "Trang chủ",
-              // backgroundColor: Colors.teal,
+        children: [
+          InheritedBottomNavBar(
+            bottomNavBar: planeTicketAppBottomNavBar(),
+            widgetChild: HomeScreen(),
           ),
-
-          BottomNavigationBarItem(
-              icon: Icon(Icons.airplane_ticket_outlined),
-              activeIcon: Icon(Icons.airplane_ticket),
-              label:  "Đặt vé",
-              // backgroundColor: Colors.teal,
-          ),
-
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label:  "Tài khoản",
-              // backgroundColor: Colors.teal,
-          ),
-
+          BookingScreen(),
+          InfoScreen(),
         ],
-
       ),
+
+      bottomNavigationBar: planeTicketAppBottomNavBar(),
 
     );
 
   }
+
+  BottomNavigationBar planeTicketAppBottomNavBar() {
+
+    return BottomNavigationBar(
+
+      // elevation: 0,
+      // key: _bottomNavigationBarKey,
+      type: BottomNavigationBarType.fixed,
+      // iconSize: 25,
+      // backgroundColor: Colors.white,
+      selectedItemColor: Colors.teal,
+      unselectedItemColor: Colors.grey,
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      showUnselectedLabels: false,
+
+      currentIndex: selectedIndex,
+
+      onTap: (index){
+        setState(() {
+          selectedIndex = index;
+        });
+      },
+
+      items: const [
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          activeIcon: Icon(Icons.home),
+          label:  "Trang chủ",
+          // backgroundColor: Colors.teal,
+        ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.airplane_ticket_outlined),
+          activeIcon: Icon(Icons.airplane_ticket),
+          label:  "Đặt vé",
+          // backgroundColor: Colors.teal,
+        ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          activeIcon: Icon(Icons.person),
+          label:  "Tài khoản",
+          // backgroundColor: Colors.teal,
+        ),
+
+      ],
+
+    );
+
+  }
+
+  // void navigateTab(int index, BuildContext context) {
+  //   BottomNavigationBar bottomNavigationBar =  _bottomNavigationBarKey.currentWidget as BottomNavigationBar;
+  //   bottomNavigationBar.onTap!(index);
+  // }
 
 }

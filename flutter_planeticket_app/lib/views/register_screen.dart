@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../shared/firebase_authentication.dart';
 import '../validation/mixin_login_validation.dart';
+import './app.dart';
 import './login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -304,17 +305,13 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
           auth.createUser(emailAddress.trim(), username.trim(), password.trim()).then((value) {
             if (value == null) {
               setState(() {
-                Fluttertoast.showToast(msg: 'Sign up Failed!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+                Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
               });
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
             } else {
               setState(() {
-                Fluttertoast.showToast(msg: 'Signed up Successfully, you can Sign in now', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
               });
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen(),),);
-              print(value.uid);
-              print(value.displayName);
-              print(value.email);
-              print(value.photoURL);
             }
           });
 
