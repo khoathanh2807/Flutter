@@ -12,14 +12,6 @@ class Pizza {
   late double? price;
   late String? imageUrl;
 
-  Pizza.createDefault() {
-    id = null;
-    pizzaName = '';
-    description = '';
-    price = null;
-    imageUrl = '';
-  }
-
   Pizza({
     required this.id,
     required this.pizzaName,
@@ -27,6 +19,14 @@ class Pizza {
     required this.price,
     required this.imageUrl
   });
+
+  Pizza.createDefault() {
+    id = null;
+    pizzaName = '';
+    description = '';
+    price = null;
+    imageUrl = '';
+  }
 
   Pizza.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;

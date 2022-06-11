@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../inherited_widget.dart';
-import './login_screen.dart';
-import './home_screen.dart';
-import './booking_screen.dart';
-import './info_screen.dart';
+import './auth/login_screen.dart';
+import './home/home_screen.dart';
+import 'booking/booking_screen.dart';
+import 'info/info_screen.dart';
 
 ColorScheme defaultColorScheme = const ColorScheme(
   primary: Colors.teal,

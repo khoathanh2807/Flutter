@@ -1,13 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../inherited_widget.dart';
-import '../models/significant_destination.dart';
-import '../models/event.dart';
+import '../../inherited_widget.dart';
+import '../../models/significant_destination.dart';
+import '../../models/event.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -150,7 +149,6 @@ class HomeScreenState extends State<StatefulWidget> {
             //   tooltip: 'Notifications',
             //   icon: const Icon(Icons.notifications_none_rounded, size: 26,),
             //   onPressed: () {
-            //
             //   },
             // ),
             SizedBox(width: 20,),

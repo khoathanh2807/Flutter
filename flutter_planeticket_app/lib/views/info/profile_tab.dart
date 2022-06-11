@@ -1,11 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../controllers/user_credentials/user_credentials.dart';
+import '../../models/user.dart';
 
 class ProfileTab extends StatefulWidget {
 
@@ -16,15 +17,7 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
 
-  final currentUser = FirebaseAuth.instance.currentUser;
-  String photoURL = '';
-  String displayName = '';
-  String email = '';
-
-  String gender = 'Chọn giới tính';
-  String birthDate = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();
-  DateTime birthDatePicker = DateTime.now();
-  String phoneNumber =  '(+84) ';
+  FirebaseUser firebaseUser = UserCredentials().getCredentials();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -33,46 +26,11 @@ class _ProfileTabState extends State<ProfileTab> {
   final birthDateController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
+  DateTime birthDatePicker = DateTime.now();
+
   bool isEditable = false;
 
   bool accuracyAgreement = false;
-
-  @override
-  void initState() {
-
-    if (currentUser!.photoURL != null) {
-      photoURL = currentUser!.photoURL!;
-    }
-
-    if (currentUser!.displayName != null) {
-      displayName = currentUser!.displayName!;
-    }
-
-    getName().whenComplete(() {}).then((value) => displayName = value!);
-
-    if (currentUser!.email != null) {
-      email = currentUser!.email!;
-    }
-
-    // birthDate = DateFormat('dd.MM.yyyy').format(DateTime.now()).toString();   // convert DateTime format to String
-    // print('birthDate: $birthDate');
-    // birthDatePicker = DateFormat('dd.MM.yyyy').parse('21.12.2021');   // convert String to DateTime format
-    // print('birthDatePicker: $birthDatePicker');
-
-    getGender().whenComplete(() {}).then((value) => gender = value!);
-
-    getBirthDate().then((value) => birthDate = value!).whenComplete(() {
-      birthDatePicker = DateFormat('dd.MM.yyyy').parse(birthDate);
-    });
-
-    getPhoneNumber().whenComplete(() {}).then((value) => phoneNumber = value!);
-
-    setState(() {
-    });
-
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,38 +92,6 @@ class _ProfileTabState extends State<ProfileTab> {
 
   }
 
-  Future<String?> getName() async {
-    String? _userName;
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
-      _userName = value.get('username').toString();
-    });
-    return _userName;
-  }
-
-  Future<String?> getGender() async {
-    String? _gender;
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
-      _gender = value.get('gender').toString();
-    });
-    return _gender;
-  }
-
-  Future<String?> getBirthDate() async {
-    String? _birthDate;
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
-      _birthDate = value.get('birthDate').toString();
-    });
-    return _birthDate;
-  }
-
-  Future<String?> getPhoneNumber() async {
-    String? _phoneNumber;
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).get().then((value) {
-      _phoneNumber = value.get('phoneNumber').toString();
-    });
-    return _phoneNumber;
-  }
-
   Widget profilePicture() {
 
       return Container(
@@ -180,7 +106,7 @@ class _ProfileTabState extends State<ProfileTab> {
         // ),
         child: CircleAvatar(
           radius: 60,
-          backgroundImage: NetworkImage(photoURL != '' ? photoURL : 'http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'),
+          backgroundImage: NetworkImage(firebaseUser.photoURL != '' ? firebaseUser.photoURL! : 'http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'),
         ),
       );
 
@@ -193,7 +119,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Widget nameField() {
 
-    nameController.text = displayName;
+    nameController.text = firebaseUser.displayName!;
 
     return TextFormField(
 
@@ -222,7 +148,7 @@ class _ProfileTabState extends State<ProfileTab> {
       },
 
       onChanged: (value) {
-        displayName = value;
+        firebaseUser.displayName = value;
       },
 
     );
@@ -231,7 +157,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Widget birthDateField() {
 
-    birthDateController.text = birthDate;
+    birthDateController.text = firebaseUser.birthDate!;
+    birthDatePicker = DateFormat('dd.MM.yyyy').parse(firebaseUser.birthDate!);
 
     return TextFormField(
 
@@ -249,7 +176,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
       validator: (value) {
         if (value!.isEmpty || value == '' || value == null || value == DateFormat('dd.MM.yyyy').format(DateTime.now()).toString()) {
-          return 'Vui lòng nhập đầy đủ thông tin';
+          return 'Vui lòng nhập ngày sinh hợp lệ';
         }
         return null;
       },
@@ -298,7 +225,7 @@ class _ProfileTabState extends State<ProfileTab> {
     if (pickedDate != null && pickedDate != birthDatePicker) {
       setState(() {
         birthDatePicker = pickedDate;
-        birthDate = DateFormat('dd.MM.yyyy').format(birthDatePicker).toString();
+        firebaseUser.birthDate = DateFormat('dd.MM.yyyy').format(birthDatePicker).toString();
       });
     }
 
@@ -331,7 +258,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   if (pickedDate != null && pickedDate != birthDatePicker) {
                     setState(() {
                       birthDatePicker = pickedDate;
-                      birthDate = DateFormat('dd.MM.yyyy').format(birthDatePicker).toString();
+                      firebaseUser.birthDate = DateFormat('dd.MM.yyyy').format(birthDatePicker).toString();
                     });
                   }
                 },
@@ -348,12 +275,11 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget genderField() {
 
     var genders = [
-      'Chọn giới tính',
       'Nam',
       'Nữ',
     ];
 
-    return  DropdownButtonFormField(
+    return DropdownButtonFormField(
 
       icon: Visibility(visible: isEditable, child: Icon(Icons.drive_file_rename_outline,),),
 
@@ -367,7 +293,7 @@ class _ProfileTabState extends State<ProfileTab> {
       borderRadius: BorderRadius.circular(12),
       dropdownColor: Colors.grey[200],
 
-      value: gender,
+      value: firebaseUser.gender,
 
       items: genders.map((value) {
         return DropdownMenuItem<String>(
@@ -377,7 +303,7 @@ class _ProfileTabState extends State<ProfileTab> {
       }).toList(),
 
       validator: (value) {
-        if (value == '' || value == null || value == 'Chọn giới tính') {
+        if (value == '' || value == null) {
           return 'Vui lòng nhập đầy đủ thông tin';
         }
         return null;
@@ -385,7 +311,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
       onChanged: (value) {
         setState(() {
-          gender = value as String;
+          firebaseUser.gender = value as String;
         });
       },
 
@@ -395,7 +321,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Widget emailField() {
 
-    emailController.text = email;
+    emailController.text = firebaseUser.email!;
 
     return TextFormField(
 
@@ -417,7 +343,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Widget phoneNumberField() {
 
-    phoneNumberController.text = phoneNumber;
+    phoneNumberController.text = firebaseUser.phoneNumber!;
 
     return TextFormField(
 
@@ -442,7 +368,7 @@ class _ProfileTabState extends State<ProfileTab> {
       },
 
       onChanged: (value) {
-        phoneNumber = value;
+        firebaseUser.phoneNumber = value;
       },
 
     );
@@ -584,57 +510,57 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   void saveConfirmMaterialAlert(String title, String message) {
-        showDialog(context: context, builder: (context) {
-          return AlertDialog(
-              title: Text(title),
-              content: Text(message),
-              actions: [
-                TextButton(
-                  child: Text('Huỷ'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                TextButton(
-                  child: Text('Xác nhận'),
-                  onPressed: () => saveUserInfoToFirebase(),
-                ),
-              ]
-          );
-        }
+    showDialog(context: context, builder: (context) {
+      return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('Huỷ'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('Xác nhận'),
+              onPressed: () => saveUserInfoToFirebase(),
+            ),
+          ]
+      );
+    }
     );
   }
 
   void saveConfirmCupertinoAlert(String title, String message) {
-        showCupertinoDialog(context: context, builder: (context) {
-          return CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(message),
-              actions: [
-                CupertinoButton(
-                  child: Text('Huỷ', style: TextStyle(color: CupertinoColors.destructiveRed),),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                CupertinoButton(
-                  child: Text('Xác nhận', style: TextStyle(color: CupertinoColors.activeBlue),),
-                  onPressed: () => saveUserInfoToFirebase(),
-                ),
-              ]
-          );
-        }
+    showCupertinoDialog(context: context, builder: (context) {
+      return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            CupertinoButton(
+              child: Text('Huỷ', style: TextStyle(color: CupertinoColors.destructiveRed),),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            CupertinoButton(
+              child: Text('Xác nhận', style: TextStyle(color: CupertinoColors.activeBlue),),
+              onPressed: () => saveUserInfoToFirebase(),
+            ),
+          ]
+      );
+    }
     );
   }
 
   void saveUserInfoToFirebase() async {
 
-    Navigator.of(context).pop();
+    Navigator.of(context, rootNavigator: true).pop();
 
-    await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).set({
-        'username': displayName,
-        'birthDate': birthDate,
-        'gender': gender,
-        'email': email,
-        'phoneNumber': phoneNumber,
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+      'username': firebaseUser.displayName,
+      'birthDate': firebaseUser.birthDate,
+      'gender': firebaseUser.gender,
+      'email': firebaseUser.email,
+      'phoneNumber': firebaseUser.phoneNumber,
     }).whenComplete(() {
-        Fluttertoast.showToast(msg: 'Đã cập nhật thành công thông tin tài khoản', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+      Fluttertoast.showToast(msg: 'Đã cập nhật thành công thông tin tài khoản', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
     });
 
   }

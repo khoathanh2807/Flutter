@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './platform_alert.dart';
-import './info_tabs/profile_tab.dart';
-import './info_tabs/booking_history_tab.dart';
+import '../platform_alert.dart';
+import './profile_tab.dart';
+import './booking_history_tab.dart';
 
 class InfoScreen extends StatefulWidget {
 

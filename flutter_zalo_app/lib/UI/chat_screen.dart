@@ -53,6 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
           stream: FirebaseFirestore.instance.collection('chats').orderBy('createdAt', descending: true,).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> chatSnapshot) {
+
             if (chatSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: Column(
@@ -66,23 +67,30 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               );
             }
+
             final chatDocs = chatSnapshot.data.docs;
+
             if (chatDocs.isEmpty){
               return Center(
                 child: Text('Say Hello to ${widget.recipientName}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 23,),),
               );
             } else {
               return ListView.builder(
-                // shrinkWrap: true,
+
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10,),
+
+                // shrinkWrap: true,
                 reverse: true,
+
                 itemCount: chatDocs.length,
                 itemBuilder: (BuildContext context, int index) {
                   // print(chatDocs[index].id);
                   return MessageBubble(chatDocs[index]['text'], chatDocs[index]['userId'] == currentUser!.uid, key: ValueKey(chatDocs[index].id),);   // 'chatDocs[index].id' is ID of document
                 },
+
               );
             }
+
           },
 
         ),

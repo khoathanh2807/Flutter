@@ -1,29 +1,41 @@
-class UserCredentialData {
+class FirebaseUser {
 
-  late String? uid;
-  late String? displayName;
-  late String? email;
-  late String? photoURL;
+    String? email;
+    late String uid;
+    String? photoURL;
+    String? displayName;
+    String? birthDate;
+    String? gender;
+    String? phoneNumber;
 
-  UserCredentialData.createDefault() {
-    uid = '';
-    displayName = '';
-    email = '';
-    photoURL = '';
-  }
+    FirebaseUser({
+        this.email,
+        required this.uid,
+        this.photoURL,
+        this.displayName,
+        this.birthDate,
+        this.gender,
+        this.phoneNumber,
+    });
 
-  UserCredentialData({
-    this.uid,
-    this.displayName,
-    this.email,
-    this.photoURL,
-  });
+    FirebaseUser.createDefault() {
+        email = '';
+        uid = '';
+        photoURL = '';
+        displayName = '';
+        birthDate = '';
+        gender = null;
+        phoneNumber = '';
+    }
 
-  UserCredentialData.fromJson(Map<String, dynamic> json){
-    uid = json['uid'] ?? '';
-    displayName = json['displayName'] ?? '';
-    email = json['email'] ?? '';
-    photoURL = json['photoURL'] ?? '';
-  }
+    FirebaseUser.fromJson(Map<String, dynamic> json) {
+        email = json['email'] ?? '';
+        uid = json['uid'] ?? '';
+        displayName = json['displayName'] ?? '';
+        photoURL = json['photoURL'] ?? '';
+        birthDate = json['birthDate'] ?? '';
+        gender = json['gender'] ?? '';
+        phoneNumber = json['phoneNumber'] ?? '';
+    }
 
 }

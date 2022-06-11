@@ -109,7 +109,7 @@ class FirebaseAuthentication {
   Future<bool> logout() async {   // đăng xuất
 
     try {
-      _firebaseAuth.signOut().whenComplete(() => true);
+      await _firebaseAuth.signOut().whenComplete(() => true);
       return false;
     } on FirebaseAuthException {
       return false;

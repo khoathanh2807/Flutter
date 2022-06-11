@@ -357,14 +357,15 @@ class FriendsPage extends StatelessWidget {
     );
   }
 
-  Widget contactList(BuildContext context){
+  Widget contactList(BuildContext context) {
 
     return ListView.separated(
 
       padding: const EdgeInsets.only(left: 8, right: 8),
-      physics: const NeverScrollableScrollPhysics(),
-      primary: false,
+
       shrinkWrap: true,   // make ListView to use a little space as possible
+      primary: false,
+      physics: const NeverScrollableScrollPhysics(),
 
       itemCount: 30,
       itemBuilder: (BuildContext context, int index) {
@@ -405,7 +406,7 @@ class FriendsPage extends StatelessWidget {
 
                   IconButton(
                     icon: Icon(Icons.videocam_outlined, size: 29,),
-                    onPressed: ( ){
+                    onPressed: () {
                     },
                   ),
 
@@ -486,9 +487,10 @@ class GroupsPage extends StatelessWidget {
                 ListView.separated(
 
                   padding: const EdgeInsets.only(left: 8, right: 8),
-                  physics: const NeverScrollableScrollPhysics(),
-                  primary: false,
+
                   shrinkWrap: true,
+                  primary: false,
+                  physics: const NeverScrollableScrollPhysics(),
 
                   itemCount: 15,
                   itemBuilder: (BuildContext context, int index) {

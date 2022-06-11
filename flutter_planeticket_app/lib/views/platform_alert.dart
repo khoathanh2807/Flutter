@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import './login_screen.dart';
-import './app.dart';
+import 'auth/login_screen.dart';
 
 class PlatformAlert {
 
@@ -43,8 +42,8 @@ class PlatformAlert {
                 ),
                 TextButton(
                   child: Text('OK'),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut().whenComplete(() {
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut().whenComplete(() {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
                       Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
@@ -70,8 +69,8 @@ class PlatformAlert {
                 ),
                 CupertinoButton(
                   child: Text('OK', style: TextStyle(color: CupertinoColors.activeBlue),),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut().whenComplete(() {
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut().whenComplete(() {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
                       Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
@@ -85,19 +84,19 @@ class PlatformAlert {
 
 
 
-  void showPaymentAlert(BuildContext context) {
+  void showWarningAlert(BuildContext context) {
 
     TargetPlatform platform = Theme.of(context).platform;
 
     if (platform == TargetPlatform.iOS) {
-      paymentConfirmCupertinoAlert(context);
+      warningConfirmCupertinoAlert(context);
     } else {
-      paymentConfirmMaterialAlert(context);
+      warningConfirmMaterialAlert(context);
     }
 
   }
 
-  void paymentConfirmMaterialAlert(BuildContext context) {
+  void warningConfirmMaterialAlert(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
@@ -106,17 +105,8 @@ class PlatformAlert {
               content: Text(message!),
               actions: [
                 TextButton(
-                  child: Text('Huỷ'),
+                  child: Text('OK'),
                   onPressed: () => Navigator.of(context).pop(),
-                ),
-                TextButton(
-                  child: Text('Xác nhận'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    print('Đã thanh toán');
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false,);
-                    Fluttertoast.showToast(msg: 'Thanh toán thành công, hãy kiểm tra vé ở mục Lịch sử đặt vé', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
-                  },
                 ),
               ]
           );
@@ -124,7 +114,7 @@ class PlatformAlert {
     );
   }
 
-  void paymentConfirmCupertinoAlert(BuildContext context) {
+  void warningConfirmCupertinoAlert(BuildContext context) {
     showCupertinoDialog(
         context: context,
         builder: (context) {
@@ -133,17 +123,8 @@ class PlatformAlert {
               content: Text(message!),
               actions: [
                 CupertinoButton(
-                  child: Text('Huỷ', style: TextStyle(color: CupertinoColors.destructiveRed),),
+                  child: Text('OK', style: TextStyle(color: CupertinoColors.activeBlue),),
                   onPressed: () => Navigator.of(context).pop(),
-                ),
-                CupertinoButton(
-                  child: Text('Xác nhận', style: TextStyle(color: CupertinoColors.activeBlue),),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    print('Đã thanh toán');
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false,);
-                    Fluttertoast.showToast(msg: 'Thanh toán thành công, hãy kiểm tra vé ở mục Lịch sử đặt vé', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
-                  },
                 ),
               ]
           );

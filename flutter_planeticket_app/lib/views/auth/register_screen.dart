@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../shared/firebase_authentication.dart';
-import '../validation/mixin_login_validation.dart';
-import './app.dart';
+import '../../controllers/authentication/firebase_authentication.dart';
+import '../../controllers/validation/mixin_login_validation.dart';
+import '../app.dart';
 import './login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {

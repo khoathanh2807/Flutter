@@ -73,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(8),
           child: ListView.separated(
 
-            physics: NeverScrollableScrollPhysics(),
-            primary: true,
             shrinkWrap: true,
+            primary: true,
+            physics: NeverScrollableScrollPhysics(),
 
             itemCount: 30,
             itemBuilder: (BuildContext context, int index) {
@@ -89,28 +89,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundImage: NetworkImage('http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'),
                     ),
 
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          recipientName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text("22/05", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
-                      ],
+                    title: Text(
+                        recipientName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: Container(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: const Text(
+                    subtitle: const Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
                         "Received Messages",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Colors.grey, fontSize: 13.0),
                       ),
                     ),
+
+                    trailing: Text("22/05", style: TextStyle(color: Colors.grey, fontSize: 13.0),),
 
                     onTap: () {
                       print(recipientName);

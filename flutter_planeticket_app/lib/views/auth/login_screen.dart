@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../shared/firebase_authentication.dart';
-import '../validation/mixin_login_validation.dart';
-import './app.dart';
+import '../../controllers/authentication/firebase_authentication.dart';
+import '../../controllers/validation/mixin_login_validation.dart';
+import '../app.dart';
 import './register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
