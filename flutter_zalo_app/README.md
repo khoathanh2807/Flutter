@@ -1,4 +1,4 @@
-# flutter_zalo_app
+# Flutter Zalo App
 
 Flutter Mobile application, interface design based on Zalo application.
 
