@@ -1,0 +1,42 @@
+.header {
+  font-size: 56px;
+  line-height: 65px;
+  height: 56px;
+  font-weight: 600;
+}
+
+.padding-vertical-large {
+  margin-top: 110px;
+  margin-bottom: 55px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.dot {
+  height: 18px;
+  width: 18px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.iframe-overlay {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  padding: 0;
+}
+
+.background {
+  background-color: black;
+  opacity: 0.2;
+}
+
+.padding-top-50 {
+  padding-top: 50px;
+}

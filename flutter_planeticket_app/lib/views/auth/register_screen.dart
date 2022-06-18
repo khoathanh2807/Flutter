@@ -307,7 +307,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
               setState(() {
                 Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
               });
-              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
             } else {
               setState(() {
                 Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);

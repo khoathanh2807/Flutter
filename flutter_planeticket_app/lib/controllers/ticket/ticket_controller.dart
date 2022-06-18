@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../controllers/notification/notification_controller.dart';
 import '../../models/ticket.dart';
 
 class TicketController {
@@ -67,6 +69,33 @@ class TicketController {
     });
 
     return ticket;
+
+  }
+
+  void ticketSuccessBookingNotification() async {
+
+    await NotificationController().showNotificationCustomSound(
+      'Mua Vé Thành Công!',
+      'Vé đã được thêm vào tài khoản, hãy kiểm tra vé ở mục Lịch sử đặt vé.',
+      null,
+    );
+
+  }
+
+  void ticketScheduleNotification({
+    required String departureLocationName,
+    required String arrivalLocationName,
+    required String departureLocationSymbol,
+    required String arrivalLocationSymbol,
+    required String departureDate,
+    required String departureTime, }) async {
+
+    await NotificationController().scheduleNotificationOneDayBeforeAt10AM(
+      'Đừng Quên Chuyến Bay Vào Ngày Mai Của Bạn!',
+      'Chuyến bay $departureLocationName ($departureLocationSymbol) - $arrivalLocationName ($arrivalLocationSymbol) của bạn sẽ khởi hành vào ngày mai $departureDate lúc $departureTime.',
+      null,     // payload
+      DateFormat('dd.MM.yyyy').parse(departureDate),
+    );
 
   }
 

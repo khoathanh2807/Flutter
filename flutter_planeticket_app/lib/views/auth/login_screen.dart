@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
                       });
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
                     } else {
                       setState(() {
                         Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
@@ -283,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
             setState(() {
               Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
             });
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const MainHome(),), (_) => false,);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
           } else {
             setState(() {
               Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);

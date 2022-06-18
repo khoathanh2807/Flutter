@@ -24,6 +24,10 @@ ColorScheme defaultColorScheme = const ColorScheme(
 
 class App extends StatelessWidget {
 
+  // App({Key? key, required this.isPressedNotification}) : super(key: key);
+
+  // bool isPressedNotification;
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,7 +46,10 @@ class App extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> userSnapshot) {
           if (userSnapshot.hasData) {
-            return MainHome();
+            // if (isPressedNotification){
+            //   return MainHome(tabIndex: 2, bookingHistory: true,);
+            // }
+            return MainHome(tabIndex: 0, bookingHistory: false,);
           }
           return LoginScreen();
         },
@@ -56,7 +63,10 @@ class App extends StatelessWidget {
 
 class MainHome extends StatefulWidget {
 
-  const MainHome({Key? key}) : super(key: key);
+  MainHome({Key? key, required this.tabIndex, required this.bookingHistory}) : super(key: key);
+
+  int tabIndex;
+  bool bookingHistory;
 
   @override
   State<MainHome> createState() => _MainHomeState();
@@ -76,8 +86,14 @@ class _MainHomeState extends State<MainHome> {
   // ];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    selectedIndex = widget.tabIndex;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    
     return Scaffold(
 
       body: IndexedStack(
@@ -88,7 +104,7 @@ class _MainHomeState extends State<MainHome> {
             widgetChild: HomeScreen(),
           ),
           BookingScreen(),
-          InfoScreen(),
+          InfoScreen(bookingHistory: widget.bookingHistory),
         ],
       ),
 

@@ -6,6 +6,10 @@ import './booking_history_tab.dart';
 
 class InfoScreen extends StatefulWidget {
 
+  InfoScreen({Key? key, required this.bookingHistory}) : super(key: key);
+
+  bool bookingHistory;
+
   @override
   State<InfoScreen> createState() => _InfoScreenState();
 
@@ -18,6 +22,10 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+
+    if (widget.bookingHistory == true) {
+      selectedIndex = 1;
+    }
 
     _tabController = TabController(
       length: 2,
@@ -43,7 +51,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
         title: Text('Tài khoản', style: TextStyle(fontWeight: FontWeight.w600,),),
         actions: [
           _logOut(),
-          // SizedBox(width: 5,),
+          SizedBox(width: 5,),
         ],
         bottom: TabBar(
 

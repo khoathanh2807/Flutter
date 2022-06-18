@@ -1,0 +1,39 @@
+name: flutter_nps
+description: A new flutter module project.
+
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  app_ui:
+    path: ./packages/app_ui
+  bloc: ^8.0.2
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+  nps_repository:
+    path: ./packages/nps_repository
+  platform_close:
+    path: ./packages/platform_close
+
+dev_dependencies:
+  bloc_test: ^9.0.2
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  module:
+    androidX: true
+    androidPackage: com.example.flutter_nps
+    iosBundleIdentifier: com.example.flutterNps

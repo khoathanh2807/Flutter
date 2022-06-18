@@ -1,0 +1,48 @@
+name: Angular CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/angular_workflow.yaml
+      - newsfeed_angular/**
+
+# Declare default permissions as read only.
+permissions: read-all
+
+defaults:
+  run:
+    working-directory: ./newsfeed_angular
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: "build"
+    steps:
+      - uses: actions/checkout@d171c3b028d844f2bf14e9fdec0c58114451e4bf
+      - uses: subosito/flutter-action@a93e024dfea2add254640576989cf8e6507ee7f9
+        with:
+          channel: "stable"
+      - run: flutter --version
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@f1f314fca9dfce2769ece7d933488f076716723e
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run format check
+        run: npm run format:check
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build:ci
+
+      - name: Test
+        run: npm run test:ci

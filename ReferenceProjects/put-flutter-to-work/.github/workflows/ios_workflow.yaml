@@ -1,0 +1,63 @@
+name: Swift CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/ios_workflow.yaml
+      - newsfeed_ios/**
+
+# Declare default permissions as read only.
+permissions: read-all
+
+defaults:
+  run:
+    working-directory: ./newsfeed_ios
+jobs:
+  build:
+    runs-on: macos-latest
+    name: build
+    steps:
+      - uses: actions/checkout@d171c3b028d844f2bf14e9fdec0c58114451e4bf
+      - uses: subosito/flutter-action@a93e024dfea2add254640576989cf8e6507ee7f9
+        with:
+          channel: "stable"
+
+      - name: List Flutter version
+        run: flutter --version
+
+      - name: Build Flutter Module for IOS
+        working-directory: flutter_nps
+        run: flutter build ios-framework
+
+      - name: List available Xcode versions
+        run: ls /Applications | grep Xcode
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_13.2.app && /usr/bin/xcodebuild -version
+
+      - name: Install Dependencies
+        run: pod install
+
+      - name: Install swift-format
+        run: |
+          set HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK
+          set HOMEBREW_NO_INSTALL_UPGRADE
+          # Version 0.50500.0
+          curl https://raw.githubusercontent.com/Homebrew/homebrew-core/4f0edc5d74cdfa84822102a4f69f70a39561dea5/Formula/swift-format.rb > swift-format.rb
+          brew install swift-format.rb
+
+      - name: Swift lint
+        run: swift format lint -r .
+
+      - name: Swift format
+        run: swift format -r .
+
+      - name: Run unit tests
+        run: xcodebuild test -scheme newsfeed_appTests -workspace newsfeed_app.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Run UI tests
+        run: xcodebuild test -scheme newsfeed_appUITests -workspace newsfeed_app.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}

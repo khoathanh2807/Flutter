@@ -1,0 +1,24 @@
+name: nps_repository
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/nps_repository_workflow.yaml
+      - flutter_nps/packages/nps_repository/**
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  build:
+    name: build
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
+    with:
+      working_directory: "flutter_nps/packages/nps_repository"
+      coverage_excludes: "*.g.dart lib/src/gen/*.gen.dart"
+      flutter_channel: stable
+      flutter_version: 2.10.0

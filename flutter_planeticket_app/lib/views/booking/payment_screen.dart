@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../controllers/user_credentials/user_credentials.dart';
 import '../../controllers/ticket/ticket_controller.dart';
+import '../../controllers/notification/notification_controller.dart';
 import '../../models/user.dart';
 import '../app.dart';
 
@@ -754,8 +755,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
       );
     }
 
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome()), (_) => false,);
-    Fluttertoast.showToast(msg: 'Thanh toán thành công, hãy kiểm tra vé ở mục Lịch sử đặt vé', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+    TicketController().ticketSuccessBookingNotification();
+    TicketController().ticketScheduleNotification(
+        departureLocationName: widget.departureLocationName,
+        arrivalLocationName: widget.arrivalLocationName,
+        departureLocationSymbol: widget.departureLocationSymbol,
+        arrivalLocationSymbol: widget.arrivalLocationSymbol,
+        departureDate: widget.departureDate,
+        departureTime: widget.departureTime,
+    );
+
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 2, bookingHistory: true,)), (_) => false,);
+    Fluttertoast.showToast(msg: 'Thanh toán thành công!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
 
   }
 

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../controllers/ticket/ticket_controller.dart';
 import '../../models/ticket.dart';
+import '../app.dart';
 
 class TicketDetailScreen extends StatefulWidget {
 
@@ -45,6 +46,16 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           centerTitle: true,
           // title: Text('Thông tin vé ' + ticket.departureLocationSymbol! + ' - ' + ticket.arrivalLocationSymbol!, style: TextStyle(fontWeight: FontWeight.w600,),),
           title: Text('Thông tin chi tiết vé', style: TextStyle(fontWeight: FontWeight.w600,),),
+          actions: [
+            IconButton(
+              tooltip: 'Home',
+              icon: const Icon(Icons.home_outlined,),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
+              },
+            ),
+            SizedBox(width: 5,),
+          ],
         ),
 
         body: Center(
