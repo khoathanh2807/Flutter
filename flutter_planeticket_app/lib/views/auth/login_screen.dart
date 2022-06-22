@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../controllers/authentication/firebase_authentication.dart';
 import '../../controllers/validation/mixin_login_validation.dart';
+import '../../controllers/authentication/firebase_authentication.dart';
 import '../app.dart';
 import './register_screen.dart';
 
@@ -187,6 +187,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
       value: rememberLogin,
 
       onChanged: (newValue) {
+        FocusScope.of(context).unfocus();
         setState(() {
           rememberLogin = newValue!;
         });
@@ -204,10 +205,10 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
         style: ElevatedButton.styleFrom(
           // elevation: 0,
-          padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
+          padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0,),
         ),
 
-        onPressed: () {
+        onPressed: () async {
 
             FocusScope.of(context).unfocus();
 
@@ -218,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                   emailAddress = emailController.text;
                   password = passwordController.text;
 
-                  auth.login(emailAddress.trim(), password.trim()).whenComplete(() {}).then((value) {   // đăng nhập Firebase bằng email và password
+                  await auth.login(emailAddress.trim(), password.trim(),).whenComplete(() {}).then((value) {   // đăng nhập Firebase bằng email và password
                     if (value == null) {
                       setState(() {
                         Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
@@ -277,8 +278,8 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
         ),
       ),
 
-      onPressed: () {   // đăng nhập Firebase bằng account Google
-        auth.loginWithGoogle().whenComplete(() {}).then((value) {
+      onPressed: () async {   // đăng nhập Firebase bằng account Google
+        await auth.loginWithGoogle().whenComplete(() {}).then((value) {
           if (value == null) {
             setState(() {
               Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);

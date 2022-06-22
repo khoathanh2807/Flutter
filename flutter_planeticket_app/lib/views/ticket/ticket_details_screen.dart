@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/ticket/ticket_controller.dart';
 import '../../models/ticket.dart';
 import '../app.dart';
 
-class TicketDetailScreen extends StatefulWidget {
+class TicketDetailsScreen extends StatefulWidget {
 
-  TicketDetailScreen({required this.ticketID});
+  TicketDetailsScreen({required this.ticketID});
 
   final String ticketID;
 
   @override
-  State<TicketDetailScreen> createState() => _TicketDetailScreenState();
+  State<TicketDetailsScreen> createState() => _TicketDetailsScreenState();
 
 }
 
-class _TicketDetailScreenState extends State<TicketDetailScreen> {
+class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
 
   Ticket ticket = Ticket().createDefault();
 
@@ -45,7 +46,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           // elevation: 0,
           centerTitle: true,
           // title: Text('Thông tin vé ' + ticket.departureLocationSymbol! + ' - ' + ticket.arrivalLocationSymbol!, style: TextStyle(fontWeight: FontWeight.w600,),),
-          title: Text('Thông tin chi tiết vé', style: TextStyle(fontWeight: FontWeight.w600,),),
+          title: Text('TicketDetails'.tr, style: TextStyle(fontWeight: FontWeight.w600,),),
           actions: [
             IconButton(
               tooltip: 'Home',
@@ -82,7 +83,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   children: [
 
                     Center(
-                        child: Text('Mã số vé', style: TextStyle(fontWeight: FontWeight.w500,), textAlign: TextAlign.center,),
+                        child: Text('TicketID'.tr, style: TextStyle(fontWeight: FontWeight.w500,), textAlign: TextAlign.center,),
                     ),
                     SizedBox(height: 10,),
 
@@ -102,7 +103,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                         Expanded(
                           child: Column(
                             children: [
-                              Text('Điểm đi', style: TextStyle(fontStyle: FontStyle.italic,),),
+                              Text('DepartureLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                               SizedBox(height: 12,),
                               Text(ticket.departureTime!, style: TextStyle(fontWeight: FontWeight.bold,),),
                               SizedBox(height: 5,),
@@ -126,7 +127,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                         Expanded(
                           child: Column(
                             children: [
-                              Text('Điểm đến', style: TextStyle(fontStyle: FontStyle.italic,),),
+                              Text('ArrivalLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                               SizedBox(height: 12,),
                               Text(ticket.arrivalTime!, style: TextStyle(fontWeight: FontWeight.bold,),),
                               SizedBox(height: 5,),
@@ -152,7 +153,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Mã số chuyến bay', style: TextStyle(fontWeight: FontWeight.w500,),),
+                        Text('FlightID'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
                         Text(ticket.flightID!, style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -168,7 +169,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Hạng ghế', style: TextStyle(fontWeight: FontWeight.w500,),),
+                        Text('SeatClass'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
                         Text(ticket.seatClass!, style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -184,8 +185,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Loại vé', style: TextStyle(fontWeight: FontWeight.w500,),),
-                        Text(ticket.ticketType!, style: TextStyle(fontWeight: FontWeight.bold,),),
+
+                        Text('TicketType'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
+
+                        if (Get.locale == const Locale('English'))
+                          Text(ticket.ticketType!, style: TextStyle(fontWeight: FontWeight.bold,),),
+                        if (Get.locale == const Locale('Vietnamese'))
+                          Text(ticketTypeVietnamese(ticket.ticketType!), style: TextStyle(fontWeight: FontWeight.bold,),),
+
                       ],
                     ),
                     SizedBox(height: 15,),
@@ -200,7 +207,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Giá vé', style: TextStyle(fontWeight: FontWeight.w500,),),
+                        Text('TicketPrice'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
                         Text(NumberFormat.decimalPattern().format(ticket.ticketPrice) + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -216,8 +223,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Số lượng', style: TextStyle(fontWeight: FontWeight.w500,),),
-                        Text(ticket.amount.toString() + ' vé', style: TextStyle(fontWeight: FontWeight.bold,),),
+                        Text('Amount'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
+                        Text(ticket.amount.toString() + 'Ticket'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
 
@@ -229,6 +236,20 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         ),
 
       );
+
+  }
+
+  String ticketTypeVietnamese(String inputTicketType) {
+
+    if (inputTicketType == 'Adult ticket') {
+      inputTicketType = 'Vé người lớn';
+    } else if (inputTicketType == 'Child ticket') {
+      inputTicketType = 'Vé trẻ em';
+    } else {
+      inputTicketType = 'Vé em bé';
+    }
+
+    return inputTicketType;
 
   }
 

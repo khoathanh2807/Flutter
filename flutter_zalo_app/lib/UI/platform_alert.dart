@@ -43,7 +43,7 @@ class PlatformAlert {
                   onPressed: () {
                     FirebaseAuth.instance.signOut().whenComplete(() {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
-                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                      Fluttertoast.showToast(msg: 'User Successfully Signed Out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
                   },   // Open Location setting
                 ),
@@ -70,7 +70,7 @@ class PlatformAlert {
                   onPressed: () {
                     FirebaseAuth.instance.signOut().whenComplete(() {
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
-                      Fluttertoast.showToast(msg: 'User Signed out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                      Fluttertoast.showToast(msg: 'User Successfully Signed Out', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
                     });
                   },   // Open Location setting
                 ),

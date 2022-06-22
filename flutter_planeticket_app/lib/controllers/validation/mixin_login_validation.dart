@@ -21,9 +21,9 @@ mixin LoginValidation {
 
     if (value!.isEmpty || value == '' || value == null) {
       return 'Password cannot be empty.';
-    } else if (value.length < 6) {
-      // return 'The amount of characters must be greater than or equal to 6.';
-      return 'Password must be at least 6 characters long.';
+    } else if (value.length < 8) {
+      // return 'The amount of characters must be greater than or equal to 8.';
+      return 'Password must be at least 8 characters long.';
     }
 
     // if(!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)){

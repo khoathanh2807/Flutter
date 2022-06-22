@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 import '../platform_alert.dart';
 import './payment_screen.dart';
@@ -88,9 +89,9 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
   @override
   Widget build(BuildContext context) {
 
-    String adultAmount = '${widget.adultPassenger} Người lớn';
-    String childAmount = '${widget.childPassenger} Trẻ em';
-    String infantAmount = '${widget.infantPassenger} Em bé';
+    String adultAmount = '${widget.adultPassenger} ' + 'Adult'.tr;
+    String childAmount = '${widget.childPassenger} ' + 'Child'.tr;
+    String infantAmount = '${widget.infantPassenger} ' + 'Infant'.tr;
 
     if (widget.childPassenger == 0 && widget.infantPassenger == 0) {
       passengerAmount = adultAmount;
@@ -113,7 +114,7 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
           title: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Chuyến đi ${widget.departureLocationSymbol} - ${widget.arrivalLocationSymbol}', style: TextStyle(fontWeight: FontWeight.w600,),),
+              Text('DepartureFlight'.tr + ' ${widget.departureLocationSymbol} - ${widget.arrivalLocationSymbol}', style: TextStyle(fontWeight: FontWeight.w600,),),
               SizedBox(height: 5,),
               Text(passengerAmount, style: TextStyle(fontSize: 12,),)
             ],
@@ -132,14 +133,14 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
                         bottom: BorderSide(color: Colors.black, width: 1.5,),
                       ),
                     ),
-                    child: Text('Ngày ${widget.departureDate}', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, color: Colors.black,),),
+                    child: Text('Date'.tr + ' ${widget.departureDate}', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, color: Colors.black,),),
                 ),
                 SizedBox(height: 30,),
 
                 selectSeatClassButton(),
                 SizedBox(height: 20,),
 
-                Text('* Giá trên một hành khách và chưa bao gồm thuế, phi', style: TextStyle(fontSize: 11, color: Colors.black87,),),
+                Text('* ' + 'TicketPriceNote'.tr, style: TextStyle(fontSize: 11, color: Colors.black87,),),
                 SizedBox(height: 20,),
 
                 selectSeatClassTicketList(),
@@ -229,8 +230,8 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text('Loading...', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
+              children: [
+                Text('Loading'.tr, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
                 SizedBox(height: 45),
                 CircularProgressIndicator(),
               ],
@@ -244,7 +245,7 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
             return Container(
               padding: EdgeInsets.symmetric(vertical: 50,),
               alignment: Alignment.center,
-              child: Text('Chuyến bay cần tìm hiện không tồn tại. \nVui lòng tìm kiếm chuyến bay khác!', style: TextStyle(fontWeight: FontWeight.w600,),),
+              child: Text('EmptyFlightList'.tr, style: TextStyle(fontWeight: FontWeight.w600,), textAlign: TextAlign.center,),
             );
         } else {
             return ListView.builder (
@@ -318,11 +319,13 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('Giá từ', style: TextStyle(fontSize: 12,),),
+                            Text('PriceFrom'.tr, style: TextStyle(fontSize: 12,),),
                             SizedBox(height: 6,),
                             Text(NumberFormat.decimalPattern().format(flightList[index]['economyTicketPrice']) + ' VND', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor,),),   // NumberFormat.currency(locale: 'vi', symbol: 'VND').format(123456) ==> 123.456 VND
                             SizedBox(height: 6,),
-                            flightList[index]['economyRemainingSeats'] == 0 ? Text('Hết vé', style: TextStyle(fontSize: 12, color: Colors.red,),) : Text('Còn ${flightList[index]['economyRemainingSeats']} ghế', style: TextStyle(fontSize: 12, color: Colors.black54,),),
+                            flightList[index]['economyRemainingSeats'] == 0
+                                ? Text('SoldOut'.tr, style: TextStyle(fontSize: 12, color: Colors.red,),)
+                                : Text('RemainSeats'.trParams({'seatAmount': flightList[index]['economyRemainingSeats'].toString()}), style: TextStyle(fontSize: 12, color: Colors.black54,),),
                           ],
                         ),
 
@@ -332,9 +335,9 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
                     onTap: flightList[index]['economyRemainingSeats'] <= 0 ? null : () {
 
                         if (widget.adultPassenger + widget.childPassenger + widget.infantPassenger > flightList[index]['economyRemainingSeats']) {
-                          const warningAlert = PlatformAlert(
-                            title: 'Không Đủ Ghế!',
-                            message: 'Chuyến bay vừa chọn không còn đủ ghế cho số lượng hành khách bạn nhập',
+                          var warningAlert = PlatformAlert(
+                            title: 'NotEnoughSeats'.tr,
+                            message: 'NotEnoughSeatsMessage'.tr,
                           );
                           warningAlert.showWarningAlert(context);
                         } else {
@@ -408,8 +411,8 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text('Loading...', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
+              children: [
+                Text('Loading'.tr, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
                 SizedBox(height: 45),
                 CircularProgressIndicator(),
               ],
@@ -423,7 +426,7 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
             return Container(
               padding: EdgeInsets.symmetric(vertical: 50,),
               alignment: Alignment.center,
-              child: Text('Chuyến bay cần tìm hiện không tồn tại. \nVui lòng tìm kiếm chuyến bay khác!', style: TextStyle(fontWeight: FontWeight.w600,),),
+              child: Text('EmptyFlightList'.tr, style: TextStyle(fontWeight: FontWeight.w600,), textAlign: TextAlign.center,),
             );
         } else {
             return ListView.builder(
@@ -489,11 +492,14 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('Giá từ', style: TextStyle(fontSize: 12,),),
+                            Text('PriceFrom'.tr, style: TextStyle(fontSize: 12,),),
                             SizedBox(height: 6, ),
                             Text(NumberFormat.decimalPattern().format(flightList[index]['businessTicketPrice']) + ' VND', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor,),),   // NumberFormat.currency(locale: 'vi', symbol: 'VND').format(123456) ==> 123.456 VND
                             SizedBox(height: 6,),
-                            flightList[index]['businessRemainingSeats'] == 0 ? Text('Hết vé', style: TextStyle(fontSize: 12, color: Colors.red,),) : Text('Còn ${flightList[index]['businessRemainingSeats']} ghế', style: TextStyle(fontSize: 12, color: Colors.black54,),),
+                            flightList[index]['businessRemainingSeats'] == 0
+                                ? Text('SoldOut'.tr, style: TextStyle(fontSize: 12, color: Colors.red,),)
+                                : Text('RemainSeats'.trParams({'seatAmount': flightList[index]['businessRemainingSeats'].toString()}), style: TextStyle(fontSize: 12, color: Colors.black54,),),
+
                           ],
                         ),
 
@@ -503,9 +509,9 @@ class _SelectFlightTimeScreenState extends State<SelectFlightTimeScreen> with Ti
                     onTap: flightList[index]['businessRemainingSeats'] <= 0 ? null : () {
 
                         if (widget.adultPassenger + widget.childPassenger + widget.infantPassenger > flightList[index]['businessRemainingSeats']) {
-                          const warningAlert = PlatformAlert(
-                            title: 'Không Đủ Ghế!',
-                            message: 'Chuyến bay vừa chọn không còn đủ ghế cho số lượng hành khách bạn nhập',
+                          var warningAlert = PlatformAlert(
+                            title: 'NotEnoughSeats'.tr,
+                            message: 'NotEnoughSeatsMessage'.tr,
                           );
                           warningAlert.showWarningAlert(context);
                         } else {

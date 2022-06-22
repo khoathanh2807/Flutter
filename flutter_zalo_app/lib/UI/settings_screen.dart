@@ -332,17 +332,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               Icon(Icons.logout, color: Colors.grey, size: 26,),
                               SizedBox(width: 20,),
 
-                              Expanded(child: Text('Log out', style: TextStyle(fontSize: 15,),),)
+                              Expanded(child: Text('Sign out', style: TextStyle(fontSize: 15,),),)
 
                             ],
                         ),
                         onTap: () {
 
-                          print('Log out');
+                          print('Sign out');
 
                           const logoutAlert = PlatformAlert(
-                            title: 'Log Out',
-                            message: 'Do you want to log out of this account?',
+                            title: 'Sign Out',
+                            message: 'Do you want to sign out of this account?',
                           );
                           logoutAlert.showLogoutAlert(context);
 

@@ -67,6 +67,7 @@ class FirebaseAuthentication {
 
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password).whenComplete(() {
         print('Signed in Successfully');
+        print(_firebaseAuth.currentUser);
         return null;    // Signed in Successfully
       });
 
@@ -130,6 +131,7 @@ class FirebaseAuthentication {
 
       await _firebaseAuth.signInWithCredential(googleAuthCredential).whenComplete(() {
         print('Signed in with Google Successfully');
+        print(_firebaseAuth.currentUser);
         return null;    // Signed in with Google Successfully
       });
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:get/get.dart';
 
 import '../../inherited_widget.dart';
 import '../../models/significant_destination.dart';
@@ -170,10 +171,10 @@ class HomeScreenState extends State<StatefulWidget> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(Icons.airplane_ticket_rounded),
                     SizedBox(width: 10,),
-                    Text('Đặt vé ngay hôm nay!', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17,),),
+                    Text('BookingNow'.tr, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17,),),
                     SizedBox(width: 10,),
                     Icon(Icons.double_arrow_rounded),
                   ],
@@ -187,7 +188,7 @@ class HomeScreenState extends State<StatefulWidget> {
               Row(
                 children: [
                   SizedBox(width: 25),
-                  Text("Điểm đến nổi bật", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor,),),
+                  Text('SignificantDestinations'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor,),),
                 ],
               ),
               SizedBox(height: 15,),
@@ -245,7 +246,7 @@ class HomeScreenState extends State<StatefulWidget> {
               Row(
                 children: [
                   SizedBox(width: 25),
-                  Text("Khuyến mãi dành cho bạn", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor,),),
+                  Text('Promotion'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).primaryColor,),),
                 ],
               ),
               SizedBox(height: 15,),

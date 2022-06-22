@@ -4,10 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/user_credentials/user_credentials.dart';
 import '../../controllers/ticket/ticket_controller.dart';
 import '../../models/user.dart';
+import '../../models/gender.dart';
 import '../app.dart';
 
 class PaymentRoundTripScreen extends StatefulWidget {
@@ -145,9 +147,9 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
   @override
   Widget build(BuildContext context) {
 
-    String adultAmount = '${widget.adultPassenger} Người lớn';
-    String childAmount = '${widget.childPassenger} Trẻ em';
-    String infantAmount = '${widget.infantPassenger} Em bé';
+    String adultAmount = '${widget.adultPassenger} ' + 'Adult'.tr;
+    String childAmount = '${widget.childPassenger} ' + 'Child'.tr;
+    String infantAmount = '${widget.infantPassenger} ' + 'Infant'.tr;
 
     if (widget.childPassenger == 0 && widget.infantPassenger == 0) {
       passengerAmount = adultAmount;
@@ -199,7 +201,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       appBar: AppBar(
         // elevation: 0,
         centerTitle: true,
-        title: Text('Thanh toán', style: TextStyle(fontWeight: FontWeight.w600,),),
+        title: Text('Payment'.tr, style: TextStyle(fontWeight: FontWeight.w600,),),
       ),
 
       body: SingleChildScrollView(
@@ -226,7 +228,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text('Thông tin chuyến bay đi', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
+                  Text('DepartureFlightInformation'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
                   SizedBox(height: 15,),
 
                   Row(
@@ -235,7 +237,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('Điểm đi', style: TextStyle(fontStyle: FontStyle.italic,),),
+                            Text('DepartureLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                             SizedBox(height: 12,),
                             Text(widget.departureTime, style: TextStyle(fontWeight: FontWeight.bold,),),
                             SizedBox(height: 5,),
@@ -259,7 +261,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('Điểm đến', style: TextStyle(fontStyle: FontStyle.italic,),),
+                            Text('ArrivalLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                             SizedBox(height: 12,),
                             Text(widget.arrivalTime, style: TextStyle(fontWeight: FontWeight.bold,),),
                             SizedBox(height: 5,),
@@ -298,7 +300,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text('Thông tin chuyến bay về', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
+                  Text('ReturnFlightInformation'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
                   SizedBox(height: 15,),
 
                   Row(
@@ -307,7 +309,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('Điểm đi', style: TextStyle(fontStyle: FontStyle.italic,),),
+                            Text('DepartureLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                             SizedBox(height: 12,),
                             Text(widget.returnDepartureTime, style: TextStyle(fontWeight: FontWeight.bold,),),
                             SizedBox(height: 5,),
@@ -331,7 +333,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('Điểm đến', style: TextStyle(fontStyle: FontStyle.italic,),),
+                            Text('ArrivalLocation'.tr, style: TextStyle(fontStyle: FontStyle.italic,),),
                             SizedBox(height: 12,),
                             Text(widget.returnArrivalTime, style: TextStyle(fontWeight: FontWeight.bold,),),
                             SizedBox(height: 5,),
@@ -372,7 +374,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    Text('Thông tin hành khách', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
+                    Text('PassengerInformation'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
                     SizedBox(height: 15,),
 
                     genderField(),
@@ -411,7 +413,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text('Chi tiết giá', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
+                  Text('PriceDetails'.tr, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,),),
                   SizedBox(height: 13,),
 
                   // Row(
@@ -433,7 +435,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Số hành khách', style: TextStyle(fontWeight: FontWeight.w500,),),
+                      Text('PassengerAmount'.tr, style: TextStyle(fontWeight: FontWeight.w500,),),
                       Text(passengerAmount, style: TextStyle(fontWeight: FontWeight.w500,),),
                     ],
                   ),
@@ -449,8 +451,9 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Chuyến bay đi', style: TextStyle(fontWeight: FontWeight.w500, decoration: TextDecoration.underline,),),
-                      Text('Vé ' + widget.seatClass, style: TextStyle(fontWeight: FontWeight.w500,),),
+                      Text('DepartureFlight2'.tr, style: TextStyle(fontWeight: FontWeight.w500, decoration: TextDecoration.underline,),),
+                      Text('TicketClass'.trParams({'seatClass': widget.seatClass}), style: TextStyle(fontWeight: FontWeight.w500,),),
+
                     ],
                   ),
                   SizedBox(height: 13,),
@@ -458,7 +461,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Giá vé Người lớn (x ${widget.adultPassenger})',),
+                      Text('AdultTicketPrice'.tr + ' (x ${widget.adultPassenger})',),
                       Text(adultTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                     ],
                   ),
@@ -468,7 +471,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Giá vé Trẻ em (x ${widget.childPassenger})',),
+                        Text('ChildTicketPrice'.tr + ' (x ${widget.childPassenger})',),
                         Text(childTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -479,7 +482,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Giá vé Em bé (x ${widget.infantPassenger})',),
+                        Text('InfantTicketPrice'.tr + ' (x ${widget.infantPassenger})',),
                         Text(infantTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -496,8 +499,8 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Chuyến bay về', style: TextStyle(fontWeight: FontWeight.w500, decoration: TextDecoration.underline,),),
-                      Text('Vé ' + widget.returnSeatClass, style: TextStyle(fontWeight: FontWeight.w500,),),
+                      Text('ReturnFlight2'.tr, style: TextStyle(fontWeight: FontWeight.w500, decoration: TextDecoration.underline,),),
+                      Text('TicketClass'.trParams({'seatClass': widget.returnSeatClass}), style: TextStyle(fontWeight: FontWeight.w500,),),
                     ],
                   ),
                   SizedBox(height: 13,),
@@ -505,7 +508,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Giá vé Người lớn (x ${widget.adultPassenger})',),
+                      Text('AdultTicketPrice'.tr + ' (x ${widget.adultPassenger})',),
                       Text(returnAdultTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                     ],
                   ),
@@ -515,7 +518,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Giá vé Trẻ em (x ${widget.childPassenger})',),
+                        Text('ChildTicketPrice'.tr + ' (x ${widget.childPassenger})',),
                         Text(returnChildTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -526,7 +529,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Giá vé Em bé (x ${widget.infantPassenger})',),
+                        Text('InfantTicketPrice'.tr + ' (x ${widget.infantPassenger})',),
                         Text(returnInfantTicketPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                       ],
                     ),
@@ -559,7 +562,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Tổng chi phí', style: TextStyle(fontWeight: FontWeight.bold,),),
+                      Text('TotalPrice'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                       Text(totalPrice + ' VND', style: TextStyle(fontWeight: FontWeight.bold,),),
                     ],
                   ),
@@ -584,7 +587,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
               ),
               child: CheckboxListTile(
 
-                title: Text('Tôi đồng ý với Điều khoản và Điều kiện đặt vé', style: TextStyle(fontSize: 14,),),
+                title: Text('TermsConditionsBooking'.tr, style: TextStyle(fontSize: 14,),),
 
                 contentPadding: EdgeInsets.zero,
                 activeColor: Theme.of(context).colorScheme.primary,
@@ -608,10 +611,10 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  child: Text('Huỷ', style: TextStyle(color: Theme.of(context).primaryColor,),),
+                  child: Text('Cancel'.tr, style: TextStyle(color: Theme.of(context).primaryColor,),),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white,),
-                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 13, horizontal: MediaQuery.of(context).size.width*0.18,),),
+                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 13, horizontal: MediaQuery.of(context).size.width*0.16,),),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -624,15 +627,15 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
                   },
                 ),
                 ElevatedButton(
-                  child: Text('Xác nhận', style: TextStyle(fontWeight: FontWeight.bold,),),
+                  child: Text('Confirm'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 13, horizontal: MediaQuery.of(context).size.width*0.14,),
+                    padding: EdgeInsets.symmetric(vertical: 13, horizontal: MediaQuery.of(context).size.width*0.15,),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),
                   ),
                   onPressed: !termsAgreement ? null : () {
                     FocusScope.of(context).unfocus();
                     if(_formKey.currentState!.validate()) {
-                      showPaymentAlert('Thanh Toán', 'Bạn xác nhận Thông tin vé và Thông tin hành khách đã chính xác?\nTiến hành thanh toán ngay.');
+                      showPaymentAlert('PaymentTitle'.tr, 'PaymentMessage'.tr);
                     }
                   },
                 ),
@@ -650,17 +653,17 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
 
   Widget genderField() {
 
-    var genders = [
-      'Nam',
-      'Nữ',
+    List<Gender> genderList = [
+      Gender(genderName: 'Female'.tr, genderID: 'F',),
+      Gender(genderName: 'Male'.tr, genderID: 'M',),
     ];
 
     return  DropdownButtonFormField(
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.wc),
-        labelText: 'Giới tính',
-        hintText: 'Chọn giới tính',
+        labelText: 'Gender'.tr,
+        hintText: 'GenderFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 8,),
       ),
@@ -669,16 +672,16 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
 
       value: firebaseUser.gender,
 
-      items: genders.map((value) {
+      items: genderList.map((Gender gender) {
         return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+          child: Text(genderList.singleWhere((x) => x.genderID == gender.genderID).genderName),
+          value: gender.genderID,
         );
       }).toList(),
 
       validator: (value) {
         if (value == '' || value == null) {
-          return 'Vui lòng nhập đầy đủ thông tin';
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -703,15 +706,15 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.person),
-        labelText: 'Họ tên',
-        hintText: 'Nhập đầy đủ họ tên',
+        labelText: 'FullName'.tr,
+        hintText: 'FullNameFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         contentPadding: EdgeInsets.symmetric(vertical: 17, horizontal: 8,),
       ),
 
       validator: (value) {
         if (value!.isEmpty || value == '' || value == null) {
-          return 'Vui lòng nhập đầy đủ thông tin';
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -731,6 +734,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
     return TextFormField(
 
       readOnly: true,
+      enabled: false,
 
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
@@ -738,7 +742,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.email,),
         labelText: 'Email',
-        hintText: 'Nhập email',
+        hintText: 'EmailFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         contentPadding: EdgeInsets.symmetric(vertical: 17, horizontal: 8,),
       ),
@@ -758,15 +762,15 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.phone),
-        labelText: 'Số điện thoại',
-        hintText: 'Nhập số điện thoại',
+        labelText: 'PhoneNumber'.tr,
+        hintText: 'PhoneNumberFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         contentPadding: EdgeInsets.symmetric(vertical: 17, horizontal: 8,),
       ),
 
       validator: (value) {
-        if (value!.isEmpty || value == '' || value == null ||  value == '(+84) ') {
-          return 'Vui lòng nhập đầy đủ thông tin';
+        if (value!.isEmpty || value == '' || value == null ||  value == '(+84) ' || value == '(+84)') {
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -798,17 +802,16 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('Huỷ'),
+              child: Text('Cancel'.tr,),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Xác nhận'),
+              child: Text('Confirm'.tr,),
               onPressed: () => saveTicketToFirebase(),
             ),
-          ]
+          ],
       );
-    }
-    );
+    });
   }
 
   void paymentConfirmCupertinoAlert(String title, String message) {
@@ -818,17 +821,16 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
           content: Text(message),
           actions: [
             CupertinoButton(
-              child: Text('Huỷ', style: TextStyle(color: CupertinoColors.destructiveRed),),
+              child: Text('Cancel'.tr, style: TextStyle(color: CupertinoColors.destructiveRed),),
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoButton(
-              child: Text('Xác nhận', style: TextStyle(color: CupertinoColors.activeBlue),),
+              child: Text('Confirm'.tr, style: TextStyle(color: CupertinoColors.activeBlue),),
               onPressed: () => saveTicketToFirebase(),
             ),
-          ]
+          ],
       );
-    }
-    );
+    });
   }
 
   void saveTicketToFirebase() async {
@@ -877,7 +879,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       flightTimeDuration: widget.flightTimeDuration,
       seatClass: widget.seatClass,
       ticketPrice: widget.ticketPrice,
-      ticketType: 'Vé người lớn',
+      ticketType: 'Adult ticket',
       flightID: widget.flightID,
       ticketID: 'Adult-Ticket-${widget.flightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
       amount: widget.adultPassenger,
@@ -894,7 +896,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       flightTimeDuration: widget.returnFlightTimeDuration,
       seatClass: widget.returnSeatClass,
       ticketPrice: widget.returnTicketPrice,
-      ticketType: 'Vé người lớn',
+      ticketType: 'Adult ticket',
       flightID: widget.returnFlightID,
       ticketID: 'Adult-Ticket-${widget.returnFlightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
       amount: widget.adultPassenger,
@@ -913,7 +915,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
         flightTimeDuration: widget.flightTimeDuration,
         seatClass: widget.seatClass,
         ticketPrice: (widget.ticketPrice*0.75).toInt(),
-        ticketType: 'Vé trẻ em',
+        ticketType: 'Child ticket',
         flightID: widget.flightID,
         ticketID: 'Child-Ticket-${widget.flightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
         amount: widget.childPassenger,
@@ -930,7 +932,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
         flightTimeDuration: widget.returnFlightTimeDuration,
         seatClass: widget.returnSeatClass,
         ticketPrice: (widget.returnTicketPrice*0.75).toInt(),
-        ticketType: 'Vé trẻ em',
+        ticketType: 'Child ticket',
         flightID: widget.returnFlightID,
         ticketID: 'Child-Ticket-${widget.returnFlightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
         amount: widget.childPassenger,
@@ -950,7 +952,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
         flightTimeDuration: widget.flightTimeDuration,
         seatClass: widget.seatClass,
         ticketPrice: (widget.ticketPrice*0.5).toInt(),
-        ticketType: 'Vé em bé',
+        ticketType: 'Infant ticket',
         flightID: widget.flightID,
         ticketID: 'Infant-Ticket-${widget.flightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
         amount: widget.infantPassenger,
@@ -967,7 +969,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
         flightTimeDuration: widget.returnFlightTimeDuration,
         seatClass: widget.returnSeatClass,
         ticketPrice: (widget.returnTicketPrice*0.5).toInt(),
-        ticketType: 'Vé em bé',
+        ticketType: 'Infant ticket',
         flightID: widget.returnFlightID,
         ticketID: 'Infant-Ticket-${widget.returnFlightID}-${firebaseUser.uid}-${DateFormat('dd.MM.yyyy-HH:mm:ss').format(DateTime.now())}',
         amount: widget.infantPassenger,
@@ -993,7 +995,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
     );
 
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 2, bookingHistory: true,)), (_) => false,);
-    Fluttertoast.showToast(msg: 'Thanh toán thành công!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+    Fluttertoast.showToast(msg: 'SuccessfullyPayment'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
 
   }
 

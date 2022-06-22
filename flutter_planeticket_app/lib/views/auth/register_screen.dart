@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../controllers/authentication/firebase_authentication.dart';
 import '../../controllers/validation/mixin_login_validation.dart';
+import '../../controllers/authentication/firebase_authentication.dart';
 import '../app.dart';
 import './login_screen.dart';
 
@@ -17,7 +17,7 @@ class RegisterScreen extends StatefulWidget {
 
 }
 
-class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
+class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -264,7 +264,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
 
       validator: (value) {
           if (value!.isEmpty || value == '' || value == null) {
-            return 'Confirm password cannot be empty.';
+            return 'Confirm password cannot be empty!';
           } else if (value != passwordController.text) {
             return 'This didn\'t match the password above! Please try again.';
           }
@@ -290,7 +290,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
         padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 15.0, bottom: 15.0),
       ),
 
-      onPressed: () {
+      onPressed: () async {
 
         FocusScope.of(context).unfocus();
 
@@ -302,7 +302,7 @@ class _RegisterScreenState extends State<RegisterScreen>  with LoginValidation {
           username = usernameController.text;
           password = passwordController.text;
 
-          auth.createUser(emailAddress.trim(), username.trim(), password.trim()).then((value) {
+          await auth.createUser(emailAddress.trim(), username.trim(), password.trim()).then((value) {
             if (value == null) {
               setState(() {
                 Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);

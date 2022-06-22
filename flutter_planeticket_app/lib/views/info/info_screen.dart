@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../platform_alert.dart';
+import '../settings/settings_screen.dart';
 import './profile_tab.dart';
 import './booking_history_tab.dart';
 
@@ -48,18 +49,24 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
       appBar: AppBar(
         // elevation: 0,
         centerTitle: true,
-        title: Text('Tài khoản', style: TextStyle(fontWeight: FontWeight.w600,),),
+        title: Text('Account'.tr, style: TextStyle(fontWeight: FontWeight.w600,),),
         actions: [
-          _logOut(),
+          IconButton(
+            tooltip: 'Settings',
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+            },
+          ),
           SizedBox(width: 5,),
         ],
         bottom: TabBar(
 
           controller: _tabController,
 
-          tabs: const [
-            Text('Thông tin cá nhân'),
-            Text('Lịch sử đặt vé'),
+          tabs: [
+            Text('ProfileInformation'.tr),
+            Text('BookingHistory'.tr),
           ],
 
           indicatorColor: Colors.white,
@@ -102,21 +109,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  Widget _logOut() {
-    return IconButton(
-      tooltip: 'Log Out',
-      icon: const Icon(Icons.logout,),
-      onPressed: () {
-        FocusScope.of(context).unfocus();
-        const logoutAlert = PlatformAlert(
-          title: 'Đăng Xuất',
-          message: 'Bạn xác nhận muốn đăng xuất tài khoản?',
-        );
-        logoutAlert.showLogoutAlert(context);
-      },
-    );
   }
 
 }

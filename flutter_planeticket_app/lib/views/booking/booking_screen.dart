@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 import './select_flight_time_screen.dart';
 
@@ -29,9 +30,9 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
   int adultPassenger = 1;
   int childPassenger = 0;
   int infantPassenger = 0;
-  String passengerAmount = '1 Người lớn';
+  String passengerAmount = '';
 
-  List<String> seatClassList = ['Economy', 'Business'];
+  List<String> seatClassList = ['Economy', 'Business',];
   String selectedSeatClass = 'Economy';
 
   final departureDateController = TextEditingController();
@@ -58,7 +59,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
         appBar: AppBar(
           // elevation: 0,
           centerTitle: true,
-          title: Text('Đặt vé', style: TextStyle(fontWeight: FontWeight.w600,),),
+          title: Text('BookingTicket'.tr, style: TextStyle(fontWeight: FontWeight.w600,),),
         ),
 
         body: Center(
@@ -111,9 +112,9 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
         controller: _tabController,
 
-        tabs: const [
-          Text('Khứ hồi',),
-          Text('Một chiều',),
+        tabs: [
+          Text('RoundTrip'.tr,),
+          Text('OneWay'.tr,),
         ],
 
         indicator: BoxDecoration(
@@ -187,10 +188,26 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
               departureLocation(),
 
               IconButton(
+
                 icon: const Icon(Icons.swap_horiz_outlined, size: 28,),
-                onPressed: (){
+
+                onPressed: (departureLocationName == arrivalLocationName) ? null : () {
+
+                  setState(() {
+
+                    String tempLocationName = departureLocationName;
+                    String tempLocationSymbol = departureLocationSymbol;
+
+                    departureLocationName = arrivalLocationName;
+                    departureLocationSymbol = arrivalLocationSymbol;
+
+                    arrivalLocationName = tempLocationName;
+                    arrivalLocationSymbol = tempLocationSymbol;
+
+                  });
 
                 },
+
               ),
 
               arrivalLocation(),
@@ -256,10 +273,26 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
               departureLocation(),
 
               IconButton(
+
                 icon: const Icon(Icons.swap_horiz_outlined, size: 28,),
-                onPressed: (){
+
+                onPressed: (departureLocationName == arrivalLocationName) ? null : () {
+
+                  setState(() {
+
+                    String tempLocationName = departureLocationName;
+                    String tempLocationSymbol = departureLocationSymbol;
+
+                    departureLocationName = arrivalLocationName;
+                    departureLocationSymbol = arrivalLocationSymbol;
+
+                    arrivalLocationName = tempLocationName;
+                    arrivalLocationSymbol = tempLocationSymbol;
+
+                  });
 
                 },
+
               ),
 
               arrivalLocation(),
@@ -310,7 +343,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        Text('Điểm đi', style: const TextStyle(fontSize: 12,),),
+        Text('DepartureLocation'.tr, style: const TextStyle(fontSize: 12,),),
         const SizedBox(height: 13,),
 
         InkWell(
@@ -356,9 +389,9 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
                       final locationList = snapshot.data.docs;
 
-                      if (locationList.isEmpty){
-                        return const Center(
-                          child: Text('Hiện tại danh sách sân bay đang trống!',),
+                      if (locationList.isEmpty) {
+                        return Center(
+                          child: Text('EmptyLocationList'.tr,),
                         );
                       } else {
                         return ListView.separated(
@@ -412,7 +445,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        Text('Điểm đến', style: const TextStyle(fontSize: 12,),),
+        Text('ArrivalLocation'.tr, style: const TextStyle(fontSize: 12,),),
         const SizedBox(height: 13,),
 
         InkWell(
@@ -458,9 +491,9 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
                       final locationList = snapshot.data.docs;
 
-                      if (locationList.isEmpty){
-                        return const Center(
-                          child: Text('Hiện tại danh sách sân bay đang trống!',),
+                      if (locationList.isEmpty) {
+                        return Center(
+                          child: Text('EmptyLocationList'.tr,),
                         );
                       } else {
                         return ListView.separated(
@@ -542,7 +575,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        Text('Ngày đi', style: TextStyle(fontSize: 13, color: Colors.grey,),),
+        Text('DepartureDate'.tr, style: TextStyle(fontSize: 13, color: Colors.grey,),),
 
         Container(
           height: 44,
@@ -595,17 +628,17 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDepartureDate,
-      firstDate: DateTime(1999),
-      lastDate: DateTime(2099),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
       // initialEntryMode: DatePickerEntryMode.input,
       // initialDatePickerMode: DatePickerMode.year,
-      helpText: 'Chọn ngày bay đi', // Title of DatePicker
-      cancelText: 'Cancel',
+      helpText: 'DepartureDateFieldHint'.tr, // Title of DatePicker
+      cancelText: 'Cancel'.tr,
       confirmText: 'OK',
-      errorFormatText: 'You enter invalid format date',
-      errorInvalidText: 'You enter out of range date value',
-      fieldLabelText: 'Enter Start Date',   // Title of iput text field
-      fieldHintText: 'Month/Day/Year',
+      errorFormatText: 'DateFieldValidate'.tr,
+      errorInvalidText: 'DateFieldValidate'.tr,
+      fieldLabelText: 'DepartureDateFieldHint'.tr,   // Title of input text field
+      fieldHintText: 'Month/Day/Year (MM/dd/yyyy)',
     );
 
     if (pickedDate != null && pickedDate != selectedDepartureDate) {
@@ -634,8 +667,8 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
               child: CupertinoDatePicker(
                 initialDateTime: selectedDepartureDate,
-                minimumYear: 2000,
-                maximumYear: 2025,
+                minimumYear: 1900,
+                maximumYear: 2100,
                 mode: CupertinoDatePickerMode.date,
                 // use24hFormat: true,
                 onDateTimeChanged: (pickedDate) {
@@ -665,7 +698,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        Text('Ngày về', style: TextStyle(fontSize: 13, color: Colors.grey,),),
+        Text('ReturnDate'.tr, style: TextStyle(fontSize: 13, color: Colors.grey,),),
 
         Container(
           height: 44,
@@ -717,17 +750,17 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedReturnDate,
-      firstDate: DateTime(1999),
-      lastDate: DateTime(2099),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
       // initialEntryMode: DatePickerEntryMode.input,
       // initialDatePickerMode: DatePickerMode.year,
-      helpText: 'Chọn ngày bay về', // Title of DatePicker
-      cancelText: 'Cancel',
+      helpText: 'ReturnDateFieldHint'.tr, // Title of DatePicker
+      cancelText: 'Cancel'.tr,
       confirmText: 'OK',
-      errorFormatText: 'You enter invalid format date',
-      errorInvalidText: 'You enter out of range date value',
-      fieldLabelText: 'Enter Start Date',   // Title of iput text field
-      fieldHintText: 'Month/Day/Year',
+      errorFormatText: 'DateFieldValidate'.tr,
+      errorInvalidText: 'DateFieldValidate'.tr,
+      fieldLabelText: 'ReturnDateFieldHint'.tr,   // Title of input text field
+      fieldHintText: 'Month/Day/Year (MM/dd/yyyy)',
     );
 
     if (pickedDate != null && pickedDate != selectedReturnDate) {
@@ -756,8 +789,8 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
               child: CupertinoDatePicker(
                 initialDateTime: selectedReturnDate,
-                minimumYear: 2000,
-                maximumYear: 2025,
+                minimumYear: 1900,
+                maximumYear: 2100,
                 mode: CupertinoDatePickerMode.date,
                 // use24hFormat: true,
                 onDateTimeChanged: (pickedDate) {
@@ -780,9 +813,9 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
   Widget pasengerPicker() {
 
-    String adultAmount = '$adultPassenger Người lớn';
-    String childAmount = '$childPassenger Trẻ em';
-    String infantAmount = '$infantPassenger Em bé';
+    String adultAmount = '$adultPassenger ' + 'Adult'.tr;
+    String childAmount = '$childPassenger ' + 'Child'.tr;
+    String infantAmount = '$infantPassenger ' + 'Infant'.tr;
 
     if (childPassenger == 0 && infantPassenger == 0) {
       passengerAmount = adultAmount;
@@ -801,7 +834,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        Text('Hành khách', style: TextStyle(fontSize: 13, color: Colors.grey,),),
+        Text('Passenger'.tr, style: TextStyle(fontSize: 13, color: Colors.grey,),),
 
         Container(
           height: 44,
@@ -840,7 +873,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20),),
                               ),
 
-                              child: const Text('Hành khách', style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                              child: Text('Passenger'.tr, style: TextStyle(fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
 
                             ),
                             SizedBox(height: 20,),
@@ -852,10 +885,10 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('Người lớn', style: TextStyle(fontWeight: FontWeight.bold,),),
+                                    children: [
+                                      Text('Adult'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                                       SizedBox(height: 8,),
-                                      Text('Từ 12 tuổi', style: TextStyle(color: Colors.grey),)
+                                      Text('AdultAge'.tr, style: TextStyle(color: Colors.grey),)
                                     ],
                                   ),
                                 ),
@@ -931,10 +964,10 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const[
-                                      Text('Trẻ em', style: TextStyle(fontWeight: FontWeight.bold,),),
+                                    children: [
+                                      Text('Child'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                                       SizedBox(height: 8,),
-                                      Text('Từ 2 đến 11 tuổi', style: TextStyle(color: Colors.grey))
+                                      Text('ChildAge'.tr, style: TextStyle(color: Colors.grey))
                                     ],
                                   ),
                                 ),
@@ -1010,10 +1043,10 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('Em bé', style: TextStyle(fontWeight: FontWeight.bold,),),
+                                    children: [
+                                      Text('Infant'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
                                       SizedBox(height: 8,),
-                                      Text('Dưới 2 tuổi', style: TextStyle(color: Colors.grey),),
+                                      Text('InfantAge'.tr, style: TextStyle(color: Colors.grey),),
                                     ],
                                   ),
                                 ),
@@ -1103,7 +1136,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        Text('Hạng ghế', style: TextStyle(fontSize: 13, color: Colors.grey,),),
+        Text('SeatClass'.tr, style: TextStyle(fontSize: 13, color: Colors.grey,),),
 
         Container(
           height: 44,
@@ -1149,8 +1182,8 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
     return Container(
       height: 44,
       child: TextFormField(
-        decoration: const InputDecoration(
-          hintText: 'Mã giảm giá',
+        decoration: InputDecoration(
+          hintText: 'PromotionCode'.tr,
           hintStyle: TextStyle(fontSize: 13, color: Colors.grey,),
         ),
       ),
@@ -1159,7 +1192,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
   Widget oneWayTripSubmitButton() {
     return ElevatedButton(
-      child: Text('Tìm chuyến bay', style: TextStyle(fontWeight: FontWeight.bold,),),
+      child: Text('SearchFlight'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.only(left: 30, right: 30, top: 14, bottom: 14,),
       ),
@@ -1182,7 +1215,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
 
   Widget roundTripSubmitButton() {
     return ElevatedButton(
-      child: Text('Tìm chuyến bay', style: TextStyle(fontWeight: FontWeight.bold,),),
+      child: Text('SearchFlight'.tr, style: TextStyle(fontWeight: FontWeight.bold,),),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.only(left: 30, right: 30, top: 14, bottom: 14,),
       ),

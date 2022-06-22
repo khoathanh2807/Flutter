@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/user_credentials/user_credentials.dart';
 import '../../models/user.dart';
+import '../../models/gender.dart';
 
 class ProfileTab extends StatefulWidget {
 
@@ -132,8 +132,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.person),
-        labelText: 'Họ tên',
-        hintText: 'Nhập đầy đủ họ tên',
+        labelText: 'FullName'.tr,
+        hintText: 'FullNameFieldHint'.tr,
         suffixIcon: Visibility(visible: isEditable, child: Icon(Icons.drive_file_rename_outline,),),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         // border: OutlineInputBorder(borderSide: BorderSide.none,),
@@ -142,7 +142,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
       validator: (value) {
         if (value!.isEmpty || value == '' || value == null) {
-          return 'Vui lòng nhập đầy đủ thông tin';
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -168,15 +168,15 @@ class _ProfileTabState extends State<ProfileTab> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.date_range,),
-        labelText: 'Ngày sinh',
-        hintText: 'Nhập ngày sinh',
+        labelText: 'Birthdate'.tr,
+        hintText: 'BirthdateFieldHint'.tr,
         suffixIcon: Visibility(visible: isEditable, child: Icon(Icons.drive_file_rename_outline,),),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
       ),
 
       validator: (value) {
         if (value!.isEmpty || value == '' || value == null || value == DateFormat('dd.MM.yyyy').format(DateTime.now()).toString()) {
-          return 'Vui lòng nhập ngày sinh hợp lệ';
+          return 'BirthdateFieldValidate'.tr;
         }
         return null;
       },
@@ -213,13 +213,13 @@ class _ProfileTabState extends State<ProfileTab> {
       lastDate: DateTime(2100),
       // initialEntryMode: DatePickerEntryMode.input,
       // initialDatePickerMode: DatePickerMode.year,
-      helpText: 'Nhập ngày sinh', // Title of DatePicker
-      cancelText: 'Cancel',
+      helpText: 'BirthdateFieldHint'.tr, // Title of DatePicker
+      cancelText: 'Cancel'.tr,
       confirmText: 'OK',
-      errorFormatText: 'You enter invalid format date',
-      errorInvalidText: 'You enter out of range date value',
-      fieldLabelText: 'Enter Start Date',   // Title of iput text field
-      fieldHintText: 'Month/Day/Year',
+      errorFormatText: 'BirthdateFieldValidate'.tr,
+      errorInvalidText: 'BirthdateFieldValidate'.tr,
+      fieldLabelText: 'BirthdateFieldHint'.tr,   // Title of input text field
+      fieldHintText: 'Month/Day/Year (MM/dd/yyyy)',
     );
 
     if (pickedDate != null && pickedDate != birthDatePicker) {
@@ -274,9 +274,14 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Widget genderField() {
 
-    var genders = [
-      'Nam',
-      'Nữ',
+    // var genders = [
+    //   'Nam',
+    //   'Nữ',
+    // ];
+
+    List<Gender> genderList = [
+      Gender(genderName: 'Female'.tr, genderID: 'F',),
+      Gender(genderName: 'Male'.tr, genderID: 'M',),
     ];
 
     return DropdownButtonFormField(
@@ -285,8 +290,8 @@ class _ProfileTabState extends State<ProfileTab> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.wc),
-        labelText: 'Giới tính',
-        hintText: 'Chọn giới tính',
+        labelText: 'Gender'.tr,
+        hintText: 'GenderFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
         contentPadding: EdgeInsets.symmetric(vertical: 17, horizontal: 7,),
       ),
@@ -295,16 +300,23 @@ class _ProfileTabState extends State<ProfileTab> {
 
       value: firebaseUser.gender,
 
-      items: genders.map((value) {
+      // items: genders.map((value) {
+      //   return DropdownMenuItem<String>(
+      //     child: Text(value),
+      //     value: value,
+      //   );
+      // }).toList(),
+
+      items: genderList.map((Gender gender) {
         return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+          child: Text(genderList.singleWhere((x) => x.genderID == gender.genderID).genderName),
+          value: gender.genderID,
         );
       }).toList(),
 
       validator: (value) {
         if (value == '' || value == null) {
-          return 'Vui lòng nhập đầy đủ thông tin';
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -313,6 +325,7 @@ class _ProfileTabState extends State<ProfileTab> {
         setState(() {
           firebaseUser.gender = value as String;
         });
+        print('Selected: ${firebaseUser.gender}');
       },
 
     );
@@ -326,6 +339,7 @@ class _ProfileTabState extends State<ProfileTab> {
     return TextFormField(
 
       readOnly: true,
+      enabled: false,
 
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
@@ -333,7 +347,7 @@ class _ProfileTabState extends State<ProfileTab> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.email,),
         labelText: 'Email',
-        hintText: 'Nhập email',
+        hintText: 'EmailFieldHint'.tr,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
       ),
 
@@ -354,15 +368,15 @@ class _ProfileTabState extends State<ProfileTab> {
 
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.phone),
-        labelText: 'Số điện thoại',
-        hintText: 'Nhập số điện thoại',
+        labelText: 'PhoneNumber'.tr,
+        hintText: 'PhoneNumberFieldHint'.tr,
         suffixIcon: Visibility(visible: isEditable, child: Icon(Icons.drive_file_rename_outline,),),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),),
       ),
 
       validator: (value) {
-        if (value!.isEmpty || value == '' || value == null ||  value == '(+84) ') {
-          return 'Vui lòng nhập đầy đủ thông tin';
+        if (value!.isEmpty || value == '' || value == null ||  value == '(+84) ' || value == '(+84)') {
+          return 'EmptyFieldValidate'.tr;
         }
         return null;
       },
@@ -379,7 +393,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
     return CheckboxListTile(
 
-      title: Text('Tôi xác nhận các thông tin bản thân cung cấp là chính xác và hoàn toàn chịu trách nhiệm nếu cung cấp thông tin sai lệch', style: TextStyle(fontSize: 14,),),
+      title: Text('AccuracyAgreement'.tr, style: TextStyle(fontSize: 14,),),
 
       contentPadding: EdgeInsets.only(top: 15, bottom: 25, left: 0, right: 5,),
       activeColor: Theme.of(context).colorScheme.primary,
@@ -405,10 +419,10 @@ class _ProfileTabState extends State<ProfileTab> {
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Icon(Icons.drive_file_rename_outline),
           SizedBox(width: 10,),
-          Text('Chỉnh sửa', style: TextStyle(fontWeight: FontWeight.bold,),)
+          Text('Edit'.tr, style: TextStyle(fontWeight: FontWeight.bold,),)
         ],
       ),
 
@@ -436,11 +450,11 @@ class _ProfileTabState extends State<ProfileTab> {
 
         ElevatedButton(
 
-          child: Text('Huỷ', style: TextStyle(color: Theme.of(context).primaryColor,),),
+          child: Text('Cancel'.tr, style: TextStyle(color: Theme.of(context).primaryColor,),),
 
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.white,),
-            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 15, horizontal: MediaQuery.of(context).size.width*0.15,),),
+            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 15, horizontal: MediaQuery.of(context).size.width*0.14,),),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -462,15 +476,15 @@ class _ProfileTabState extends State<ProfileTab> {
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Icon(Icons.save,),
               SizedBox(width: 10,),
-              Text('Lưu', style: TextStyle(fontWeight: FontWeight.bold,),)
+              Text('Save'.tr, style: TextStyle(fontWeight: FontWeight.bold,),)
             ],
           ),
 
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: MediaQuery.of(context).size.width*0.12,),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: MediaQuery.of(context).size.width*0.11,),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),),
           ),
 
@@ -480,7 +494,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
             if(_formKey.currentState!.validate()) {
 
-              showSaveAlert('Thay Đổi Thông Tin', 'Bạn xác nhận muốn thay đổi thông tin tài khoản?',);
+              showSaveAlert('EditInformation'.tr, 'EditInformationMessage'.tr,);
 
               setState(() {
                 isEditable = !isEditable;
@@ -516,17 +530,16 @@ class _ProfileTabState extends State<ProfileTab> {
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('Huỷ'),
+              child: Text('Cancel'.tr, style: TextStyle(color: Colors.red),),
               onPressed: () => Navigator.of(context).pop(),
             ),
             TextButton(
-              child: Text('Xác nhận'),
+              child: Text('Confirm'.tr,),
               onPressed: () => saveUserInfoToFirebase(),
             ),
-          ]
+          ],
       );
-    }
-    );
+    });
   }
 
   void saveConfirmCupertinoAlert(String title, String message) {
@@ -536,31 +549,38 @@ class _ProfileTabState extends State<ProfileTab> {
           content: Text(message),
           actions: [
             CupertinoButton(
-              child: Text('Huỷ', style: TextStyle(color: CupertinoColors.destructiveRed),),
+              child: Text('Cancel'.tr, style: TextStyle(color: CupertinoColors.destructiveRed),),
               onPressed: () => Navigator.of(context).pop(),
             ),
             CupertinoButton(
-              child: Text('Xác nhận', style: TextStyle(color: CupertinoColors.activeBlue),),
+              child: Text('Confirm'.tr, style: TextStyle(color: CupertinoColors.activeBlue),),
               onPressed: () => saveUserInfoToFirebase(),
             ),
-          ]
+          ],
       );
-    }
-    );
+    });
   }
 
   void saveUserInfoToFirebase() async {
 
     Navigator.of(context, rootNavigator: true).pop();
 
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
-      'username': firebaseUser.displayName,
-      'birthDate': firebaseUser.birthDate,
-      'gender': firebaseUser.gender,
-      'email': firebaseUser.email,
-      'phoneNumber': firebaseUser.phoneNumber,
-    }).whenComplete(() {
-      Fluttertoast.showToast(msg: 'Đã cập nhật thành công thông tin tài khoản', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+    // await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+    //   'username': firebaseUser.displayName,
+    //   'birthDate': firebaseUser.birthDate,
+    //   'gender': firebaseUser.gender,
+    //   'email': firebaseUser.email,
+    //   'phoneNumber': firebaseUser.phoneNumber,
+    // });
+
+    await UserCredentials().updateCredentials(
+        displayName: firebaseUser.displayName,
+        birthDate: firebaseUser.birthDate,
+        gender: firebaseUser.gender,
+        email: firebaseUser.email,
+        phoneNumber: firebaseUser.phoneNumber,
+    ).whenComplete(() {
+      Fluttertoast.showToast(msg: 'SuccessfullyEditedInformation'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
     });
 
   }

@@ -299,8 +299,8 @@ class LoginState extends State<LoginScreen> with ComonValidation {
       // value: selectedValue,
       items: cities.map((value) {
         return DropdownMenuItem<String>(
-          value: value,
           child: Text(value),
+          value: value,
         );
       }).toList(),
       onChanged: (value) {

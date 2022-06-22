@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
-import '../ticket/ticket_detail_screen.dart';
+import '../ticket/ticket_details_screen.dart';
 
 class BookingHistoryTab extends StatelessWidget{
 
@@ -36,8 +37,8 @@ class BookingHistoryTab extends StatelessWidget{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Text('Loading...', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
+                children: [
+                  Text('Loading'.tr, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600,),),
                   SizedBox(height: 45),
                   CircularProgressIndicator(),
                 ],
@@ -50,11 +51,11 @@ class BookingHistoryTab extends StatelessWidget{
           if (ticketList.isEmpty){
             return Center(
               child: Column(
-                children: const [
+                children: [
                   SizedBox(height: 85,),
                   Icon(Icons.airplane_ticket_outlined, size: 35,),
                   SizedBox(height: 15,),
-                  Text('Bạn chưa đặt vé máy bay nào!', style: TextStyle(fontWeight: FontWeight.w600,),),
+                  Text('EmptyHistory'.tr, style: TextStyle(fontWeight: FontWeight.w600,),),
                   SizedBox(height: 85,)
                 ],
               ),
@@ -89,18 +90,65 @@ class BookingHistoryTab extends StatelessWidget{
                         Text('${ticketList[index]['departureLocationName']} - ${ticketList[index]['arrivalLocationName']}', style: TextStyle(fontWeight: FontWeight.bold,),),
                         SizedBox(height: 6,),
 
-                        Text('Ngày: ' + ticketList[index]['departureDate']),
+                        // Text('DepartureDate'.tr + ticketList[index]['departureDate']),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'DepartureDate'.tr + ': ',
+                                style: TextStyle(color: Colors.black,),
+                              ),
+                              TextSpan(
+                                text: ticketList[index]['departureDate'],
+                                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black,),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 3,),
 
-                        Text('Vào lúc: ' + ticketList[index]['departureTime']),
+                        // Text('DepartureTime'.tr + ticketList[index]['departureTime']),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'DepartureTime'.tr + ': ',
+                                style: TextStyle(color: Colors.black,),
+                              ),
+                              TextSpan(
+                                text: ticketList[index]['departureTime'],
+                                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black,),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 3,),
 
-                        Text('Hạng ghế: ' + ticketList[index]['seatClass']),
+                        // Text('SeatClass'.tr + ticketList[index]['seatClass']),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'SeatClass'.tr + ': ',
+                                style: TextStyle(color: Colors.black,),
+                              ),
+                              TextSpan(
+                                text: ticketList[index]['seatClass'],
+                                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black,),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 6,),
 
-                        if(ticketList[index]['amount'] == 1)
+                        if (Get.locale == const Locale('Vietnamese') && ticketList[index]['amount'] == 1)
+                          Text(ticketTypeVietnamese(ticketList[index]['ticketType'].toString()), style: TextStyle(fontWeight: FontWeight.w500,),),
+                        if (Get.locale == const Locale('Vietnamese') && ticketList[index]['amount'] != 1)
+                          Text(ticketTypeVietnamese(ticketList[index]['ticketType'].toString()) + ' x ' + ticketList[index]['amount'].toString(), style: TextStyle(fontWeight: FontWeight.w500,),),
+
+                        if (Get.locale == const Locale('English') && ticketList[index]['amount'] == 1)
                           Text(ticketList[index]['ticketType'], style: TextStyle(fontWeight: FontWeight.w500,),),
-                        if(ticketList[index]['amount'] != 1)
+                        if (Get.locale == const Locale('English') && ticketList[index]['amount'] != 1)
                           Text(ticketList[index]['ticketType'] + ' x ' + ticketList[index]['amount'].toString(), style: TextStyle(fontWeight: FontWeight.w500,),),
 
                       ],
@@ -108,7 +156,7 @@ class BookingHistoryTab extends StatelessWidget{
 
                     onTap: () {
 
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TicketDetailScreen(ticketID: ticketList[index]['ticketID']),),);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TicketDetailsScreen(ticketID: ticketList[index]['ticketID']),),);
 
                     },
 
@@ -123,6 +171,20 @@ class BookingHistoryTab extends StatelessWidget{
       ),
 
     );
+
+  }
+
+  String ticketTypeVietnamese(String inputTicketType) {
+
+    if (inputTicketType == 'Adult ticket') {
+      inputTicketType = 'Vé người lớn';
+    } else if (inputTicketType == 'Child ticket') {
+      inputTicketType = 'Vé trẻ em';
+    } else {
+      inputTicketType = 'Vé em bé';
+    }
+
+    return inputTicketType;
 
   }
 

@@ -243,6 +243,11 @@ class NotificationController {
 
   }
 
+  tz.TZDateTime _getScheduledDateTime(DateTime scheduledDateTime) {
+    tz.TZDateTime scheduledTZDateTime = tz.TZDateTime.from(scheduledDateTime, tz.local,);
+    return scheduledTZDateTime;
+  }
+
   Future<void> scheduleNotificationOneDayBeforeAt10AM(String notificationTitle, String notificationBody, String? payload, DateTime scheduledDateTime) async {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -289,16 +294,19 @@ class NotificationController {
 
   }
 
-  tz.TZDateTime _getScheduledDateTime(DateTime scheduledDateTime) {
-    tz.TZDateTime scheduledTZDateTime = tz.TZDateTime.from(scheduledDateTime, tz.local,);
-    return scheduledTZDateTime;
-  }
-
   tz.TZDateTime _getOneDayBeforeScheduledDateTimeTenAM(DateTime scheduledDateTime) {
     tz.TZDateTime scheduledTZDateTime = tz.TZDateTime.from(scheduledDateTime, tz.local,);
     tz.TZDateTime oneDayBeforeScheduledTZDateTime = scheduledTZDateTime.subtract(Duration(days: 1),);
     tz.TZDateTime oneDayBeforeScheduledTZDateTimeTenAM = tz.TZDateTime(tz.local, oneDayBeforeScheduledTZDateTime.year, oneDayBeforeScheduledTZDateTime.month, oneDayBeforeScheduledTZDateTime.day, 10,);
     return oneDayBeforeScheduledTZDateTimeTenAM;
+  }
+
+  Future<int> checkPendingNotificationRequests() async {
+
+    final List<PendingNotificationRequest> pendingNotificationRequests = await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    return pendingNotificationRequests.length;
+
   }
 
   Future<void> cancelNotification(int notificationID) async {     // cancel a specific notification by its unique ID

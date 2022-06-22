@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
+import '../controllers/language/language_controller.dart';
 import '../inherited_widget.dart';
 import './auth/login_screen.dart';
 import './home/home_screen.dart';
@@ -31,7 +33,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
+    return GetMaterialApp(
+
+      translations: LanguageController(),
+      locale: const Locale('English'),
 
       debugShowCheckedModeBanner: false,
 
@@ -136,26 +141,26 @@ class _MainHomeState extends State<MainHome> {
         });
       },
 
-      items: const [
+      items: [
 
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home),
-          label:  "Trang chủ",
+          label: 'HomeScreen'.tr,
           // backgroundColor: Colors.teal,
         ),
 
         BottomNavigationBarItem(
           icon: Icon(Icons.airplane_ticket_outlined),
           activeIcon: Icon(Icons.airplane_ticket),
-          label:  "Đặt vé",
+          label: 'BookingTicket'.tr,
           // backgroundColor: Colors.teal,
         ),
 
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
           activeIcon: Icon(Icons.person),
-          label:  "Tài khoản",
+          label: 'Account'.tr,
           // backgroundColor: Colors.teal,
         ),
 

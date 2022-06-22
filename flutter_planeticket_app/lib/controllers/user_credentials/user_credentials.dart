@@ -81,4 +81,44 @@ class UserCredentials {
     return _phoneNumber;
   }
 
+
+  Future<void> updateCredentials({
+      String? displayName,
+      String? birthDate,
+      String? gender,
+      String? email,
+      String? phoneNumber, }) async {
+
+      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+          'username': displayName,
+          'birthDate': birthDate,
+          'gender': gender,
+          'email': email,
+          'phoneNumber': phoneNumber,
+      });
+
+  }
+
+
+  Future<bool> validateCurrentPassword(String inputPassword) async {
+
+    var authCredential = EmailAuthProvider.credential(
+        email: currentUser!.email!,
+        password: inputPassword,
+    );
+
+    try {
+      var authResult = await currentUser!.reauthenticateWithCredential(authCredential);
+      return authResult.user != null;
+    } catch (error) {
+      print('Password validation error: $error');
+      return false;
+    }
+
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    await currentUser!.updatePassword(newPassword);
+  }
+
 }
