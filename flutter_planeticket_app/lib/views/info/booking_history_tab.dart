@@ -29,7 +29,7 @@ class BookingHistoryTab extends StatelessWidget{
       ),
 
       child: StreamBuilder<Object>(
-        stream: FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).collection('tickets').orderBy('departureDate', descending: true).snapshots(),
+        stream: FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).collection('tickets').orderBy('departureDate', descending: true,).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {

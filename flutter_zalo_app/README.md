@@ -26,8 +26,7 @@
 
 ### Hướng Dẫn Chạy Project:
 
-- Clone Project từ GitLab về máy bằng lệnh:
-    > git clone https://gitlab.com/khoathanh2807/flutter-midterm-project.git
+- Clone Project từ Git về máy.
 
 - Nếu muốn chạy Project sử dụng Firebase riêng của bạn:
     + Đối với Android app:
