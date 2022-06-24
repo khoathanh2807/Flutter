@@ -18,7 +18,7 @@ App hỗ trợ push dữ liệu lên Firestore cho Flutter app mua vé máy bay.
     + Đối với iOS app:
         Đổi file `GoogleService-Info.plist` trong thư mục `/ios/Runner` thành file config tương ứng từ Firebase của bạn.
 
-- Từ thư mục Project (flutter_planeticket_pushdata_app) khởi chạy Project bằng cách mở Project trên Android Studio và nhấn nút Run, hoặc khởi chạy bằng cách gõ lệnh:
+- Khởi chạy Project bằng cách mở Project trên Android Studio và nhấn nút Run, hoặc từ thư mục Project (flutter_planeticket_pushdata_app) gõ lệnh:
     > flutter run
 
 - Nhập đầy đủ thông tin được yêu cầu ở các mục để tạo dữ liệu sân bay và chuyến bay.

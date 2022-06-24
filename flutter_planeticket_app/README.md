@@ -89,7 +89,7 @@
     + Đối với iOS app:
         Đổi file `GoogleService-Info.plist` trong thư mục `/ios/Runner` thành file config tương ứng từ Firebase của bạn.
 
-- Từ thư mục Project (flutter_planeticket_app) khởi chạy Project bằng cách mở Project trên Android Studio và nhấn nút Run, hoặc khởi chạy bằng cách gõ lệnh:
+- Khởi chạy Project bằng cách mở Project trên Android Studio và nhấn nút Run, hoặc từ thư mục Project (flutter_planeticket_app) gõ lệnh:
     > flutter run
 
 - Đăng ký tài khoản mới bằng Email và mật khẩu, hoặc đăng nhập trực tiếp bằng tài khoản Google để sử dụng app.
