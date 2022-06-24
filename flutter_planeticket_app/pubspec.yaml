@@ -63,6 +63,11 @@ dependencies:
 
   flutter_app_badger: ^1.4.0
 
+  mockito: ^5.2.0
+  firebase_auth_mocks: ^0.8.4
+  google_sign_in_mocks: ^0.2.1
+  fake_cloud_firestore: ^1.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -17,7 +17,6 @@ class NotificationController {
 
   String? selectedNotificationPayload;
 
-  int notificationID = 0;
   int badgeNumber = 0;
 
   // bool isPressedNotification = false ;
@@ -85,7 +84,7 @@ class NotificationController {
     tz.setLocalLocation(tz.getLocation(timeZoneName!));
   }
 
-  Future<void> showNotification(String notificationTitle, String notificationBody, String? payload) async {
+  Future<void> showNotification(int notificationID, String notificationTitle, String notificationBody, String? payload) async {
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your notification channel id',
@@ -117,13 +116,11 @@ class NotificationController {
       notificationBody,
       platformChannelSpecifics,
       payload: payload,
-    ).whenComplete(() {
-      notificationID = notificationID + 1;
-    });
+    );
 
   }
 
-  Future<void> showNotificationCustomSound(String notificationTitle, String notificationBody, String? payload) async {
+  Future<void> showNotificationCustomSound(int notificationID, String notificationTitle, String notificationBody, String? payload) async {
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your notification channel id',
@@ -153,13 +150,11 @@ class NotificationController {
       notificationBody,
       platformChannelSpecifics,
       payload: payload,
-    ).whenComplete(() {
-      notificationID = notificationID + 1;
-    });
+    );
 
   }
 
-  Future<void> showNotificationWithoutSound(String notificationTitle, String notificationBody, String? payload) async {
+  Future<void> showNotificationWithoutSound(int notificationID, String notificationTitle, String notificationBody, String? payload) async {
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your notification channel id',
@@ -189,13 +184,11 @@ class NotificationController {
       notificationBody,
       platformChannelSpecifics,
       payload: payload,
-    ).whenComplete(() {
-      notificationID = notificationID + 1;
-    });
+    );
 
   }
 
-  Future<void> scheduleNotification(String notificationTitle, String notificationBody, String? payload, DateTime scheduledDateTime) async {
+  Future<void> scheduleNotification(int notificationID, String notificationTitle, String notificationBody, String? payload, DateTime scheduledDateTime) async {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
 
@@ -232,7 +225,6 @@ class NotificationController {
 
     ).whenComplete(() {
 
-        notificationID = notificationID + 1;
         badgeNumber = badgeNumber + 1;
         FlutterAppBadger.updateBadgeCount(badgeNumber);
 
@@ -248,7 +240,7 @@ class NotificationController {
     return scheduledTZDateTime;
   }
 
-  Future<void> scheduleNotificationOneDayBeforeAt10AM(String notificationTitle, String notificationBody, String? payload, DateTime scheduledDateTime) async {
+  Future<void> scheduleNotificationOneDayBeforeAt10AM(int notificationID, String notificationTitle, String notificationBody, String? payload, DateTime scheduledDateTime) async {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
 
@@ -283,7 +275,6 @@ class NotificationController {
 
     ).whenComplete(() {
 
-        notificationID = notificationID + 1;
         badgeNumber = badgeNumber + 1;
         FlutterAppBadger.updateBadgeCount(badgeNumber);
 

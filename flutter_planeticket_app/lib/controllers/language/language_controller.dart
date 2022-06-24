@@ -148,6 +148,14 @@ class LanguageController extends Translations {
       'ChangePasswordMessage': 'Do you confirm that you want to change your account password?',
       'SuccessfullyChangedPassword': 'Successfully changed password. Please sign in again!',
 
+      // Notification
+      'SuccessfullyBookedTicket': 'Successfully Booked Ticket!',
+      'SuccessfullyBookedTicketMessage': 'The ticket has been added to your account, please check it in the \'Booking history\' section.',
+      'RemindFlight': 'Don\'t Forget Your Flight Tomorrow!',
+      'RemindFlightMessage1': 'Your flight ',
+      'RemindFlightMessage2': ' will depart tomorrow ',
+      'RemindFlightMessage3': ' at ',
+
     },
 
     'Vietnamese': {
@@ -292,6 +300,14 @@ class LanguageController extends Translations {
       'ChangePasswordTitle': 'Đổi Mật Khẩu',
       'ChangePasswordMessage': 'Bạn xác nhận muốn đổi mật khẩu tài khoản?',
       'SuccessfullyChangedPassword': 'Thay đổi mật khẩu thành công. Vui lòng đăng nhập lại!',
+
+      // Notification
+      'SuccessfullyBookedTicket': 'Đặt Vé Thành Công!',
+      'SuccessfullyBookedTicketMessage': 'Vé đã được thêm vào tài khoản, hãy kiểm tra vé ở mục \'Lịch sử đặt vé\'.',
+      'RemindFlight': 'Đừng Quên Chuyến Bay Vào Ngày Mai Của Bạn!',
+      'RemindFlightMessage1': 'Chuyến bay ',
+      'RemindFlightMessage2': ' của bạn sẽ khởi hành vào ngày mai ',
+      'RemindFlightMessage3': ' lúc ',
 
     },
 

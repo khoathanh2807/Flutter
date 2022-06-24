@@ -2,9 +2,9 @@
 
 import 'dart:io';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,6 @@ void main() {
             expect(initialised, isTrue,);
         },
     );
-
     testWidgets(
         'initialize with settings equal to null for the targeting platform should throw an ArgumentError',
         (WidgetTester tester) async {
@@ -68,7 +67,6 @@ void main() {
       flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin.initialize(initializationSettings);
     });
-
     if (Platform.isIOS) {
       testWidgets('Can resolve iOS plugin implementation when running on iOS',
           (WidgetTester tester) async {
@@ -79,7 +77,6 @@ void main() {
           },
       );
     }
-
     if (Platform.isAndroid) {
       testWidgets(
           'Can resolve Android plugin implementation when running on Android',
@@ -91,7 +88,6 @@ void main() {
           },
       );
     }
-
     if (Platform.isIOS) {
       testWidgets(
           'Returns null trying to resolve Android plugin implementation when running on iOS',
@@ -114,7 +110,6 @@ void main() {
           },
       );
     }
-
     testWidgets(
         'Throws argument error requesting base class type',
         (WidgetTester tester) async {

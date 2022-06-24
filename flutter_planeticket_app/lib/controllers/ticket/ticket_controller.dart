@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/notification/notification_controller.dart';
 import '../../models/ticket.dart';
@@ -72,17 +73,19 @@ class TicketController {
 
   }
 
-  void ticketSuccessBookingNotification() async {
+  void ticketSuccessBookingNotification(int notificationID) async {
 
     await NotificationController().showNotificationCustomSound(
-      'Mua Vé Thành Công!',
-      'Vé đã được thêm vào tài khoản, hãy kiểm tra vé ở mục Lịch sử đặt vé.',
+      notificationID,
+      'SuccessfullyBookedTicket'.tr,
+      'SuccessfullyBookedTicketMessage'.tr,
       null,
     );
 
   }
 
   void ticketScheduleNotification({
+    required int notificationID,
     required String departureLocationName,
     required String arrivalLocationName,
     required String departureLocationSymbol,
@@ -91,8 +94,9 @@ class TicketController {
     required String departureTime, }) async {
 
     await NotificationController().scheduleNotificationOneDayBeforeAt10AM(
-      'Đừng Quên Chuyến Bay Vào Ngày Mai Của Bạn!',
-      'Chuyến bay $departureLocationName ($departureLocationSymbol) - $arrivalLocationName ($arrivalLocationSymbol) của bạn sẽ khởi hành vào ngày mai $departureDate lúc $departureTime.',
+      notificationID,
+      'RemindFlight'.tr,
+      'RemindFlightMessage1'.tr + '$departureLocationName ($departureLocationSymbol) - $arrivalLocationName ($arrivalLocationSymbol)' + 'RemindFlightMessage2'.tr + '$departureDate' + 'RemindFlightMessage3'.tr + '$departureTime.',
       null,     // payload
       DateFormat('dd.MM.yyyy').parse(departureDate),
     );

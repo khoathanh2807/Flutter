@@ -976,8 +976,9 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       );
     }
 
-    TicketController().ticketSuccessBookingNotification();
+    TicketController().ticketSuccessBookingNotification(int.parse(DateFormat('HHmmss').format(DateTime.now()).toString()));
     TicketController().ticketScheduleNotification(
+      notificationID: int.parse(DateFormat('HHmmss').format(DateTime.now()).toString()),
       departureLocationName: widget.departureLocationName,
       arrivalLocationName: widget.arrivalLocationName,
       departureLocationSymbol: widget.departureLocationSymbol,
@@ -986,6 +987,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
       departureTime: widget.departureTime,
     );
     TicketController().ticketScheduleNotification(
+      notificationID: int.parse(DateFormat('HHmmss').format(DateTime.now()).toString()),
       departureLocationName: widget.arrivalLocationName,
       arrivalLocationName: widget.departureLocationName,
       departureLocationSymbol: widget.arrivalLocationSymbol,
@@ -995,7 +997,7 @@ class _PaymentRoundTripScreenState extends State<PaymentRoundTripScreen> {
     );
 
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 2, bookingHistory: true,)), (_) => false,);
-    Fluttertoast.showToast(msg: 'SuccessfullyPayment'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+    Fluttertoast.showToast(msg: 'SuccessfullyPayment'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
 
   }
 

@@ -20,6 +20,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
 
   final _formKey = GlobalKey<FormState>();
+  var showPassword = false;
 
   late String emailAddress;
   late String username;
@@ -49,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
       // backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,7 +123,9 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
 
                     confirmPasswordField(),    // Password Text Field
 
-                    const SizedBox(height: 35,),
+                    showPasswordCheckbox(),
+
+                    const SizedBox(height: 20,),
 
                     registerButton(),      // Register Confirm Button,
 
@@ -221,7 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
     return TextFormField(
 
       controller: passwordController,
-      obscureText: true,
+      obscureText: !showPassword,
       maxLines: 1,
 
       decoration: InputDecoration(
@@ -249,7 +252,7 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
     return TextFormField(
 
       // controller: passwordController,
-      obscureText: true,
+      obscureText: !showPassword,
       maxLines: 1,
 
       decoration: InputDecoration(
@@ -274,6 +277,29 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
       // onSaved: (value) {
       //   password = value as String;
       // },
+
+    );
+
+  }
+
+  Widget showPasswordCheckbox() {
+
+    return CheckboxListTile(
+
+      title: const Text('Show password'),
+
+      // contentPadding: EdgeInsets.zero,
+      activeColor: Theme.of(context).colorScheme.primary,
+      controlAffinity: ListTileControlAffinity.leading,
+
+      value: showPassword,
+
+      onChanged: (newValue) {
+        FocusScope.of(context).unfocus();
+        setState(() {
+          showPassword = newValue!;
+        });
+      },
 
     );
 
@@ -305,12 +331,12 @@ class _RegisterScreenState extends State<RegisterScreen> with LoginValidation {
           await auth.createUser(emailAddress.trim(), username.trim(), password.trim()).then((value) {
             if (value == null) {
               setState(() {
-                Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                Fluttertoast.showToast(msg: 'Signed up Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
               });
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
             } else {
               setState(() {
-                Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+                Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red, timeInSecForIosWeb: 5,);
               });
             }
           });

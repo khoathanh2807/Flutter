@@ -580,7 +580,7 @@ class _ProfileTabState extends State<ProfileTab> {
         email: firebaseUser.email,
         phoneNumber: firebaseUser.phoneNumber,
     ).whenComplete(() {
-      Fluttertoast.showToast(msg: 'SuccessfullyEditedInformation'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+      Fluttertoast.showToast(msg: 'SuccessfullyEditedInformation'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
     });
 
   }

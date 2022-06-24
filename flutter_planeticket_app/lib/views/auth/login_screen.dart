@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   final _formKey = GlobalKey<FormState>();
   var rememberLogin = false;
+  var showPassword = false;
 
   late String emailAddress;
   late String password;
@@ -75,8 +76,9 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                     passwordField(),    // Password Text Field
 
                     // rememberMeCheckbox(),
+                    showPasswordCheckbox(),
 
-                    const SizedBox(height: 35,),
+                    const SizedBox(height: 20,),
 
                     loginButton(),      // Login Confirm Button
 
@@ -151,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
           return TextFormField(
 
             controller: passwordController,
-            obscureText: true,
+            obscureText: !showPassword,
             maxLines: 1,
 
             decoration: InputDecoration(
@@ -197,6 +199,29 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
   }
 
+  Widget showPasswordCheckbox() {
+
+    return CheckboxListTile(
+
+      title: const Text('Show password'),
+
+      // contentPadding: EdgeInsets.zero,
+      activeColor: Theme.of(context).colorScheme.primary,
+      controlAffinity: ListTileControlAffinity.leading,
+
+      value: showPassword,
+
+      onChanged: (newValue) {
+        FocusScope.of(context).unfocus();
+        setState(() {
+          showPassword = newValue!;
+        });
+      },
+
+    );
+
+  }
+
   Widget loginButton() {
 
     return ElevatedButton(
@@ -222,12 +247,12 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
                   await auth.login(emailAddress.trim(), password.trim(),).whenComplete(() {}).then((value) {   // đăng nhập Firebase bằng email và password
                     if (value == null) {
                       setState(() {
-                        Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+                        Fluttertoast.showToast(msg: 'Signed in Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                       });
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
                     } else {
                       setState(() {
-                        Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+                        Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red, timeInSecForIosWeb: 5,);
                       });
                     }
                   });
@@ -282,12 +307,12 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
         await auth.loginWithGoogle().whenComplete(() {}).then((value) {
           if (value == null) {
             setState(() {
-              Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue);
+              Fluttertoast.showToast(msg: 'Signed in with Google Successfully', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
             });
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 0, bookingHistory: false,),), (_) => false,);
           } else {
             setState(() {
-              Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red);
+              Fluttertoast.showToast(msg: value, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.red, timeInSecForIosWeb: 5,);
             });
           }
         });
@@ -327,7 +352,7 @@ class _LoginScreenState extends State<LoginScreen> with LoginValidation {
 
       onPressed: () {
 
-        Fluttertoast.showToast(msg: 'Coming Soon!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey,);
+        Fluttertoast.showToast(msg: 'Coming Soon!', fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.grey, timeInSecForIosWeb: 3,);
 
       },
 

@@ -48,7 +48,7 @@ class PlatformAlert {
                   onPressed: () {
                     Navigator.of(context).pop();
                     NotificationController().cancelAllNotifications().whenComplete(() {
-                      Fluttertoast.showToast(msg: 'SuccessfullyCanceledNotification'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                      Fluttertoast.showToast(msg: 'SuccessfullyCanceledNotification'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                     });
                   },
                 ),
@@ -75,7 +75,7 @@ class PlatformAlert {
                   onPressed: () {
                     Navigator.of(context).pop();
                     NotificationController().cancelAllNotifications().whenComplete(() {
-                      Fluttertoast.showToast(msg: 'SuccessfullyCanceledNotification'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                      Fluttertoast.showToast(msg: 'SuccessfullyCanceledNotification'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                     });
                   },
                 ),
@@ -115,7 +115,7 @@ class PlatformAlert {
                 child: Text('Confirm'.tr,),
                 onPressed: () async {
                   await UserCredentials().updatePassword(newPassword).whenComplete(() {
-                    Fluttertoast.showToast(msg: 'SuccessfullyChangedPassword'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullyChangedPassword'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                   });
                   await FirebaseAuth.instance.signOut().whenComplete(() {
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
@@ -144,7 +144,7 @@ class PlatformAlert {
                 child: Text('Confirm'.tr, style: TextStyle(color: CupertinoColors.activeBlue),),
                 onPressed: () async {
                   await UserCredentials().updatePassword(newPassword).whenComplete(() {
-                    Fluttertoast.showToast(msg: 'SuccessfullyChangedPassword'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullyChangedPassword'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                   });
                   await FirebaseAuth.instance.signOut().whenComplete(() {
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
@@ -189,7 +189,7 @@ class PlatformAlert {
                   Navigator.of(context).pop();
                   print('Changed language to $selectedLanguage');
                   Get.updateLocale(selectedLanguage).whenComplete(() {
-                    Fluttertoast.showToast(msg: 'SuccessfullyChangedLanguage'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullyChangedLanguage'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                     print('Current language: ${Get.locale}');
                   });
                 },
@@ -218,7 +218,7 @@ class PlatformAlert {
                   Navigator.of(context).pop();
                   print('Changed language to $selectedLanguage');
                   Get.updateLocale(selectedLanguage).whenComplete(() {
-                    Fluttertoast.showToast(msg: 'SuccessfullyChangedLanguage'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullyChangedLanguage'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                     print('Current language: ${Get.locale}');
                   });
                 },
@@ -260,7 +260,7 @@ class PlatformAlert {
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut().whenComplete(() {
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (_) => false,);
-                    Fluttertoast.showToast(msg: 'SuccessfullySignedOut'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullySignedOut'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                   });
                 },
               ),
@@ -287,7 +287,7 @@ class PlatformAlert {
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut().whenComplete(() {
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false,);
-                    Fluttertoast.showToast(msg: 'SuccessfullySignedOut'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+                    Fluttertoast.showToast(msg: 'SuccessfullySignedOut'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
                   });
                 },
               ),

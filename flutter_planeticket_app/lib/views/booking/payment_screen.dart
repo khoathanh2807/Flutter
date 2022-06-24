@@ -155,6 +155,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print('VAT = $VAT');
     print('totalPrice = $totalPrice');
 
+    print('notificationID: ${
+        int.parse(DateFormat('ddMMyyyyHHmmss').format(DateTime.now()).toString())
+    }');
+
+    print('notificationID runtimeType: ${int.parse(DateFormat('ddMMyyyyHHmmss').format(DateTime.now()).toString()).runtimeType}');
+
     return  Scaffold(
 
       resizeToAvoidBottomInset: false,
@@ -756,8 +762,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       );
     }
 
-    TicketController().ticketSuccessBookingNotification();
+    TicketController().ticketSuccessBookingNotification(int.parse(DateFormat('HHmmss').format(DateTime.now()).toString()));
     TicketController().ticketScheduleNotification(
+        notificationID: int.parse(DateFormat('HHmmss').format(DateTime.now()).toString()),
         departureLocationName: widget.departureLocationName,
         arrivalLocationName: widget.arrivalLocationName,
         departureLocationSymbol: widget.departureLocationSymbol,
@@ -767,7 +774,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
 
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MainHome(tabIndex: 2, bookingHistory: true,)), (_) => false,);
-    Fluttertoast.showToast(msg: 'SuccessfullyPayment'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue,);
+    Fluttertoast.showToast(msg: 'SuccessfullyPayment'.tr, fontSize: 15, toastLength: Toast.LENGTH_LONG, backgroundColor: Colors.blue, timeInSecForIosWeb: 3,);
 
   }
 

@@ -108,17 +108,23 @@ class UserCredentials {
     );
 
     try {
+
       var authResult = await currentUser!.reauthenticateWithCredential(authCredential);
       return authResult.user != null;
+
     } catch (error) {
+
       print('Password validation error: $error');
       return false;
+
     }
 
   }
 
   Future<void> updatePassword(String newPassword) async {
-    await currentUser!.updatePassword(newPassword);
+    await currentUser!.updatePassword(newPassword).catchError((error) {
+      print('Password changing error: $error');
+    });
   }
 
 }
